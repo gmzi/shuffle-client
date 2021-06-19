@@ -106,7 +106,7 @@ export default function Dashboard({ code }) {
           .then((res) => {
             if (!res.body.next) {
               active = false;
-              // setUserTracks(allTracks);
+              console.log(allTracks[0]);
               setUserTracks(
                 allTracks.map((track) => {
                   const smallestAlbumImage = track.track.album.images.reduce(
@@ -136,7 +136,6 @@ export default function Dashboard({ code }) {
       return;
     }
   }
-
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
       <Form.Control
