@@ -126,3 +126,67 @@ spotifyApi.setShuffle(true).then(
     console.log('Something went wrong!', err);
   }
 );
+
+// Async Await Recursive Function
+const reqsAsyncWait = async (requests = [], data = []) => {
+  if (requests instanceof Array && requests.length > 0) {
+    const config = {
+      method: requests[0].method,
+    };
+
+    return await fetch(requests[0].url, config).then(async (response) => {
+      const json = response.json();
+      if (response.ok) {
+        const jsonData = await json;
+        return await reqsAsyncWait(requests.slice(1), [...data, ...[jsonData]]);
+      }
+      // not this object may be empty if no err msg
+      throw await json;
+    });
+  }
+  return data;
+};
+
+// Init
+try {
+  console.log(
+    await reqsAsyncWait(
+      [
+        {
+          url: 'https://jsonplaceholder.typicode.com/todos/1',
+          method: 'get',
+        },
+        {
+          url: 'https://jsonplaceholder.typicode.com/todos/3',
+          method: 'get',
+        },
+        {
+          url: 'https://jsonplaceholder.typicode.com/todos/7',
+          method: 'get',
+        },
+      ],
+      []
+    )
+  );
+} catch (error) {
+  console.log(error);
+}
+
+async function getSaved(caller, active = true, offset = 0, allTracks = []) {
+  if (active) {
+    return await caller
+      .getMySavedTracks({ limit: 20, offset: offset })
+      .then(async (res) => {
+        if (!res.body.next) {
+          active = false;
+          return allTracks;
+        }
+        res.body.items.map((t) => allTracks.push(t));
+        return await getSaved(caller, active, (offset += 20), allTracks);
+      });
+  }
+  console.log('vino por acá');
+  return Promise.all(calls);
+}
+
+

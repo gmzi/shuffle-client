@@ -95,9 +95,13 @@ export default function Dashboard({ code }) {
 
   useEffect(() => {
     if (!accessToken) return;
-    getSaved(accessToken);
+    /** getSaved(accessToken); */
+    axios.get('http://localhost:3001/tracks').then((res) => {
+      setUserTracks(res.data);
+    });
   }, [accessToken]);
 
+  /**
   function getSaved(accessToken, active = true, offset = 0, allTracks = []) {
     if (accessToken !== undefined) {
       if (active) {
@@ -136,6 +140,8 @@ export default function Dashboard({ code }) {
       return;
     }
   }
+   */
+
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
       <Form.Control
@@ -162,18 +168,15 @@ export default function Dashboard({ code }) {
         <div>
           <button onClick="#">Advanced shuffle</button>
         </div>
-        {userTracks.map((track) => (
-          <TrackSearchResult
-            track={track}
-            key={track.uri}
-            chooseTrack={chooseTrack}
-          />
-        ))}
-        {/* {searchResults.length === 0 && (
-          <div className="text-center" style={{ whiteSpace: 'pre' }}>
-            {lyrics}
-          </div>
-        )} */}
+        {Object.entries(userTracks).map(([key, value]) => {
+          return (
+            <TrackSearchResult
+              key={value.uri}
+              track={value}
+              chooseTrack={chooseTrack}
+            />
+          );
+        })}
       </div>
       <div>
         <Player
