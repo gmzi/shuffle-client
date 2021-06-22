@@ -1,4 +1,4 @@
-[ ] Minimize the request time to retrieve all user's tracks.
+[ ] distribute the requests and returns on the server in order to render the whole list fast and by small sections.
 
 [ ] Clean play/stop functionality when shuffling (ist it better to pick one random song at a time or make the whole random queue from the shuffle function?)
 

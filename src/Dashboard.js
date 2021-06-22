@@ -16,49 +16,30 @@ export default function Dashboard({ code }) {
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
   const [wannaShuffle, setWannaShuffle] = useState(false);
-  // const [lyrics, setLyrics] = useState('');
+  const [continuousPlay, setContinuousPlay] = useState(false);
 
-  const [userTracks, setUserTracks] = useState([]);
+  const [userTracks, setUserTracks] = useState({});
 
   function chooseTrack(track) {
     setPlayingTrack(track);
     setSearch('');
-    // setLyrics('');
   }
 
-  // function shuffleAll() {
-  //   if (userTracks.length) {
-  //     setWannaShuffle(true);
-  //     const idx = Math.floor(Math.random() * userTracks.length);
-  //     chooseTrack(userTracks[idx]);
-  //   }
-  // }
-
   function shuffleAll() {
-    if (userTracks.length) {
-      setWannaShuffle(true);
-      const idx = Math.floor(Math.random() * userTracks.length);
-      chooseTrack(userTracks[idx]);
-    }
+    setWannaShuffle(true);
+    const idx = Math.floor(Math.random() * Object.keys(userTracks).length);
+    chooseTrack(userTracks[idx]);
+  }
+
+  function playAll() {
+    setContinuousPlay(true);
+    setPlayingTrack(userTracks[0]);
   }
 
   function stopShuffle() {
     setWannaShuffle(false);
     setPlayingTrack(null);
   }
-
-  // function stopShuffle() {
-  //   spotifyApi.pause().then(
-  //     function () {
-  //       setWannaShuffle(false);
-  //       setPlayingTrack(null);
-  //     },
-  //     function (err) {
-  //       //if the user making the request is non-premium, a 403 FORBIDDEN response code will be returned
-  //       console.log('Something went wrong!', err);
-  //     }
-  //   );
-  // }
 
   useEffect(() => {
     if (!accessToken) return;
@@ -97,50 +78,10 @@ export default function Dashboard({ code }) {
     if (!accessToken) return;
     /** getSaved(accessToken); */
     axios.get('http://localhost:3001/tracks').then((res) => {
+      console.log(res.data);
       setUserTracks(res.data);
     });
   }, [accessToken]);
-
-  /**
-  function getSaved(accessToken, active = true, offset = 0, allTracks = []) {
-    if (accessToken !== undefined) {
-      if (active) {
-        spotifyApi
-          .getMySavedTracks({ limit: 20, offset: offset })
-          .then((res) => {
-            if (!res.body.next) {
-              active = false;
-              console.log(allTracks[0]);
-              setUserTracks(
-                allTracks.map((track) => {
-                  const smallestAlbumImage = track.track.album.images.reduce(
-                    (smallest, image) => {
-                      if (image.height < smallest.height) return image;
-                      return smallest;
-                    },
-                    track.track.album.images[0]
-                  );
-                  const artists = track.track.artists.map((a) => {
-                    return a.name;
-                  });
-
-                  return {
-                    artist: artists,
-                    title: track.track.name,
-                    uri: track.track.uri,
-                    albumUrl: smallestAlbumImage.url,
-                  };
-                })
-              );
-            }
-            res.body.items.map((t) => allTracks.push(t));
-            return getSaved(accessToken, active, (offset += 20), allTracks);
-          });
-      }
-      return;
-    }
-  }
-   */
 
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
@@ -164,6 +105,9 @@ export default function Dashboard({ code }) {
           ) : (
             <button onClick={stopShuffle}>STOP SHUFFLE</button>
           )}
+        </div>
+        <div>
+          <button onClick={playAll}>Play All</button>
         </div>
         <div>
           <button onClick="#">Advanced shuffle</button>

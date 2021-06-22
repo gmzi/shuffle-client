@@ -189,4 +189,87 @@ async function getSaved(caller, active = true, offset = 0, allTracks = []) {
   return Promise.all(calls);
 }
 
+async function getLikedTracks(access_token, offset = 0, items = []) {
+  return await axios
+    .get('https://api.spotify.com/v1/me/tracks', {
+      params: { offset: offset, limit: 20 },
+      headers: { Authorization: `Bearer ${access_token}` },
+      responseType: 'json',
+    })
+    .then(async (res) => {
+      console.log(res.data.next);
+      res.data.items.map((i) => items.push(i.track));
+      if (res.data.next) {
+        return await getPlaylists(access_token, (offset += 20), items);
+      } else {
+        return items;
+      }
+    });
+}
 
+/**
+  function getSaved(accessToken, active = true, offset = 0, allTracks = []) {
+    if (accessToken !== undefined) {
+      if (active) {
+        spotifyApi
+          .getMySavedTracks({ limit: 20, offset: offset })
+          .then((res) => {
+            if (!res.body.next) {
+              active = false;
+              console.log(allTracks[0]);
+              setUserTracks(
+                allTracks.map((track) => {
+                  const smallestAlbumImage = track.track.album.images.reduce(
+                    (smallest, image) => {
+                      if (image.height < smallest.height) return image;
+                      return smallest;
+                    },
+                    track.track.album.images[0]
+                  );
+                  const artists = track.track.artists.map((a) => {
+                    return a.name;
+                  });
+
+                  return {
+                    artist: artists,
+                    title: track.track.name,
+                    uri: track.track.uri,
+                    albumUrl: smallestAlbumImage.url,
+                  };
+                })
+              );
+            }
+            res.body.items.map((t) => allTracks.push(t));
+            return getSaved(accessToken, active, (offset += 20), allTracks);
+          });
+      }
+      return;
+    }
+  }
+   */
+
+// app.get('/tracks', async (req, res) => {
+//   const spotifyApi = new SpotifyWebApi();
+//   spotifyApi.setAccessToken(token);
+//   const rawTracks = await getSaved(spotifyApi);
+//   const userTracks = rawTracks.map((track) => {
+//     const smallestAlbumImage = track.track.album.images.reduce(
+//       (smallest, image) => {
+//         if (image.height < smallest.height) return image;
+//         return smallest;
+//       },
+//       track.track.album.images[0]
+//     );
+//     const artists = track.track.artists.map((a) => {
+//       return a.name;
+//     });
+//     return {
+//       artist: artists,
+//       title: track.track.name,
+//       uri: track.track.uri,
+//       albumUrl: smallestAlbumImage.url,
+//     };
+//   });
+
+//   res.json({ userTracks });
+// });
