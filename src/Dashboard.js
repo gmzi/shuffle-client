@@ -12,6 +12,7 @@ const spotifyApi = new SpotifyWebApi({
 
 export default function Dashboard({ code }) {
   const accessToken = useAuth(code);
+  const [userCount, setUserCount] = useState();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
@@ -44,6 +45,9 @@ export default function Dashboard({ code }) {
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
+    axios.get('http://localhost:3001/count').then((res) => {
+      setUserCount(res.data.user_count);
+    });
   }, [accessToken]);
 
   useEffect(() => {
@@ -78,7 +82,6 @@ export default function Dashboard({ code }) {
     if (!accessToken) return;
     /** getSaved(accessToken); */
     axios.get('http://localhost:3001/tracks').then((res) => {
-      console.log(res.data);
       setUserTracks(res.data);
     });
   }, [accessToken]);

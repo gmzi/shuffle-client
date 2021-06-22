@@ -4,4 +4,4 @@
 
 [ ] Retrieve tracks from all saved albums and add them to the list.
 
-[ ] Advanced shuffle: desing compartiments to shuffle from selected playlists/albums/liked songs/ with genres/without genres
+[ ] Advanced shuffle: design compartiments to shuffle from selected playlists/albums/liked songs / with genre/without genre
