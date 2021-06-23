@@ -4,4 +4,6 @@
 
 [ ] Retrieve tracks from all saved albums and add them to the list.
 
+[ ] Persist logged in user and loaded tracks on refresh.
+
 [ ] Advanced shuffle: design compartiments to shuffle from selected playlists/albums/liked songs / with genre/without genre

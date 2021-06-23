@@ -1,21 +1,33 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
-import Login from './Login';
-import Dashboard from './Dashboard';
+import { NavLink } from 'react-router-dom';
+import useAuth from './useAuth';
 
-const Nav = ({ logout }) => {
+const Nav = ({ code }) => {
+  function logout() {
+    console.log('logout function ');
+  }
+
   return (
-    <div>
-      <Container
-        className="d-flex justify-content-center align-items-center"
-        style={{ minHeight: '1vh' }}
-      >
-        <h2>Holu</h2>
-      </Container>
-    </div>
+    <nav className="Nav navbar navbar-expand-md">
+      <a className="navbar-brand" href="/">
+        Shuffler <span>(all your songs in one place)</span>
+      </a>
+      <ul className="navbar-nav ml-auto">
+        {code ? (
+          <>
+            <li className="nav-item mr-4">
+              <NavLink className="nav-link" exact to="/" onClick={logout}>
+                logout from Spotify
+              </NavLink>
+            </li>
+          </>
+        ) : (
+          <li></li>
+        )}
+      </ul>
+    </nav>
   );
 };
 
 export default Nav;
-
-// DO A NICE CLEAN WELCOME TEMPLATE THAT WRAPS LOGIN AND DASHBOARD.

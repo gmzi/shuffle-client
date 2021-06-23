@@ -45,9 +45,6 @@ export default function Dashboard({ code }) {
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
-    axios.get('http://localhost:3001/count').then((res) => {
-      setUserCount(res.data.user_count);
-    });
   }, [accessToken]);
 
   useEffect(() => {
