@@ -10,14 +10,12 @@ const spotifyApi = new SpotifyWebApi({
   clientId: 'b4217743307a432d807c1e5840dde3a2',
 });
 
-export default function Dashboard({ code }) {
-  const accessToken = useAuth(code);
+export default function Dashboard({ accessToken }) {
+  // const accessToken = useAuth(code);
   const [userCount, setUserCount] = useState();
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
-  const [wannaShuffle, setWannaShuffle] = useState(false);
-  const [continuousPlay, setContinuousPlay] = useState(false);
 
   const [userTracks, setUserTracks] = useState({});
 
@@ -27,20 +25,21 @@ export default function Dashboard({ code }) {
   }
 
   function shuffleAll() {
-    setWannaShuffle(true);
     const idx = Math.floor(Math.random() * Object.keys(userTracks).length);
-    chooseTrack(userTracks[idx]);
+    // chooseTrack(userTracks[idx]);
+    return userTracks[idx];
   }
 
-  function playAll() {
-    setContinuousPlay(true);
-    setPlayingTrack(userTracks[0]);
-  }
+  // function playAll() {
+  //   setContinuousPlay(true);
+  //   setPlayingTrack(userTracks[0]);
+  // }
 
-  function stopShuffle() {
-    setWannaShuffle(false);
-    setPlayingTrack(null);
-  }
+  // function stopShuffle() {
+  //   debugger;
+  //   setWannaShuffle(false);
+  //   setPlayingTrack(null);
+  // }
 
   useEffect(() => {
     if (!accessToken) return;
@@ -73,7 +72,7 @@ export default function Dashboard({ code }) {
       );
     });
     return () => (cancel = true);
-  }, [search, accessToken, wannaShuffle]);
+  }, [search, accessToken]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -82,6 +81,8 @@ export default function Dashboard({ code }) {
       setUserTracks(res.data);
     });
   }, [accessToken]);
+
+  console.log('trackUri', playingTrack?.uri);
 
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
@@ -99,7 +100,7 @@ export default function Dashboard({ code }) {
             chooseTrack={chooseTrack}
           />
         ))}
-        <div>
+        {/* <div>
           {!wannaShuffle ? (
             <button onClick={shuffleAll}>Shuffle all your songs</button>
           ) : (
@@ -111,25 +112,24 @@ export default function Dashboard({ code }) {
         </div>
         <div>
           <button onClick="#">Advanced shuffle</button>
-        </div>
+        </div> */}
         {Object.entries(userTracks).map(([key, value]) => {
           return (
             <TrackSearchResult
-              key={value.uri}
+              key={key}
               track={value}
               chooseTrack={chooseTrack}
             />
           );
         })}
       </div>
-      <div>
+      {/* <div>
         <Player
           accessToken={accessToken}
           trackUri={playingTrack?.uri}
           shuffleAll={shuffleAll}
-          wannaShuffle={wannaShuffle}
         />
-      </div>
+      </div> */}
     </Container>
   );
 }

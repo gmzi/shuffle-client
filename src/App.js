@@ -3,15 +3,13 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 import Nav from './Nav';
 import Routes from './Routes';
+import Tryme from './Tryme';
+import useAuth from './useAuth';
 
 const code = new URLSearchParams(window.location.search).get('code');
+
 function App() {
-  return (
-    <div>
-      <Nav code={code} />
-      <Routes code={code} />
-    </div>
-  );
+  return code ? <Routes code={code} /> : <Login />;
 }
 
 export default App;

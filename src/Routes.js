@@ -3,24 +3,19 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import useAuth from './useAuth';
+import Player from './Player';
+import Tryme from './Tryme';
 
 const Routes = ({ code }) => {
-  console.log('HERES CODE', code);
+  const accessToken = useAuth(code);
 
   return (
-    <Switch>
-      {code ? (
-        <Route exact path="/">
-          <Dashboard code={code} />
-        </Route>
-      ) : (
-        <Route exact path="/">
-          <Login />
-        </Route>
-      )}
-
-      <Redirect to="/" />
-    </Switch>
+    <div>
+      <Route exact path="/">
+        <Dashboard accessToken={accessToken} />
+        <Player accessToken={accessToken} />
+      </Route>
+    </div>
   );
 };
 

@@ -13,7 +13,6 @@ export default function Login({ code }) {
 
   useEffect(() => {
     axios.get('http://localhost:3001/count').then((res) => {
-      console.log(res);
       setUserCount(res.data.user_count);
     });
   }, [code]);
@@ -40,7 +39,7 @@ export default function Login({ code }) {
         <div className="Login-btn-container">
           <h3>Get Started</h3>
           <p>Login with Spotify to retrieve all your tracks</p>
-          <a className="btn btn-success btn-lg" href={AUTH_URL}>
+          <a className="btn btn-success btn-md" href={AUTH_URL}>
             Login
           </a>
         </div>
