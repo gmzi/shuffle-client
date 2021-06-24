@@ -5,6 +5,7 @@ import Nav from './Nav';
 import Routes from './Routes';
 import Tryme from './Tryme';
 import useAuth from './useAuth';
+import useQueue from './useQueue';
 
 const code = new URLSearchParams(window.location.search).get('code');
 

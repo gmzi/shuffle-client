@@ -10,35 +10,13 @@ const spotifyApi = new SpotifyWebApi({
   clientId: 'b4217743307a432d807c1e5840dde3a2',
 });
 
-export default function Dashboard({ accessToken }) {
-  // const accessToken = useAuth(code);
-  const [userCount, setUserCount] = useState();
+const Dashboard = ({ accessToken, userTracks, chooseTrack }) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [playingTrack, setPlayingTrack] = useState();
 
-  const [userTracks, setUserTracks] = useState({});
-
-  function chooseTrack(track) {
-    setPlayingTrack(track);
-    setSearch('');
-  }
-
-  function shuffleAll() {
-    const idx = Math.floor(Math.random() * Object.keys(userTracks).length);
-    // chooseTrack(userTracks[idx]);
-    return userTracks[idx];
-  }
-
-  // function playAll() {
-  //   setContinuousPlay(true);
-  //   setPlayingTrack(userTracks[0]);
-  // }
-
-  // function stopShuffle() {
-  //   debugger;
-  //   setWannaShuffle(false);
-  //   setPlayingTrack(null);
+  // function chooseTrack(track) {
+  //   setPlayingTrack(track);
+  //   setSearch('');
   // }
 
   useEffect(() => {
@@ -74,16 +52,6 @@ export default function Dashboard({ accessToken }) {
     return () => (cancel = true);
   }, [search, accessToken]);
 
-  useEffect(() => {
-    if (!accessToken) return;
-    /** getSaved(accessToken); */
-    axios.get('http://localhost:3001/tracks').then((res) => {
-      setUserTracks(res.data);
-    });
-  }, [accessToken]);
-
-  console.log('trackUri', playingTrack?.uri);
-
   return (
     <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
       <Form.Control
@@ -100,19 +68,6 @@ export default function Dashboard({ accessToken }) {
             chooseTrack={chooseTrack}
           />
         ))}
-        {/* <div>
-          {!wannaShuffle ? (
-            <button onClick={shuffleAll}>Shuffle all your songs</button>
-          ) : (
-            <button onClick={stopShuffle}>STOP SHUFFLE</button>
-          )}
-        </div>
-        <div>
-          <button onClick={playAll}>Play All</button>
-        </div>
-        <div>
-          <button onClick="#">Advanced shuffle</button>
-        </div> */}
         {Object.entries(userTracks).map(([key, value]) => {
           return (
             <TrackSearchResult
@@ -123,13 +78,8 @@ export default function Dashboard({ accessToken }) {
           );
         })}
       </div>
-      {/* <div>
-        <Player
-          accessToken={accessToken}
-          trackUri={playingTrack?.uri}
-          shuffleAll={shuffleAll}
-        />
-      </div> */}
     </Container>
   );
-}
+};
+
+export default Dashboard;
