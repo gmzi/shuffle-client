@@ -1,9 +1,16 @@
-[ ] distribute the requests and returns on the server in order to render the whole list fast and by small sections.
+[] logout user
 
-[ ] Clean play/stop functionality when shuffling (ist it better to pick one random song at a time or make the whole random queue from the shuffle function?)
+[] Persist logged in user and loaded tracks on refresh.
 
-[ ] Retrieve tracks from all saved albums and add them to the list.
+[] fix table row in database: track_uri, track_name, track_artists.
 
-[ ] Persist logged in user and loaded tracks on refresh.
+[] In shufle/playAll, set logic to refill queue after 200 tracks have been played
 
-[ ] Advanced shuffle: design compartiments to shuffle from selected playlists/albums/liked songs / with genre/without genre
+[] On shuffle or PlayAll, be able to select a track and play it inmediately, and continue with the previous queue afterwards.
+
+[] distribute the requests and returns on the server in order to render the whole list fast and by small sections.
+
+[] Retrieve tracks from all saved albums and add them to the list.
+
+[] Advanced shuffle: design compartiments to shuffle from selected playlists/albums/liked
+songs / with genre/without genre

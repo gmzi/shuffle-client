@@ -2,8 +2,9 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import useAuth from './useAuth';
+import Counter from './Counter';
 
-const Nav = ({ code }) => {
+const Nav = () => {
   function logout() {
     console.log('logout function ');
   }
@@ -14,17 +15,16 @@ const Nav = ({ code }) => {
         Shuffler <span>(all your songs in one place)</span>
       </a>
       <ul className="navbar-nav ml-auto">
-        {code ? (
-          <>
-            <li className="nav-item mr-4">
-              <NavLink className="nav-link" exact to="/" onClick={logout}>
-                logout from Spotify
-              </NavLink>
-            </li>
-          </>
-        ) : (
-          <li></li>
-        )}
+        <>
+          <li>
+            <Counter />
+          </li>
+          <li className="nav-item mr-4">
+            <NavLink className="nav-link" exact to="/" onClick={logout}>
+              logout from Spotify
+            </NavLink>
+          </li>
+        </>
       </ul>
     </nav>
   );

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { QueueContext } from './QueueContext';
+import QueueContext from './QueueContext';
 import TrackSearchResult from './TrackSearchResult';
 import { Container, Form } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
@@ -8,15 +8,18 @@ const spotifyApi = new SpotifyWebApi({
   clientId: 'b4217743307a432d807c1e5840dde3a2',
 });
 
-const Dashboard = ({ accessToken, userTracks, chooseTrack, playAll }) => {
+const Dashboard = ({
+  accessToken,
+  userTracks,
+  chooseTrack,
+  playAll,
+  shuffleAll,
+}) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [activeShuffle, setActiveShuffle] = useState(false);
 
-  // function chooseTrack(track) {
-  //   setPlayingTrack(track);
-  //   setSearch('');
-  // }
+  const count = useContext(QueueContext);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -61,7 +64,7 @@ const Dashboard = ({ accessToken, userTracks, chooseTrack, playAll }) => {
       />
       <div>
         {!activeShuffle ? (
-          <button onClick={'#'}>Shuffle all your songs</button>
+          <button onClick={shuffleAll}>Shuffle all your songs</button>
         ) : (
           <button onClick={'#'}>STOP SHUFFLE</button>
         )}

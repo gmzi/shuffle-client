@@ -1,3 +1,5 @@
-import { createContext } from 'react';
+import React from 'react';
 
-export const QueueContext = createContext();
+const QueueContext = React.createContext(null);
+
+export default QueueContext;
