@@ -1,11 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login';
-import Dashboard from './Dashboard';
-import Nav from './Nav';
 import Routes from './Routes';
-import Tryme from './Tryme';
-import useAuth from './useAuth';
-import useQueue from './useQueue';
 
 const code = new URLSearchParams(window.location.search).get('code');
 

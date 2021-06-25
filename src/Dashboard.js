@@ -1,18 +1,17 @@
-import { useState, useEffect } from 'react';
-import useAuth from './useAuth';
-import Player from './Player';
+import React, { useState, useEffect, useContext } from 'react';
+import { QueueContext } from './QueueContext';
 import TrackSearchResult from './TrackSearchResult';
 import { Container, Form } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
-import axios from 'axios';
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'b4217743307a432d807c1e5840dde3a2',
 });
 
-const Dashboard = ({ accessToken, userTracks, chooseTrack }) => {
+const Dashboard = ({ accessToken, userTracks, chooseTrack, playAll }) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [activeShuffle, setActiveShuffle] = useState(false);
 
   // function chooseTrack(track) {
   //   setPlayingTrack(track);
@@ -60,6 +59,19 @@ const Dashboard = ({ accessToken, userTracks, chooseTrack }) => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
+      <div>
+        {!activeShuffle ? (
+          <button onClick={'#'}>Shuffle all your songs</button>
+        ) : (
+          <button onClick={'#'}>STOP SHUFFLE</button>
+        )}
+      </div>
+      <div>
+        <button onClick={playAll}>Play All</button>
+      </div>
+      <div>
+        <button onClick="#">Advanced shuffle</button>
+      </div>
       <div className="flex-grow-1 my-2" style={{ overflowY: 'auto' }}>
         {searchResults.map((track) => (
           <TrackSearchResult

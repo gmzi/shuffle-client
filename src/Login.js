@@ -42,6 +42,10 @@ export default function Login({ code }) {
           <a className="btn btn-success btn-md" href={AUTH_URL}>
             Login
           </a>
+          <p>
+            Don't have a Spotify account?{' '}
+            <a href="https://www.spotify.com">Sign up</a>
+          </p>
         </div>
       </Container>
     </div>
