@@ -1,13 +1,7 @@
-import React, { useContext } from 'react';
-import { QueueContext } from './QueueContext';
-import useCounter from './useCounter';
+import React from 'react';
 
-export default function Tryme() {
-  const [count, incr, decr] = useCounter();
+const Tryme = () => {
+  return <h1>hi</h1>;
+};
 
-  return (
-    <div>
-      <h1>Try me!!!</h1>;<h1>{count}</h1>
-    </div>
-  );
-}
+export default Tryme;

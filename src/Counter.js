@@ -1,20 +1,21 @@
 import React from 'react';
-import useCounter from './useCounter';
+import useToken from './useToken';
 
 const Counter = () => {
   // call the custom hook:
-  const [count, setCount] = useCounter('count', 0);
+  // const [count, setCount] = useToken('count', 432);
 
-  // function inherent to this particular component:
-  const addToCount = () => {
-    setCount((count) => count + 1);
-  };
+  // // function inherent to this particular component:
+  // const addToCount = () => {
+  //   setCount((count) => 'papa');
+  // };
 
   return (
-    <>
-      <h4>{count}</h4>
-      <button onClick={addToCount}>Add</button>
-    </>
+    <h1>hi</h1>
+    // <>
+    //   <h4>{count}</h4>
+    //   <button onClick={addToCount}>Add</button>
+    // </>
   );
 };
 

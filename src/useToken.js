@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const useCounter = (key, defaultValue) => {
+const useToken = (key, defaultValue) => {
   // Instead of setting the initial value directly, use a callback function to check if is
   // there any previous value in localStorage:
   const [state, setState] = useState(() => {
@@ -26,4 +26,4 @@ const useCounter = (key, defaultValue) => {
   return [state, setState];
 };
 
-export default useCounter;
+export default useToken;

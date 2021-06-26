@@ -5,12 +5,11 @@ import Dashboard from './Dashboard';
 import useAuth from './useAuth';
 import Player from './Player';
 import QueueContext from './QueueContext';
-import Tryme from './Tryme';
 import Counter from './Counter';
-import CounterReadWrite from './CounterReadWrite';
 
 const Routes = ({ code }) => {
-  const accessToken = useAuth(code);
+  const accessToken = JSON.parse(localStorage.getItem('localToken'));
+  console.log(accessToken);
   const [userTracks, setUserTracks] = useState({});
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
@@ -23,8 +22,10 @@ const Routes = ({ code }) => {
 
   useEffect(() => {
     if (!accessToken) return;
+    console.log('corre Effect');
     axios.get('http://localhost:3001/tracks').then((res) => {
       setUserTracks(res.data);
+      console.log(res.data);
     });
   }, [accessToken]);
 
