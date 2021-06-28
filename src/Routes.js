@@ -7,9 +7,9 @@ import Player from './Player';
 import QueueContext from './QueueContext';
 import Counter from './Counter';
 
-const Routes = ({ code }) => {
-  const accessToken = JSON.parse(localStorage.getItem('localToken'));
-  console.log(accessToken);
+const Routes = ({ accessToken }) => {
+  // const accessToken = JSON.parse(localStorage.getItem('localToken'));
+  // console.log(accessToken);
   const [userTracks, setUserTracks] = useState({});
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
@@ -25,7 +25,6 @@ const Routes = ({ code }) => {
     console.log('corre Effect');
     axios.get('http://localhost:3001/tracks').then((res) => {
       setUserTracks(res.data);
-      console.log(res.data);
     });
   }, [accessToken]);
 

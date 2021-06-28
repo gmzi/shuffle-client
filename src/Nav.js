@@ -5,8 +5,7 @@ import useAuth from './useAuth';
 import useToken from './useToken';
 import Counter from './Counter';
 
-const Nav = () => {
-  const [checkedToken, setCheckedToken] = useState();
+const Nav = ({accessToken, logout}) => {
 
   // useEffect(() => {
   //   function checkUser() {
@@ -18,8 +17,8 @@ const Nav = () => {
   //   checkUser();
   // }, [localStorage]);
 
-  const logout = () => {
-    localStorage.clear();
+  const handleLogout = () => {
+    logout()
   };
 
   return (
@@ -29,13 +28,9 @@ const Nav = () => {
       </a>
       <ul className="navbar-nav ml-auto">
         <>
-          <li>{checkedToken}</li>
-          {/* <li>
-            <Counter />
-          </li> */}
-          {checkedToken ? (
+          {accessToken ? (
             <li className="nav-item mr-4">
-              <button onClick={logout}>Logout from Spotify</button>
+              <button onClick={handleLogout}>Logout</button>
             </li>
           ) : (
             <li>no</li>
