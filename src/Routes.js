@@ -7,10 +7,7 @@ import Player from './Player';
 import QueueContext from './QueueContext';
 import Counter from './Counter';
 
-const Routes = ({ accessToken }) => {
-  // const accessToken = JSON.parse(localStorage.getItem('localToken'));
-  // console.log(accessToken);
-  const [userTracks, setUserTracks] = useState({});
+const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
 
@@ -19,18 +16,6 @@ const Routes = ({ accessToken }) => {
   const increment = () => {
     setCount((count) => count + 1);
   };
-
-  useEffect(() => {
-    if (!accessToken) return;
-    try {
-    console.log('corre Effect');
-    axios.get('http://localhost:3001/tracks').then((res) => {
-      setUserTracks(res.data);
-    });
-  } catch (e) {
-    console.log("failed loading tracks", e)
-  }
-  }, [accessToken]);
 
   function chooseTrack(track) {
     const newQueue = [...queue];
@@ -80,7 +65,6 @@ const Routes = ({ accessToken }) => {
     setQueue((queue) => batch);
   }
 
-  console.log(queue);
   return (
     <div>
       <QueueContext.Provider value={{ queue, mode }}>

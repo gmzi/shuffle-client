@@ -12,16 +12,20 @@ const BASE_URL = "http://localhost:3001"
 
 export default function App() {
   const [local, setLocal] = useState(null);
+  const [userTracks, setUserTracks] = useState({})
 
   useEffect(() => {
     async function checkLocal() {
       const local = window.localStorage.getItem('localTokens');
+      const tracks = window.localStorage.getItem('localTracks')
       const localTokens = JSON.parse(local);
-      if (localTokens) {
+      const localTracks = JSON.parse(tracks)
+      if (localTokens && localTracks) {
         try {
           setLocal(localTokens.accessToken)
+          setUserTracks(localTracks)
         } catch (e) {
-          console.log('Loading problem', e);
+          console.log('failed loading tracks', e);
         }
       } else {
         if (code){
@@ -29,6 +33,8 @@ export default function App() {
             code,
           })
           window.localStorage.setItem('localTokens', JSON.stringify(newTokens.data))
+          const newTracks = await axios.get('http://localhost:3001/tracks');
+          window.localStorage.setItem('localTracks', JSON.stringify(newTracks.data))
           window.location = '/';
         }
       }
@@ -37,10 +43,16 @@ export default function App() {
   }, [local]);
 
   async function logout(){
-    const cleanServer = await axios.get(`${BASE_URL}/logout`)
+    try {
+    const cleanServerToken = await axios.get(`${BASE_URL}/logout`)
     window.localStorage.removeItem('localTokens');
+    window.localStorage.removeItem('localTracks')
     setLocal((local) => null)
+    setUserTracks((userTracks) => {})
+    } catch(e){
+      console.log('error when loging out', e)
+    }
   }
 
-  return <div>{local ? <> <Nav accessToken={local} logout={logout}/> <Routes accessToken={local} /> </> : <Login />}</div>;
+  return <div>{local ? <> <Nav accessToken={local} logout={logout}/> <Routes accessToken={local} userTracks={userTracks} /> </> : <Login />}</div>;
 }
