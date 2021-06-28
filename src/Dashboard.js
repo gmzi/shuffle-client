@@ -19,7 +19,6 @@ const Dashboard = ({
   const [searchResults, setSearchResults] = useState([]);
   const [activeShuffle, setActiveShuffle] = useState(false);
 
-  const count = useContext(QueueContext);
 
   useEffect(() => {
     if (!accessToken) return;

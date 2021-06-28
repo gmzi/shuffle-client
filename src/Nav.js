@@ -1,21 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Container } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import useAuth from './useAuth';
-import useToken from './useToken';
-import Counter from './Counter';
+import React  from 'react';
+import './Nav.css'
+import icon from "./icons/black.png"
 
 const Nav = ({accessToken, logout}) => {
-
-  // useEffect(() => {
-  //   function checkUser() {
-  //     const existingToken = JSON.parse(localStorage.getItem('localToken'));
-  //     if (existingToken) {
-  //       setCheckedToken((checkedToken) => existingToken);
-  //     }
-  //   }
-  //   checkUser();
-  // }, [localStorage]);
 
   const handleLogout = () => {
     logout()
@@ -24,8 +11,8 @@ const Nav = ({accessToken, logout}) => {
   return (
     <nav className="Nav navbar navbar-expand-md">
       <a className="navbar-brand" href="/">
-        Shuffler <span>(all your songs in one place)</span>
-      </a>
+      <span className="Nav-brand"><img src={icon} alt="icon" className="Nav-icon"/> shuffle all songs
+      </span></a>
       <ul className="navbar-nav ml-auto">
         <>
           {accessToken ? (

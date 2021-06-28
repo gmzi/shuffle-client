@@ -1,0 +1,14 @@
+.Nav-icon {
+    width: 3%;
+}
+
+.navbar-brand {
+    color: black;
+}
+
+.Nav-brand {
+    border: 1px solid black;
+    margin: 0.5rem 0.5rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 5px;
+}

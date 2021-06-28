@@ -3,13 +3,13 @@ import QueueContext from './QueueContext';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
 export default function Player({ accessToken, playAll }) {
-  const [play, setPlay] = useState(true);
-  const [playing, setPlaying] = useState();
+  // const [play, setPlay] = useState(true);
+  // const [playing, setPlaying] = useState();
   const { queue, mode } = useContext(QueueContext);
 
-  useEffect(() => {}, [mode]);
+  // useEffect(() => {}, [mode]);
 
-  if (!accessToken) return null;
+  // if (!accessToken) return null;
 
   function checkBatch(state) {
     if (state.nextTracks.length === 1) {
@@ -17,7 +17,6 @@ export default function Player({ accessToken, playAll }) {
     }
   }
 
-  console.log(queue);
 
   return (
     <div>

@@ -1,23 +1,15 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
 import axios from 'axios';
+import React, { useState } from 'react';
 import Dashboard from './Dashboard';
-import useAuth from './useAuth';
 import Player from './Player';
 import QueueContext from './QueueContext';
-import Counter from './Counter';
 
 const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
 
-  const [count, setCount] = useState(100);
-
-  const increment = () => {
-    setCount((count) => count + 1);
-  };
-
   function chooseTrack(track) {
+    countTrack(track);
     const newQueue = [...queue];
     if (newQueue.length === 0) {
       newQueue.unshift(track.uri);
@@ -31,7 +23,6 @@ const Routes = ({ accessToken, userTracks }) => {
         // algo
       }
       if (mode === 'shuffleAll') {
-        console.log('corre aca');
         const newQueue = [];
         while (newQueue.length < 10) {
           const idx = Math.floor(
@@ -40,12 +31,19 @@ const Routes = ({ accessToken, userTracks }) => {
           );
           newQueue.push(userTracks[idx].uri);
         }
-        console.log(newQueue);
         newQueue.unshift(track.uri);
       }
     }
     setQueue((queue) => newQueue);
     // setSearch('');
+  }
+
+  async function countTrack(track) {
+    axios
+      .post('http://localhost:3001/track-add', { track: track })
+      .then((res) => {
+        return;
+      });
   }
 
   function playAll(offset = 0, top = 10) {

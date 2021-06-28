@@ -273,3 +273,34 @@ async function getLikedTracks(access_token, offset = 0, items = []) {
 
 //   res.json({ userTracks });
 // });
+
+//-------------------------------------------------------------------
+
+// useEffect(() => {
+//   async function checkLocalStorage() {
+//     const local = window.localStorage.getItem('localTokens');
+//     const tracks = window.localStorage.getItem('localTracks');
+//     const localTokens = JSON.parse(local);
+//     const localTracks = JSON.parse(tracks);
+//     if (localTokens && localTracks) {
+//       setLocal(localTokens.accessToken);
+//       setUserTracks(localTracks);
+//       // if no logged in user go to spotify login page, then set data in localStorage:
+//     } else if (code) {
+//       const newTokens = await axios.post(`${BASE_URL}/login`, {
+//         code,
+//       });
+//       window.localStorage.setItem(
+//         'localTokens',
+//         JSON.stringify(newTokens.data)
+//       );
+//       const newTracks = await axios.get('http://localhost:3001/tracks');
+//       window.localStorage.setItem(
+//         'localTracks',
+//         JSON.stringify(newTracks.data)
+//       );
+//       window.location = '/';
+//     }
+//   }
+//   checkLocalStorage();
+// }, [local]);
