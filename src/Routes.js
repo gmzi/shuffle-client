@@ -22,10 +22,14 @@ const Routes = ({ accessToken }) => {
 
   useEffect(() => {
     if (!accessToken) return;
+    try {
     console.log('corre Effect');
     axios.get('http://localhost:3001/tracks').then((res) => {
       setUserTracks(res.data);
     });
+  } catch (e) {
+    console.log("failed loading tracks", e)
+  }
   }, [accessToken]);
 
   function chooseTrack(track) {
