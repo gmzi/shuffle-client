@@ -7,7 +7,6 @@ import Nav from './Nav';
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Nav />
       <App />
     </BrowserRouter>
   </React.StrictMode>,

@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import useToken from './useToken';
 
 export default function useAuth(code) {
   const [accessToken, setAccessToken] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
+
+  const [localToken, setLocalToken] = useToken('localToken', false);
 
   useEffect(() => {
     axios
@@ -15,6 +18,7 @@ export default function useAuth(code) {
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
+        //
         window.history.pushState({}, null, '/');
       })
       .catch(() => {
