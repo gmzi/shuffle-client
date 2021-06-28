@@ -36,7 +36,6 @@ export default function App() {
     checkLocal();
   }, [local]);
 
-
   async function logout(){
     const cleanServer = await axios.get(`${BASE_URL}/logout`)
     window.localStorage.removeItem('localTokens');
