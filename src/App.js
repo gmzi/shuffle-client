@@ -47,7 +47,7 @@ export default function App() {
         }
       } else {
         // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
-        // TODO: render loading icon while retrieving tracks.
+        // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
       }
     }
     checkLocalStorage();

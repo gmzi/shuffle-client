@@ -1,3 +1,5 @@
+[] FEATURE: grab all user's tracks, create a new "All my songs" playlist and add it to user's library.
+
 [] In shufle/playAll, set logic to refill queue after 200 tracks have been played
 
 [] On shuffle or PlayAll, be able to select a track and play it inmediately, and continue with the previous queue afterwards.

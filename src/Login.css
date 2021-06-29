@@ -1,13 +1,24 @@
-.Login-logo {
-  width: 5%;
+.Stats,
+.Video,
+.Start {
+  border-bottom: 1px solid black;
+  font-size: smaller;
+  margin: 0.5rem 2rem;
 }
 
-.Container {
+/* .Login-logo {
+  width: 5%;
+} */
+
+/* .Container {
   margin: 0rem 0rem;
   padding: 0rem 0rem;
-}
+  min-height: 100vh;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
 
-.Login-stats,
+/* .Login-stats,
 .Login-video-container,
 .Login-btn-container {
   margin: 0.5rem 0.5rem;
@@ -15,11 +26,7 @@
   border: 1px solid black;
   border-radius: 5px;
   font-size: smaller;
-}
-
-.Login-stats ul {
-  list-style: none;
-}
+} */
 
 .Login-btn-container {
   display: flex;
@@ -35,11 +42,10 @@
   font-weight: bolder;
   color: rgb(19, 40, 176);
 }
-
-/* .player-wrapper {
+.player-wrapper {
   position: relative;
   padding-top: 1.25%;
-} */
+}
 
 /* .player {
   position: absolute;
