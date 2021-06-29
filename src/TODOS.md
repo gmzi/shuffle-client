@@ -1,5 +1,3 @@
-[] fix table row in database: track_uri, track_name, track_artists.
-
 [] In shufle/playAll, set logic to refill queue after 200 tracks have been played
 
 [] On shuffle or PlayAll, be able to select a track and play it inmediately, and continue with the previous queue afterwards.

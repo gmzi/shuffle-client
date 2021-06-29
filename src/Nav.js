@@ -1,29 +1,28 @@
-import React  from 'react';
-import './Nav.css'
-import icon from "./icons/black.png"
+import React from 'react';
+import './Nav.css';
+import icon from './icons/black.png';
 
-const Nav = ({accessToken, logout}) => {
-
+const Nav = ({ accessToken, logout }) => {
   const handleLogout = () => {
-    logout()
+    logout();
   };
 
   return (
-    <nav className="Nav navbar navbar-expand-md">
+    <nav className="Nav navbar">
       <a className="navbar-brand" href="/">
-      <span className="Nav-brand"><img src={icon} alt="icon" className="Nav-icon"/> shuffle all songs
-      </span></a>
-      <ul className="navbar-nav ml-auto">
-        <>
-          {accessToken ? (
-            <li className="nav-item mr-4">
-              <button onClick={handleLogout}>Logout</button>
-            </li>
-          ) : (
-            <li>no</li>
-          )}
-        </>
-      </ul>
+        <span className="Nav-brand">
+          <img src={icon} alt="icon" className="Nav-icon" /> shuffle
+        </span>
+        {accessToken ? (
+          <span className="Nav-btn">
+            <a className="nav-btn" onClick={handleLogout}>
+              Logout
+            </a>
+          </span>
+        ) : (
+          console.log('')
+        )}
+      </a>
     </nav>
   );
 };

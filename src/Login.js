@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import ReactPlayer from 'react-player/vimeo';
+import fitvids from 'fitvids';
 import './Login.css';
 import useAuth from './useAuth';
 import axios from 'axios';
@@ -28,52 +29,61 @@ export default function Login({ code }) {
     });
   }, []);
 
+  fitvids();
+
   return (
     <div>
       <Container
-        className="d-flex flex-column justify-content-center align-items-center"
-        style={{ minHeight: '100vh' }}
+        className="Container d-flex flex-column"
+        style={{
+          minHeight: '100vh',
+        }}
       >
-        <div className="Login-title">
-          <h1>
-            <img src={logo} alt="logo" className="Login-logo"></img> all my
-            songs
-          </h1>
-        </div>
-        <div className="Login-userCount">
-          <h5>Song lists made: {userCount}</h5>
-
-          {lastTrack ? (
-            <div>
-              <h5>Last clicked song: </h5>
-              <div>
-                <img
-                  src={lastTrack[2]}
-                  style={{ height: '64px', width: '64px' }}
-                />
-                <div className="ml-3">
-                  <div>{lastTrack[1]}</div>
-                  <div className="text-muted">{lastTrack[3]}</div>
+        <div className="Login-stats">
+          <h5>Stats:</h5>
+          <ul>
+            <li>Song lists made: {userCount}</li>
+            {lastTrack ? (
+              <li>
+                Last clicked song:
+                <div>
+                  {/* <img
+                    src={lastTrack[2]}
+                    style={{ height: '64px', width: '64px' }}
+                  /> */}
+                  <div className="ml-3">
+                    <div>{lastTrack[1]}</div>
+                    <div className="text-muted">{lastTrack[3]}</div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
+              </li>
+            ) : (
+              <li></li>
+            )}
+          </ul>
         </div>
         <div className="Login-video-container">
-          <h3>Video demo:</h3>
-          <ReactPlayer url="" />
+          <h5>Video demo:</h5>
+          <div className="player-wrapper">
+            <ReactPlayer
+              url="https://vimeo.com/566622065"
+              className="player"
+              width="100%"
+              height="100%"
+            />
+          </div>
         </div>
         <div className="Login-btn-container">
-          <h3>Get Started</h3>
+          <h5>Get Started:</h5>
           <p>Login with Spotify to retrieve all your tracks</p>
           <a className="btn btn-success btn-md" href={AUTH_URL}>
             Login
           </a>
-          <p>
-            Don't have a Spotify account?{' '}
-            <a href="https://www.spotify.com">Sign up</a>
+          <p className="Login-signup">
+            Don't have a Spotify account?
+            <a href="https://www.spotify.com">
+              <span> Sign up </span>
+            </a>
           </p>
         </div>
       </Container>

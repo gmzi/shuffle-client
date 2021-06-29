@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import QueueContext from './QueueContext';
@@ -8,31 +8,16 @@ const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
 
+  useEffect(() => {}, [queue]);
+
   function chooseTrack(track) {
     countTrack(track);
     const newQueue = [...queue];
     if (newQueue.length === 0) {
       newQueue.unshift(track.uri);
-    } else if (newQueue.length === 1) {
-      newQueue.unshift(track.uri);
+    } else if (newQueue.length >= 1) {
       newQueue.pop();
-    } else {
-      if (mode === 'playAll') {
-        // newQueue.shift();
-        // newQueue.unshift(track.uri);
-        // algo
-      }
-      if (mode === 'shuffleAll') {
-        const newQueue = [];
-        while (newQueue.length < 10) {
-          const idx = Math.floor(
-            // Math.random() * Object.keys(userTracks).length
-            Math.random() * 10
-          );
-          newQueue.push(userTracks[idx].uri);
-        }
-        newQueue.unshift(track.uri);
-      }
+      newQueue.unshift(track.uri);
     }
     setQueue((queue) => newQueue);
     // setSearch('');
@@ -55,14 +40,16 @@ const Routes = ({ accessToken, userTracks }) => {
 
   function shuffleAll() {
     setMode((mode) => 'shuffleAll');
-    const batch = [];
-    while (batch.length < 10) {
+    const newQueue = [...queue];
+    newQueue.length = 0;
+    setQueue([]);
+    while (newQueue.length < 10) {
       const idx = Math.floor(Math.random() * 10);
-      batch.push(userTracks[idx].uri);
+      newQueue.push(userTracks[idx].uri);
     }
-    setQueue((queue) => batch);
+    setQueue(newQueue);
   }
-
+  console.log(queue);
   return (
     <div>
       <QueueContext.Provider value={{ queue, mode }}>
@@ -88,3 +75,22 @@ const Routes = ({ accessToken, userTracks }) => {
 };
 
 export default Routes;
+
+/**
+ * if (mode === 'playAll') {
+        // newQueue.shift();
+        // newQueue.unshift(track.uri);
+        // algo
+      }
+      if (mode === 'shuffleAll') {
+        const newQueue = [];
+        while (newQueue.length < 10) {
+          const idx = Math.floor(
+            // Math.random() * Object.keys(userTracks).length
+            Math.random() * 10
+          );
+          newQueue.push(userTracks[idx].uri);
+        }
+        newQueue.unshift(track.uri);
+      }
+ */

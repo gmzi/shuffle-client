@@ -1,3 +1,48 @@
 .Login-logo {
-    width: 5%;
+  width: 5%;
 }
+
+.Container {
+  margin: 0rem 0rem;
+  padding: 0rem 0rem;
+}
+
+.Login-stats,
+.Login-video-container,
+.Login-btn-container {
+  margin: 0.5rem 0.5rem;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid black;
+  border-radius: 5px;
+  font-size: smaller;
+}
+
+.Login-stats ul {
+  list-style: none;
+}
+
+.Login-btn-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Login-signup {
+  margin-top: 1rem;
+}
+
+.Login-signup span {
+  font-weight: bolder;
+  color: rgb(19, 40, 176);
+}
+
+/* .player-wrapper {
+  position: relative;
+  padding-top: 1.25%;
+} */
+
+/* .player {
+  position: absolute;
+  top: 0;
+  left: 0;
+} */

@@ -25,7 +25,6 @@ export default function App() {
   useEffect(() => {
     async function checkLocalStorage() {
       if (!localTokens) {
-        // if no logged in user go to spotify login page, then set data in localStorage:
         if (code) {
           try {
             const newTokens = await axios.post(`${BASE_URL}/login`, {
@@ -46,6 +45,9 @@ export default function App() {
             console.log('failed retrieving tracks', e);
           }
         }
+      } else {
+        // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
+        // TODO: render loading icon while retrieving tracks.
       }
     }
     checkLocalStorage();
@@ -73,12 +75,14 @@ export default function App() {
     <div>
       {local ? (
         <>
-          {' '}
-          <Nav accessToken={local} logout={logout} />{' '}
-          <Routes accessToken={local} userTracks={userTracks} />{' '}
+          <Nav accessToken={local} logout={logout} />
+          <Routes accessToken={local} userTracks={userTracks} />
         </>
       ) : (
-        <Login />
+        <>
+          <Nav accessToken={local} logout={logout} />
+          <Login />
+        </>
       )}
     </div>
   );
