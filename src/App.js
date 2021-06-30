@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login';
 import Routes from './Routes';
-import Nav from './Nav';
+import Navigation from './Navigation';
 import axios from 'axios';
 
 const code = new URLSearchParams(window.location.search).get('code');
@@ -75,12 +75,12 @@ export default function App() {
     <div>
       {local ? (
         <>
-          <Nav accessToken={local} logout={logout} />
+          <Navigation accessToken={local} logout={logout} />
           <Routes accessToken={local} userTracks={userTracks} />
         </>
       ) : (
         <>
-          <Nav accessToken={local} logout={logout} />
+          <Navigation accessToken={local} logout={logout} />
           <Login />
         </>
       )}

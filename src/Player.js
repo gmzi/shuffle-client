@@ -3,6 +3,7 @@ import QueueContext from './QueueContext';
 import SpotifyPlayer from 'react-spotify-web-playback';
 
 export default function Player({ accessToken, playAll }) {
+  const [play, setplay] = useState(true);
   const { queue, mode } = useContext(QueueContext);
 
   useEffect(() => {}, [queue]);
@@ -20,7 +21,7 @@ export default function Player({ accessToken, playAll }) {
       <SpotifyPlayer
         token={accessToken}
         magnifySliderOnHover={true}
-        play={true}
+        play={play}
         syncTimeout={true}
         callback={(state) => {
           // if (mode === 'playAll') {

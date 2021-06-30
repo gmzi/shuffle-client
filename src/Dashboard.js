@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import QueueContext from './QueueContext';
-import TrackSearchResult from './TrackSearchResult';
-import { Container, Form } from 'react-bootstrap';
+import { Container, Form, Button } from 'react-bootstrap';
+import bootstrap from 'bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
+import Track from './Track';
+import shuffle from './icons/shuffle.png';
+import './Dashboard.css';
 
 const spotifyApi = new SpotifyWebApi({
   clientId: 'b4217743307a432d807c1e5840dde3a2',
@@ -18,7 +20,6 @@ const Dashboard = ({
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [activeShuffle, setActiveShuffle] = useState(false);
-
 
   useEffect(() => {
     if (!accessToken) return;
@@ -54,45 +55,69 @@ const Dashboard = ({
   }, [search, accessToken]);
 
   return (
-    <Container className="d-flex flex-column py-2" style={{ height: '100vh' }}>
-      <Form.Control
-        type="search"
-        placeholder="Search Songs/Artists"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
-      <div>
-        {!activeShuffle ? (
-          <button onClick={shuffleAll}>Shuffle all your songs</button>
-        ) : (
-          <button onClick={'#'}>STOP SHUFFLE</button>
-        )}
-      </div>
-      <div>
-        <button onClick={playAll}>Play All</button>
-      </div>
-      <div>
-        <button onClick="#">Advanced shuffle</button>
-      </div>
-      <div className="flex-grow-1 my-2" style={{ overflowY: 'auto' }}>
-        {searchResults.map((track) => (
-          <TrackSearchResult
-            track={track}
-            key={track.uri}
-            chooseTrack={chooseTrack}
-          />
-        ))}
-        {Object.entries(userTracks).map(([key, value]) => {
-          return (
-            <TrackSearchResult
-              key={key}
-              track={value}
-              chooseTrack={chooseTrack}
-            />
-          );
-        })}
-      </div>
-    </Container>
+    <div className="Dashboard-wrapper">
+      <Container className="Dashboard d-flex flex-column">
+        <Form.Control
+          as="input"
+          type="search"
+          placeholder="Search Songs/Artists"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="Form"
+        />
+        <div className="btns-container">
+          <Button
+            onClick={playAll}
+            size="sm"
+            type="Button"
+            className="btn-player"
+          >
+            Play All
+          </Button>
+          {!activeShuffle ? (
+            <Button onClick={shuffleAll} className="btn-player">
+              Shuffle
+            </Button>
+          ) : (
+            <Button onClick={'#'} className="btn-player">
+              STOP SHUFFLE
+            </Button>
+          )}
+          <Button onClick="#" className="btn-player">
+            Extra Shuffle
+          </Button>
+        </div>
+        <Container
+          className="tracks-container flex-grow-1 my-2"
+          style={{ overflowY: 'auto' }}
+        >
+          {/* {searchResults.map((track) => (
+            <Track track={track} key={track.uri} chooseTrack={chooseTrack} />
+          // ))} */}
+          {searchResults.length ? (
+            <>
+              <div className="search-container">
+                <h6 className="search-header">Search results</h6>
+                {searchResults.map((track) => (
+                  <Track
+                    track={track}
+                    key={track.uri}
+                    chooseTrack={chooseTrack}
+                  />
+                ))}
+              </div>
+              <h6 className="search-header">Your library</h6>
+            </>
+          ) : (
+            <div></div>
+          )}
+
+          {Object.entries(userTracks).map(([key, value]) => {
+            return <Track key={key} track={value} chooseTrack={chooseTrack} />;
+          })}
+        </Container>
+      </Container>
+    </div>
   );
 };
 

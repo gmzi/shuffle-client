@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import QueueContext from './QueueContext';
+import './Routes.css';
 
 const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
@@ -51,8 +52,8 @@ const Routes = ({ accessToken, userTracks }) => {
   }
   console.log(queue);
   return (
-    <div>
-      <QueueContext.Provider value={{ queue, mode }}>
+    <QueueContext.Provider value={{ queue, mode }}>
+      <div className="Routes-dashboard">
         <Dashboard
           accessToken={accessToken}
           userTracks={userTracks}
@@ -60,17 +61,11 @@ const Routes = ({ accessToken, userTracks }) => {
           playAll={playAll}
           shuffleAll={shuffleAll}
         />
-        {queue.length ? (
-          <div>
-            <Player accessToken={accessToken} playAll={playAll} />
-          </div>
-        ) : (
-          <div>
-            <p>click any song to play it</p>
-          </div>
-        )}
-      </QueueContext.Provider>
-    </div>
+      </div>
+      <div className="Routes-player">
+        <Player accessToken={accessToken} playAll={playAll} />
+      </div>
+    </QueueContext.Provider>
   );
 };
 

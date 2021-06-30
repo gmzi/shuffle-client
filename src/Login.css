@@ -3,7 +3,28 @@
 .Start {
   border-bottom: 1px solid black;
   font-size: smaller;
-  margin: 0.5rem 2rem;
+  padding: 1rem 1rem;
+  color: white;
+  height: 100vh;
+  width: 100vw;
+}
+
+.Stats {
+  background: linear-gradient(#a76fa5, #0c0c0c);
+}
+
+.Video {
+  background: linear-gradient(#2d5d91, #552f6d);
+}
+
+.Start {
+  background: linear-gradient(rgb(132, 128, 128), #0c0b0c);
+}
+
+.track-name,
+.artist-name {
+  margin: 0rem 0rem;
+  color: whitesmoke;
 }
 
 /* .Login-logo {
@@ -34,13 +55,18 @@
   justify-content: center;
 }
 
+.btn {
+  background-color: #44be31;
+  color: white;
+}
+
 .Login-signup {
   margin-top: 1rem;
 }
 
 .Login-signup span {
   font-weight: bolder;
-  color: rgb(19, 40, 176);
+  color: rgb(11, 242, 38);
 }
 .player-wrapper {
   position: relative;

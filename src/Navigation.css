@@ -1,4 +1,8 @@
-.Nav-icon {
+.Navbar {
+  padding: 0.2rem 4rem;
+}
+
+/* .Nav-icon {
   width: 3%;
 }
 
@@ -38,4 +42,4 @@ a {
   color: black;
   text-decoration: none;
   text-transform: none;
-}
+} */
