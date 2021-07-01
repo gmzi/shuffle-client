@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Media, Button } from 'react-bootstrap';
+import { Container, Row, Col, Media, Button, Spinner } from 'react-bootstrap';
 import ReactPlayer from 'react-player/vimeo';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
@@ -32,166 +32,177 @@ export default function Login({ code }) {
     console.log(uri);
     history.push(uri[0]);
   }
-
+  console.log(code);
   return (
-    <Container fluid>
-      <section className="Stats">
-        <Row className="">
-          <>
-            {lastTrack ? (
-              <>
-                <Col sm={4}>
-                  <Row>
-                    <h6>Last selected song</h6>
-                  </Row>
-                  <Row>
-                    <div
-                      className="Track d-flex m-2 align-items-center"
-                      style={{ cursor: 'pointer' }}
-                    >
-                      <a href={lastTrack[0]}>
-                        <img
-                          src={lastTrack[2]}
-                          style={{ height: '64px', width: '64px' }}
-                        />
-                      </a>
-                      <a href={lastTrack[0]}>
-                        <div className="details ml-3">
-                          <div>{lastTrack[1]}</div>
-                          <div className="details text-muted">
-                            {lastTrack[3]}
+    <div>
+      <>
+        {!code ? (
+          <Container fluid>
+            <section className="Stats">
+              <Row className="">
+                <>
+                  {lastTrack ? (
+                    <>
+                      <Col sm={4}>
+                        <Row>
+                          <h6>Last selected song</h6>
+                        </Row>
+                        <Row>
+                          <div
+                            className="Track d-flex m-2 align-items-center"
+                            style={{ cursor: 'pointer' }}
+                          >
+                            <a href={lastTrack[0]}>
+                              <img
+                                src={lastTrack[2]}
+                                style={{ height: '64px', width: '64px' }}
+                              />
+                            </a>
+                            <a href={lastTrack[0]}>
+                              <div className="details ml-3">
+                                <div>{lastTrack[1]}</div>
+                                <div className="details text-muted">
+                                  {lastTrack[3]}
+                                </div>
+                              </div>
+                            </a>
                           </div>
-                        </div>
-                      </a>
-                    </div>
-                  </Row>
-                </Col>
-                <Col>
-                  <Row>
-                    <h6>Recommended for this time</h6>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div
-                        className="Track d-flex m-2 align-items-center"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <a href={lastTrack[0]}>
-                          <img
-                            src={lastTrack[2]}
-                            style={{ height: '64px', width: '64px' }}
-                          />
-                        </a>
-                        <a href={lastTrack[0]}>
-                          <div className="details ml-3">
-                            <div>{lastTrack[1]}</div>
-                            <div className="details text-muted">
-                              {lastTrack[3]}
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <h6>Recommended for this time</h6>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <div
+                              className="Track d-flex m-2 align-items-center"
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <a href={lastTrack[0]}>
+                                <img
+                                  src={lastTrack[2]}
+                                  style={{ height: '64px', width: '64px' }}
+                                />
+                              </a>
+                              <a href={lastTrack[0]}>
+                                <div className="details ml-3">
+                                  <div>{lastTrack[1]}</div>
+                                  <div className="details text-muted">
+                                    {lastTrack[3]}
+                                  </div>
+                                </div>
+                              </a>
                             </div>
-                          </div>
-                        </a>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        className="Track d-flex m-2 align-items-center"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <a href={lastTrack[0]}>
-                          <img
-                            src={lastTrack[2]}
-                            style={{ height: '64px', width: '64px' }}
-                          />
-                        </a>
-                        <a href={lastTrack[0]}>
-                          <div className="details ml-3">
-                            <div>{lastTrack[1]}</div>
-                            <div className="details text-muted">
-                              {lastTrack[3]}
+                          </Col>
+                          <Col>
+                            <div
+                              className="Track d-flex m-2 align-items-center"
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <a href={lastTrack[0]}>
+                                <img
+                                  src={lastTrack[2]}
+                                  style={{ height: '64px', width: '64px' }}
+                                />
+                              </a>
+                              <a href={lastTrack[0]}>
+                                <div className="details ml-3">
+                                  <div>{lastTrack[1]}</div>
+                                  <div className="details text-muted">
+                                    {lastTrack[3]}
+                                  </div>
+                                </div>
+                              </a>
                             </div>
-                          </div>
-                        </a>
-                      </div>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col>
-                      <div
-                        className="Track d-flex m-2 align-items-center"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <a href={lastTrack[0]}>
-                          <img
-                            src={lastTrack[2]}
-                            style={{ height: '64px', width: '64px' }}
-                          />
-                        </a>
-                        <a href={lastTrack[0]}>
-                          <div className="details ml-3">
-                            <div>{lastTrack[1]}</div>
-                            <div className="details text-muted">
-                              {lastTrack[3]}
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <div
+                              className="Track d-flex m-2 align-items-center"
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <a href={lastTrack[0]}>
+                                <img
+                                  src={lastTrack[2]}
+                                  style={{ height: '64px', width: '64px' }}
+                                />
+                              </a>
+                              <a href={lastTrack[0]}>
+                                <div className="details ml-3">
+                                  <div>{lastTrack[1]}</div>
+                                  <div className="details text-muted">
+                                    {lastTrack[3]}
+                                  </div>
+                                </div>
+                              </a>
                             </div>
-                          </div>
-                        </a>
-                      </div>
-                    </Col>
-                    <Col>
-                      <div
-                        className="Track d-flex m-2 align-items-center"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <a href={lastTrack[0]}>
-                          <img
-                            src={lastTrack[2]}
-                            style={{ height: '64px', width: '64px' }}
-                          />
-                        </a>
-                        <a href={lastTrack[0]}>
-                          <div className="details ml-3">
-                            <div>{lastTrack[1]}</div>
-                            <div className="details text-muted">
-                              {lastTrack[3]}
+                          </Col>
+                          <Col>
+                            <div
+                              className="Track d-flex m-2 align-items-center"
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <a href={lastTrack[0]}>
+                                <img
+                                  src={lastTrack[2]}
+                                  style={{ height: '64px', width: '64px' }}
+                                />
+                              </a>
+                              <a href={lastTrack[0]}>
+                                <div className="details ml-3">
+                                  <div>{lastTrack[1]}</div>
+                                  <div className="details text-muted">
+                                    {lastTrack[3]}
+                                  </div>
+                                </div>
+                              </a>
                             </div>
-                          </div>
-                        </a>
-                      </div>
-                    </Col>
-                  </Row>
-                </Col>
-              </>
-            ) : (
-              <div></div>
-            )}
-          </>
-        </Row>
-      </section>
-      <section className="Video">
-        <h6>App demo</h6>
-        <div className="player-wrapper">
-          <ReactPlayer
-            url="https://vimeo.com/566622065"
-            className="player"
-            width="100%"
-            height="100%"
-          />
-        </div>
-      </section>
-      <section className="Start">
-        <h6>Get Started</h6>
-        <p>Login with Spotify to retrieve all your tracks</p>
-        <div className="btn-container">
-          <Button className="btn-lg" href={AUTH_URL}>
-            Login
-          </Button>
-        </div>
-        <p className="Login-signup">
-          Don't have a Spotify account?
-          <a href="https://www.spotify.com">
-            <span> Sign up </span>
-          </a>
-        </p>
-      </section>
-    </Container>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </>
+                  ) : (
+                    <div></div>
+                  )}
+                </>
+              </Row>
+            </section>
+            <section className="Video">
+              <h6>App demo</h6>
+              <div className="player-wrapper">
+                <ReactPlayer
+                  url="https://vimeo.com/566622065"
+                  className="player"
+                  width="100%"
+                  height="100%"
+                />
+              </div>
+            </section>
+            <section className="Start">
+              <h6>Get Started</h6>
+              <p>Login with Spotify to retrieve all your tracks</p>
+              <div className="btn-container">
+                <Button className="btn-lg" href={AUTH_URL}>
+                  Login
+                </Button>
+              </div>
+              <p className="Login-signup">
+                Don't have a Spotify account?
+                <a href="https://www.spotify.com">
+                  <span> Sign up </span>
+                </a>
+              </p>
+            </section>
+          </Container>
+        ) : (
+          <Container fluid className="loading">
+            <p>Loading tracks, this could take a while</p>
+            <Spinner animation="border" variant="success" />
+          </Container>
+        )}
+      </>
+    </div>
   );
 }

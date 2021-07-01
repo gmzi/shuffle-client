@@ -77,3 +77,12 @@ a {
   height: 40vh;
   width: auto;
 }
+
+.loading {
+  height: 100vh;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

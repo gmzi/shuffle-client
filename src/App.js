@@ -73,7 +73,7 @@ export default function App() {
   }
 
   return (
-    <div className="">
+    <div>
       {local ? (
         <>
           <Navigation accessToken={local} logout={logout} />
@@ -82,7 +82,7 @@ export default function App() {
       ) : (
         <>
           <Navigation accessToken={local} logout={logout} />
-          <Login />
+          <Login code={code} />
         </>
       )}
     </div>

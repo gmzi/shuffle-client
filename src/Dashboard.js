@@ -109,12 +109,21 @@ const Dashboard = ({
               <h6 className="search-header">Your library</h6>
             </>
           ) : (
-            <div></div>
+            <div>
+              <h6>No</h6>
+            </div>
           )}
-
-          {Object.entries(userTracks).map(([key, value]) => {
-            return <Track key={key} track={value} chooseTrack={chooseTrack} />;
-          })}
+          {userTracks ? (
+            Object.entries(userTracks).map(([key, value]) => {
+              return (
+                <Track key={key} track={value} chooseTrack={chooseTrack} />
+              );
+            })
+          ) : (
+            <div>
+              <p>No tracks yet</p>
+            </div>
+          )}
         </Container>
       </Container>
     </div>
