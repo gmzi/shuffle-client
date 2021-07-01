@@ -4,6 +4,7 @@ import Login from './Login';
 import Routes from './Routes';
 import Navigation from './Navigation';
 import axios from 'axios';
+import './App.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = 'http://localhost:3001';
@@ -72,7 +73,7 @@ export default function App() {
   }
 
   return (
-    <div>
+    <div className="">
       {local ? (
         <>
           <Navigation accessToken={local} logout={logout} />

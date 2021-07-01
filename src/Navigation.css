@@ -1,45 +1,11 @@
 .Navbar {
   padding: 0.2rem 4rem;
+  margin: 0rem 0rem;
+  width: 100vw;
+  background-color: black;
+  border-bottom: 1px solid white;
 }
 
-/* .Nav-icon {
-  width: 3%;
+.Navbar img {
+  margin-right: 0.3rem;
 }
-
-.navbar-brand {
-  color: black;
-}
-
-.Nav-brand,
-.Nav-btn {
-  border: 1px solid black;
-  margin: 0.5rem 0.5rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 5px;
-}
-
-a {
-  text-transform: none;
-  text-decoration: none;
-  color: black;
-}
-.Nav-brand:hover,
-.Nav-brand:active,
-.Nav-btn:hover,
-.Nav-btn:active {
-  color: black;
-  text-decoration: none;
-  text-transform: none;
-}
-
-.navbar-btn {
-  color: black;
-  text-decoration: none;
-}
-
-.navbar-btn:hover,
-.navbar-btn:active {
-  color: black;
-  text-decoration: none;
-  text-transform: none;
-} */

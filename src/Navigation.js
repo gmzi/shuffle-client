@@ -9,7 +9,7 @@ const Navigation = ({ accessToken, logout }) => {
   };
 
   return (
-    <Navbar bg="dark" variant="dark" expand="lg" className="Navbar">
+    <Navbar variant="dark" expand="lg" className="Navbar">
       <Navbar.Brand href="/">
         <img
           src={icon}

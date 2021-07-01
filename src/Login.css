@@ -1,24 +1,26 @@
 .Stats,
 .Video,
 .Start {
-  border-bottom: 1px solid black;
   font-size: smaller;
   padding: 1rem 1rem;
   color: white;
-  height: 100vh;
-  width: 100vw;
 }
 
 .Stats {
-  background: linear-gradient(#a76fa5, #0c0c0c);
+  /* background: linear-gradient(#a76fa5, #0c0c0c); */
+  border-bottom: 1px solid white;
 }
 
 .Video {
-  background: linear-gradient(#2d5d91, #552f6d);
+  /* background: linear-gradient(#2d5d91, #552f6d); */
+  border-bottom: 1px solid white;
 }
 
 .Start {
-  background: linear-gradient(rgb(132, 128, 128), #0c0b0c);
+  /* background: linear-gradient(rgb(132, 128, 128), #0c0b0c); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .track-name,
@@ -48,7 +50,9 @@
   border-radius: 5px;
   font-size: smaller;
 } */
-
+a {
+  text-decoration: none;
+}
 .Login-btn-container {
   display: flex;
   flex-direction: column;
@@ -70,11 +74,6 @@
 }
 .player-wrapper {
   position: relative;
-  padding-top: 1.25%;
+  height: 40vh;
+  width: auto;
 }
-
-/* .player {
-  position: absolute;
-  top: 0;
-  left: 0;
-} */
