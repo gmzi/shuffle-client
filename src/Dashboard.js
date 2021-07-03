@@ -91,9 +91,6 @@ const Dashboard = ({
           className="tracks-container flex-grow-1 my-2"
           style={{ overflowY: 'auto' }}
         >
-          {/* {searchResults.map((track) => (
-            <Track track={track} key={track.uri} chooseTrack={chooseTrack} />
-          // ))} */}
           {searchResults.length ? (
             <>
               <div className="search-container">
@@ -109,9 +106,7 @@ const Dashboard = ({
               <h6 className="search-header">Your library</h6>
             </>
           ) : (
-            <div>
-              <h6>No</h6>
-            </div>
+            <div></div>
           )}
           {userTracks ? (
             Object.entries(userTracks).map(([key, value]) => {

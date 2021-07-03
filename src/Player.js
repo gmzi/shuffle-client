@@ -8,8 +8,6 @@ export default function Player({ accessToken, playAll }) {
 
   useEffect(() => {}, [queue]);
 
-  // if (!accessToken) return null;
-
   function checkBatch(state) {
     if (state.nextTracks.length === 1) {
       playAll(200, queue.length);
@@ -29,7 +27,6 @@ export default function Player({ accessToken, playAll }) {
           // }
           // console.log(state);
         }}
-        // uris={'spotify:track:0Ht91J9ytTO5JUu1ZSslUe'}
         offset={0}
         uris={queue}
         autoplay={true}

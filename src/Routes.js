@@ -50,7 +50,7 @@ const Routes = ({ accessToken, userTracks }) => {
     }
     setQueue(newQueue);
   }
-  console.log(queue);
+  
   return (
     <QueueContext.Provider value={{ queue, mode }}>
       <div className="Routes-dashboard">
