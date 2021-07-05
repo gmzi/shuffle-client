@@ -21,7 +21,6 @@ const Routes = ({ accessToken, userTracks }) => {
       newQueue.unshift(track.uri);
     }
     setQueue((queue) => newQueue);
-    // setSearch('');
   }
 
   async function countTrack(track) {
