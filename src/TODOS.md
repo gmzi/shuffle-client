@@ -1,6 +1,6 @@
 [] FEATURE: grab all user's tracks, create a new "All my songs" playlist and add it to user's library.
 
-[] FIX: on search result track play, save track to db (is throwing an error in the server)
+[] FIX: clear search form after search
 
 [] In shufle/playAll, set logic to refill queue after 200 tracks have been played
 
