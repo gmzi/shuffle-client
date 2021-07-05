@@ -39,18 +39,21 @@ const Routes = ({ accessToken, userTracks }) => {
     setQueue((queue) => batch);
   }
 
-  function shuffleAll() {
+  function shuffleAll(offset = 0, top = 10) {
     setMode((mode) => 'shuffleAll');
-    const newQueue = [...queue];
-    newQueue.length = 0;
-    setQueue([]);
-    while (newQueue.length < 10) {
-      const idx = Math.floor(Math.random() * 10);
-      newQueue.push(userTracks[idx].uri);
+    const allUris = Object.values(userTracks).map((t) => t.uri);
+    const batch = [];
+    let previousIdx = [];
+    while (batch.length < top) {
+      const idx = Math.floor(Math.random() * top);
+      if (!previousIdx.includes(idx)) {
+        batch.push(allUris[idx]);
+        previousIdx.push(idx);
+      }
     }
-    setQueue(newQueue);
+    setQueue((queue) => batch);
   }
-  
+
   return (
     <QueueContext.Provider value={{ queue, mode }}>
       <div className="Routes-dashboard">

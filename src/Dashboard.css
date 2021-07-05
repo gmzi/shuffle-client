@@ -4,7 +4,13 @@
 .Dashboard {
   padding: 1rem 0rem;
   background: linear-gradient(0.25turn, black, rgb(35, 0, 35));
-  height: 82vh;
+  height: 85vh;
+}
+
+@media (min-width: 1023px) {
+  .Dashboard {
+    height: 90vh;
+  }
 }
 
 .Form {
@@ -12,11 +18,11 @@
 }
 
 .btns-container {
-  margin: 1.5rem 1rem;
+  margin: 0.5rem 0.2rem;
 }
 
 .btn-player {
-  margin: 0.5rem;
+  margin: 0.1rem;
   padding: 1rem;
   border-radius: 500px;
   border: 2px solid black;

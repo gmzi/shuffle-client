@@ -305,25 +305,34 @@ async function getLikedTracks(access_token, offset = 0, items = []) {
 //   checkLocalStorage();
 // }, [local]);
 
-
 // Get Recommendations Based on Seeds
-spotifyApi.getRecommendations({
-  min_energy: 0.4,
-  seed_artists: ['6mfK6Q2tzLMEchAr0e9Uzu', '4DYFVNKZ1uixa6SQTvzQwJ'],
-  min_popularity: 50
-})
-.then(function(data) {
-let recommendations = data.body;
-console.log(recommendations);
-}, function(err) {
-console.log("Something went wrong!", err);
-});
+spotifyApi
+  .getRecommendations({
+    min_energy: 0.4,
+    seed_artists: ['6mfK6Q2tzLMEchAr0e9Uzu', '4DYFVNKZ1uixa6SQTvzQwJ'],
+    min_popularity: 50,
+  })
+  .then(
+    function (data) {
+      let recommendations = data.body;
+      console.log(recommendations);
+    },
+    function (err) {
+      console.log('Something went wrong!', err);
+    }
+  );
 
 // Get available genre seeds
-spotifyApi.getAvailableGenreSeeds()
-.then(function(data) {
-let genreSeeds = data.body;
-console.log(genreSeeds);
-}, function(err) {
-console.log('Something went wrong!', err);
-});
+spotifyApi.getAvailableGenreSeeds().then(
+  function (data) {
+    let genreSeeds = data.body;
+    console.log(genreSeeds);
+  },
+  function (err) {
+    console.log('Something went wrong!', err);
+  }
+);
+
+// ----------------------------------------
+
+
