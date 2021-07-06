@@ -20,7 +20,6 @@ export default function Login({ code }) {
       setUserCount(res.data.user_count);
     });
     axios.get('http://localhost:3001/recommendations').then((res) => {
-      console.log(res.data);
       const tracks = [];
       for (let key in res.data) {
         tracks.push(res.data[key]);
@@ -28,7 +27,6 @@ export default function Login({ code }) {
       setRecommended(tracks);
     });
   }, []);
-  console.log(recommended);
   return (
     <div>
       <>
