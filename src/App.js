@@ -7,9 +7,7 @@ import axios from 'axios';
 import './App.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
-const BASE_URL = `${process.env.REACT_APP_BASE_URL}/api`;
-
-console.log(BASE_URL);
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
 const local = window.localStorage.getItem('localTokens');
 const localTokens = JSON.parse(local);
