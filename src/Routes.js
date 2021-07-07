@@ -15,6 +15,7 @@ const Routes = ({ accessToken, userTracks }) => {
 
   function chooseTrack(track) {
     countTrack(track);
+    console.log(track);
     const newQueue = [...queue];
     if (newQueue.length === 0) {
       newQueue.unshift(track.uri);
