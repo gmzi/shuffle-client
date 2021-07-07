@@ -7,7 +7,8 @@ import axios from 'axios';
 import './App.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
-const BASE_URL = 'http://localhost:3001';
+// const BASE_URL = 'http://localhost:3001';
+const BASE_URL = 'https://shuffle-server.vercel.app/api';
 
 const local = window.localStorage.getItem('localTokens');
 const localTokens = JSON.parse(local);
@@ -35,7 +36,7 @@ export default function App() {
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            const newTracks = await axios.get('http://localhost:3001/tracks');
+            const newTracks = await axios.get(`${BASE_URL}/tracks`);
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(newTracks.data)
@@ -55,7 +56,7 @@ export default function App() {
   }, [localTokens, localTracks]);
 
   async function addToCount() {
-    axios.get('http://localhost:3001/count-add').then((res) => {
+    axios.get(`${BASE_URL}/count-add`).then((res) => {
       return;
     });
   }
