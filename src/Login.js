@@ -26,7 +26,7 @@ export default function Login({ code }) {
         setRecommended(tracks);
       });
   }, []);
-  console.log(process.env);
+
   return (
     <div>
       <>
