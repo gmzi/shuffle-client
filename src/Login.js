@@ -7,8 +7,9 @@ import useAuth from './useAuth';
 import axios from 'axios';
 import logo from './icons/black.png';
 
-const AUTH_URL =
-  'https://accounts.spotify.com/authorize?client_id=b4217743307a432d807c1e5840dde3a2&response_type=code&redirect_uri=https://shuffle-client.vercel.app&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative';
+const URI = process.env.REACT_APP_REDIRECT_URI;
+
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=b4217743307a432d807c1e5840dde3a2&response_type=code&redirect_uri=${URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative`;
 
 export default function Login({ code }) {
   const [recommended, setRecommended] = useState([]);

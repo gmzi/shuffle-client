@@ -82,7 +82,7 @@ const Dashboard = ({
               STOP SHUFFLE
             </Button>
           )}
-          <Button onClick="#" className="btn-player">
+          <Button onClick="#" className="btn-player disabled">
             Extra Shuffle
           </Button>
         </div>
