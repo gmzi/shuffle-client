@@ -35,18 +35,12 @@ export default function App() {
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            // const testReq = await axios.get(
-            //   `https://db-shuffle.herokuapp.com/track-last`
-            // );
 
-            // console.log(testReq.data);
-
-            // const newTracks = await axios.get(`${BASE_URL}/tracks`, {
-            //   headers: { 'Content-Type': 'application/json' },
-            // });
             const newTracks = await axios.get(
-              `https://db-shuffle.herokuapp.com/track-last`
+              `${BASE_URL}/tracks?callback=foo`
             );
+            console.log(newTracks.data);
+            return;
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(newTracks.data)
