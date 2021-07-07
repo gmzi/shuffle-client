@@ -5,6 +5,8 @@ import Player from './Player';
 import QueueContext from './QueueContext';
 import './Routes.css';
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
   const [mode, setMode] = useState();
@@ -24,11 +26,9 @@ const Routes = ({ accessToken, userTracks }) => {
   }
 
   async function countTrack(track) {
-    axios
-      .post('http://localhost:3001/track-add', { track: track })
-      .then((res) => {
-        return;
-      });
+    axios.post(`${BASE_URL}/track-add`, { track: track }).then((res) => {
+      return;
+    });
   }
 
   function playAll(offset = 0, top = 10) {
