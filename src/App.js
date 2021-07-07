@@ -9,7 +9,7 @@ import './App.css';
 const code = new URLSearchParams(window.location.search).get('code');
 // const BASE_URL = 'http://localhost:3001';
 // const BASE_URL = 'https://shuffle-server.vercel.app/api';
-const BASE_URL = process.env.BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const local = window.localStorage.getItem('localTokens');
 const localTokens = JSON.parse(local);
