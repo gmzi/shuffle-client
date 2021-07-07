@@ -11,22 +11,21 @@ const AUTH_URL =
   'https://accounts.spotify.com/authorize?client_id=b4217743307a432d807c1e5840dde3a2&response_type=code&redirect_uri=http://localhost:3000&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative';
 
 export default function Login({ code }) {
-  const [userCount, setUserCount] = useState();
   const [recommended, setRecommended] = useState([]);
   const history = useHistory();
 
   useEffect(async () => {
-    axios.get('http://localhost:3001/count').then((res) => {
-      setUserCount(res.data.user_count);
-    });
-    axios.get('http://localhost:3001/recommendations').then((res) => {
-      const tracks = [];
-      for (let key in res.data) {
-        tracks.push(res.data[key]);
-      }
-      setRecommended(tracks);
-    });
+    axios
+      .get('https://shuffle-server.vercel.app/api/recommendations')
+      .then((res) => {
+        const tracks = [];
+        for (let key in res.data) {
+          tracks.push(res.data[key]);
+        }
+        setRecommended(tracks);
+      });
   }, []);
+  console.log(process.env);
   return (
     <div>
       <>
