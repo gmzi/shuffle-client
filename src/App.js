@@ -43,6 +43,8 @@ export default function App() {
               tokenToPost,
             });
 
+            console.log(newTracks.data);
+
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(newTracks.data)
