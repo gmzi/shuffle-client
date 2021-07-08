@@ -38,10 +38,7 @@ export default function App() {
 
             const tokenToPost = newTokens.data.accessToken;
 
-            // const newTracks = await axios.get(`${BASE_URL}/tracks`);
-            const newTracks = await axios.post(`${BASE_URL}/tracks`, {
-              tokenToPost,
-            });
+            const newTracks = await axios.get(`${BASE_URL}/tracks`);
 
             console.log(newTracks.data);
 
