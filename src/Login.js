@@ -25,6 +25,8 @@ export default function Login({ code }) {
     });
   }, []);
 
+  console.log(recommended);
+
   return (
     <div>
       <>
