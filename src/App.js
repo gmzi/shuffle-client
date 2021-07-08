@@ -35,7 +35,10 @@ export default function App() {
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            const newTracks = await axios.get(`${BASE_URL}/tracks`);
+            // const newTracks = await axios.get(`${BASE_URL}/tracks`);
+            const newTracks = await axios.get(
+              'https://shuffle-server.vercel.app/api/tracks'
+            );
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(newTracks.data)
