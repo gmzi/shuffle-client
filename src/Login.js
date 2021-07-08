@@ -17,14 +17,16 @@ export default function Login({ code }) {
 
   useEffect(async () => {
     // axios.get('/recommendations').then((res) => {
-    axios.get('https://shuffle-server.vercel.app/api/count').then((res) => {
-      const tracks = [];
-      console.log(res.data);
-      // for (let key in res.data) {
-      //   tracks.push(res.data[key]);
-      // }
-      setRecommended(tracks);
-    });
+    axios
+      .get('https://shuffle-server.vercel.app/api/recommendations')
+      .then((res) => {
+        const tracks = [];
+        console.log(res.data);
+        // for (let key in res.data) {
+        //   tracks.push(res.data[key]);
+        // }
+        setRecommended(tracks);
+      });
   }, []);
 
   return (
