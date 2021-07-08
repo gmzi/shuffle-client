@@ -18,14 +18,13 @@ export default function Login({ code }) {
   useEffect(async () => {
     axios.get('/recommendations').then((res) => {
       const tracks = [];
-      for (let key in res.data) {
-        tracks.push(res.data[key]);
-      }
+      console.log(res);
+      // for (let key in res.data) {
+      //   tracks.push(res.data[key]);
+      // }
       setRecommended(tracks);
     });
   }, []);
-
-  console.log(recommended);
 
   return (
     <div>
