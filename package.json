@@ -2,13 +2,13 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://shuffle-server.vercel.app/api",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.7.3",
     "axios": "^0.21.1",
     "bootstrap": "^5.0.2",
+    "http-proxy-middleware": "^2.0.1",
     "react": "^17.0.1",
     "react-bootstrap": "^1.6.1",
     "react-dom": "^17.0.1",
@@ -43,5 +43,4 @@
       "last 1 safari version"
     ]
   }
-  
 }

@@ -28,14 +28,14 @@ export default function App() {
       if (!localTokens) {
         if (code) {
           try {
-            const newTokens = await axios.post(`/login`, {
+            const newTokens = await axios.post(`${BASE_URL}/login`, {
               code,
             });
             window.localStorage.setItem(
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            const newTracks = await axios.get(`/tracks`);
+            const newTracks = await axios.get(`${BASE_URL}/tracks`);
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(newTracks.data)

@@ -17,9 +17,9 @@ export default function Login({ code }) {
 
   useEffect(async () => {
     // axios.get('/recommendations').then((res) => {
-    axios.get('/track-last').then((res) => {
+    axios.get('/recommendations').then((res) => {
       const tracks = [];
-      console.log(res);
+      console.log(res.data);
       // for (let key in res.data) {
       //   tracks.push(res.data[key]);
       // }
