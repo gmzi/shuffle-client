@@ -36,7 +36,6 @@ export default function App() {
               JSON.stringify(newTokens.data)
             );
 
-            console.log(newTokens.data.accessToken);
             const tokenToPost = newTokens.data.accessToken;
 
             // const newTracks = await axios.get(`${BASE_URL}/tracks`);
