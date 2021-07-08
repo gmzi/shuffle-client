@@ -16,15 +16,13 @@ export default function Login({ code }) {
   const history = useHistory();
 
   useEffect(async () => {
-    axios
-      .get('https://shuffle-server.vercel.app/api/recommendations')
-      .then((res) => {
-        const tracks = [];
-        for (let key in res.data) {
-          tracks.push(res.data[key]);
-        }
-        setRecommended(tracks);
-      });
+    axios.get('/recommendations').then((res) => {
+      const tracks = [];
+      for (let key in res.data) {
+        tracks.push(res.data[key]);
+      }
+      setRecommended(tracks);
+    });
   }, []);
 
   return (
