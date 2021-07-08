@@ -17,7 +17,7 @@ export default function Login({ code }) {
 
   useEffect(async () => {
     // axios.get('/recommendations').then((res) => {
-    axios.get('https://shuffle-server.vercel.app/api/hola').then((res) => {
+    axios.get('https://shuffle-server.vercel.app/api/count').then((res) => {
       const tracks = [];
       console.log(res.data);
       // for (let key in res.data) {
