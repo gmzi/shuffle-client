@@ -21,10 +21,9 @@ export default function Login({ code }) {
       .get('https://shuffle-server.vercel.app/api/recommendations')
       .then((res) => {
         const tracks = [];
-        console.log(res.data);
-        // for (let key in res.data) {
-        //   tracks.push(res.data[key]);
-        // }
+        for (let key in res.data) {
+          tracks.push(res.data[key]);
+        }
         setRecommended(tracks);
       });
   }, []);
