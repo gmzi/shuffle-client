@@ -38,7 +38,14 @@ export default function App() {
 
             const tokenToPost = newTokens.data.accessToken;
 
-            const newTracks = await axios.get(`${BASE_URL}/tracks`);
+            // const newTracks = await axios.get(`${BASE_URL}/tracks`);
+
+            const newTracks = await axios.post(
+              `https://db-shuffle.herokuapp.com/tracks`,
+              {
+                tokenToPost,
+              }
+            );
 
             console.log(newTracks.data);
 
