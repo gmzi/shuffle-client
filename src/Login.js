@@ -16,7 +16,8 @@ export default function Login({ code }) {
   const history = useHistory();
 
   useEffect(async () => {
-    axios.get('/recommendations').then((res) => {
+    // axios.get('/recommendations').then((res) => {
+    axios.get('/track-last').then((res) => {
       const tracks = [];
       console.log(res);
       // for (let key in res.data) {
