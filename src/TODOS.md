@@ -1,6 +1,13 @@
+[] routes
+[] media queries for mobile
+[] plot line: get all your Spotify songs in one place, and shuffle them all.
+
+- Shuffle accross all the songs in your Spotify library (playlists, liked songs, albums)
+  [] video demo
+
 [] FEATURE: grab all user's tracks, create a new "All my songs" playlist and add it to user's library.
 
-[] FIX: clear search form after search
+[] OPTIMIZATION: split the gathering of the tracks in: 1- Playlists, 2-Liked tracks, 3-Album tracks. Render each batch from a different server route, and send it to client in parts.
 
 [] In shufle/playAll, set logic to refill queue after 200 tracks have been played
 

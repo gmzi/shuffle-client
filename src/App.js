@@ -8,6 +8,7 @@ import './App.css';
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
 const local = window.localStorage.getItem('localTokens');
 const localTokens = JSON.parse(local);
@@ -40,14 +41,9 @@ export default function App() {
 
             // const newTracks = await axios.get(`${BASE_URL}/tracks`);
 
-            const newTracks = await axios.post(
-              `https://db-shuffle.herokuapp.com/tracks`,
-              {
-                tokenToPost,
-              }
-            );
-
-            console.log(newTracks.data);
+            const newTracks = await axios.post(`${TRACKS_URL}`, {
+              tokenToPost,
+            });
 
             window.localStorage.setItem(
               'localTracks',
