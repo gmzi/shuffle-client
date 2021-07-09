@@ -14,9 +14,7 @@ const Navigation = ({ accessToken, logout }) => {
         <img
           src={icon}
           alt="icon"
-          width="30"
-          height="30"
-          className="d-inline-block align-top"
+          className="Navigation-logo d-inline-block align-top"
         />
         shuffle
       </Navbar.Brand>

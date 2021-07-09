@@ -1,9 +1,14 @@
 .Navbar {
-  padding: 0.2rem 4rem;
+  padding: 0.2rem 1rem;
   margin: 0rem 0rem;
   width: 100vw;
   background-color: black;
   border-bottom: 1px solid rgb(121, 119, 119);
+}
+
+.Navigation-logo {
+  width: 30px;
+  height: 30px;
 }
 
 .Navbar img {

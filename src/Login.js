@@ -18,7 +18,6 @@ export default function Login({ code }) {
   const { playlists, likedTracks } = useContext(LoadingProgressContext);
 
   useEffect(async () => {
-    // axios.get('/recommendations').then((res) => {
     axios
       .get('https://shuffle-server.vercel.app/api/recommendations')
       .then((res) => {
@@ -35,6 +34,38 @@ export default function Login({ code }) {
       <>
         {!code ? (
           <Container fluid>
+            <section className="Video">
+              <Row className="Cols-container">
+                <Col className="Col-title" md={3}>
+                  <p>Spotify songs in one place to shuffle them all</p>
+                </Col>
+                <Col className="Col-video" md={6}>
+                  <div className="player-wrapper">
+                    <ReactPlayer
+                      url="https://vimeo.com/573203639"
+                      className="player"
+                      width="100%"
+                      height="100%"
+                    />
+                  </div>
+                </Col>
+              </Row>
+            </section>
+            <section className="Start">
+              <h6>Get Started</h6>
+              <p>Login with Spotify to retrieve all your tracks</p>
+              <div className="btn-container">
+                <Button className="btn-lg" href={AUTH_URL}>
+                  Login
+                </Button>
+              </div>
+              <p className="Login-signup">
+                Don't have a Spotify account?
+                <a href="https://www.spotify.com">
+                  <span> Sign up </span>
+                </a>
+              </p>
+            </section>
             <section className="Stats">
               <Row className="">
                 <>
@@ -135,32 +166,6 @@ export default function Login({ code }) {
                   )}
                 </>
               </Row>
-            </section>
-            <section className="Video">
-              <h6>App demo</h6>
-              <div className="player-wrapper">
-                <ReactPlayer
-                  url="https://vimeo.com/571336023"
-                  className="player"
-                  width="100%"
-                  height="100%"
-                />
-              </div>
-            </section>
-            <section className="Start">
-              <h6>Get Started</h6>
-              <p>Login with Spotify to retrieve all your tracks</p>
-              <div className="btn-container">
-                <Button className="btn-lg" href={AUTH_URL}>
-                  Login
-                </Button>
-              </div>
-              <p className="Login-signup">
-                Don't have a Spotify account?
-                <a href="https://www.spotify.com">
-                  <span> Sign up </span>
-                </a>
-              </p>
             </section>
           </Container>
         ) : (

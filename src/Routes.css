@@ -11,3 +11,9 @@
     height: 3.3rem;
   }
 }
+
+@media (max-width: 350px) {
+  .Routes-player {
+    height: 5.8rem;
+  }
+}

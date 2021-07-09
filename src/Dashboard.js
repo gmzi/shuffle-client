@@ -65,26 +65,17 @@ const Dashboard = ({
           className="Form"
         />
         <div className="btns-container">
-          <Button
-            onClick={playAll}
-            size="sm"
-            type="Button"
-            className="btn-player"
-          >
+          <Button onClick={playAll} type="Button" className="btn-player">
             Play All
           </Button>
-          {!activeShuffle ? (
-            <Button onClick={shuffleAll} className="btn-player">
-              Shuffle
-            </Button>
-          ) : (
-            <Button onClick={'#'} className="btn-player">
-              STOP SHUFFLE
-            </Button>
-          )}
-          <Button onClick="#" className="btn-player disabled">
-            Extra Shuffle
+
+          <Button onClick={shuffleAll} type="Button" className="btn-player">
+            Shuffle
           </Button>
+
+          {/* <Button onClick="#" className="btn-player disabled">
+            Smart Shuffle
+          </Button> */}
         </div>
         <Container
           className="tracks-container flex-grow-1 my-2"

@@ -6,13 +6,7 @@
   color: rgb(222, 213, 213);
 }
 
-.Stats {
-  /* background: linear-gradient(#a76fa5, #0c0c0c); */
-  border-bottom: 1px solid rgb(121, 119, 119);
-}
-
 .Video {
-  /* background: linear-gradient(#2d5d91, #552f6d); */
   border-bottom: 1px solid rgb(121, 119, 119);
 }
 
@@ -21,6 +15,44 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.Stats {
+  border-top: 1px solid rgb(121, 119, 119);
+}
+
+.Col-title,
+.Col-subtitle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+@media (max-width: 414px) {
+  .Col-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .Col-title {
+    border-bottom: 1px solid rgb(121, 119, 119);
+  }
+  .Col-title p {
+    font-size: x-small;
+    font-weight: bold;
+  }
+}
+
+@media (min-width: 415px) {
+  .Col-title p {
+    font-size: large;
+  }
+
+  .Col-title {
+    border-right: 1px solid rgb(121, 119, 119);
+  }
 }
 
 .track-name,
