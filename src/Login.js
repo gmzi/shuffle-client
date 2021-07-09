@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Media, Button, Spinner } from 'react-bootstrap';
 import ReactPlayer from 'react-player/vimeo';
 import { useHistory } from 'react-router-dom';
@@ -6,6 +6,7 @@ import './Login.css';
 import useAuth from './useAuth';
 import axios from 'axios';
 import logo from './icons/black.png';
+import LoadingProgressContext from './LoadingProgressContext';
 
 const URI = process.env.REACT_APP_REDIRECT_URI;
 
@@ -14,6 +15,7 @@ const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=b4217743307a4
 export default function Login({ code }) {
   const [recommended, setRecommended] = useState([]);
   const history = useHistory();
+  const { playlists, likedTracks } = useContext(LoadingProgressContext);
 
   useEffect(async () => {
     // axios.get('/recommendations').then((res) => {
@@ -163,8 +165,24 @@ export default function Login({ code }) {
           </Container>
         ) : (
           <Container fluid className="loading">
-            <p>Loading tracks, this could take a while</p>
-            <Spinner animation="border" variant="success" />
+            <p>This could take a while...</p>
+
+            {!playlists ? (
+              <>
+                <p>Loading tracks from all your playlists</p>
+                <Spinner animation="border" variant="success" />
+              </>
+            ) : (
+              <p>playlists tracks done</p>
+            )}
+            {!likedTracks ? (
+              <>
+                <p>Loading tracks from all your liked tracks list</p>
+                <Spinner animation="border" variant="success" />
+              </>
+            ) : (
+              <p>Liked tracks done</p>
+            )}
           </Container>
         )}
       </>

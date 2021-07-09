@@ -5,6 +5,8 @@ import Routes from './Routes';
 import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
+import LoadingProgressContext from './LoadingProgressContext';
+import { retrieveTracks } from './helpers';
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
@@ -23,6 +25,8 @@ const localTracks = JSON.parse(tracks);
 export default function App() {
   const [local, setLocal] = useState(access);
   const [userTracks, setUserTracks] = useState(localTracks);
+  const [playlists, setPlaylists] = useState();
+  const [likedTracks, setLikedTracks] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
@@ -39,15 +43,16 @@ export default function App() {
 
             const tokenToPost = newTokens.data.accessToken;
 
-            // const newTracks = await axios.get(`${BASE_URL}/tracks`);
-
-            const newTracks = await axios.post(`${TRACKS_URL}`, {
+            const fullTracks = await retrieveTracks(
+              TRACKS_URL,
               tokenToPost,
-            });
+              setPlaylists,
+              setLikedTracks
+            );
 
             window.localStorage.setItem(
               'localTracks',
-              JSON.stringify(newTracks.data)
+              JSON.stringify(fullTracks)
             );
             addToCount();
             window.location = '/';
@@ -63,6 +68,27 @@ export default function App() {
     checkLocalStorage();
   }, [localTokens, localTracks]);
 
+  async function retrieveTracks(url, token, setState1, setState2) {
+    const newPlaylists = axios
+      .post(`${url}/playlists`, { token })
+      .then((res) => {
+        setState1(true);
+        return res.data;
+      });
+
+    const newLikedTracks = axios
+      .post(`${url}/likedtracks`, {
+        token,
+      })
+      .then((res) => {
+        setState2(true);
+        return res.data;
+      });
+
+    // const partial = [...newPlaylists];
+    // return [partial, ...newLikedTracks];
+    return newPlaylists;
+  }
   async function addToCount() {
     axios.get(`${BASE_URL}/count-add`).then((res) => {
       return;
@@ -90,8 +116,10 @@ export default function App() {
         </>
       ) : (
         <>
-          <Navigation accessToken={local} logout={logout} />
-          <Login code={code} />
+          <LoadingProgressContext.Provider value={{ playlists, likedTracks }}>
+            <Navigation accessToken={local} logout={logout} />
+            <Login code={code} />
+          </LoadingProgressContext.Provider>
         </>
       )}
     </div>

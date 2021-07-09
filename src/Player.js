@@ -4,7 +4,7 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 
 export default function Player({ accessToken, playAll }) {
   const [play, setplay] = useState(false);
-  const { queue, mode } = useContext(QueueContext);
+  const { queue } = useContext(QueueContext);
 
   useEffect(() => {
     setplay(true);
@@ -15,6 +15,8 @@ export default function Player({ accessToken, playAll }) {
       playAll(200, queue.length);
     }
   }
+
+
   return (
     <div>
       <SpotifyPlayer
@@ -24,10 +26,6 @@ export default function Player({ accessToken, playAll }) {
         syncTimeout={true}
         callback={(state) => {
           setplay(false);
-          // if (mode === 'playAll') {
-          //   checkBatch(state);
-          // }
-          // console.log(state);
         }}
         offset={0}
         uris={queue}

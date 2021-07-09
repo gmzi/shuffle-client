@@ -9,7 +9,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Routes = ({ accessToken, userTracks }) => {
   const [queue, setQueue] = useState([]);
-  const [mode, setMode] = useState();
+  // const [mode, setMode] = useState();
 
   useEffect(() => {}, [queue]);
 
@@ -32,14 +32,14 @@ const Routes = ({ accessToken, userTracks }) => {
   }
 
   function playAll(offset = 0, top = 10) {
-    setMode((mode) => 'playAll');
+    // setMode((mode) => 'playAll');
     const allQueue = Object.values(userTracks).map((t) => t.uri);
     const batch = allQueue.slice(offset, top);
     setQueue((queue) => batch);
   }
 
   function shuffleAll(offset = 0, top = 10) {
-    setMode((mode) => 'shuffleAll');
+    // setMode((mode) => 'shuffleAll');
     const allUris = Object.values(userTracks).map((t) => t.uri);
     const batch = [];
     let previousIdx = [];
@@ -53,8 +53,9 @@ const Routes = ({ accessToken, userTracks }) => {
     setQueue((queue) => batch);
   }
 
+  
   return (
-    <QueueContext.Provider value={{ queue, mode }}>
+    <QueueContext.Provider value={{ queue }}>
       <div className="Routes-dashboard">
         <Dashboard
           accessToken={accessToken}
@@ -72,22 +73,3 @@ const Routes = ({ accessToken, userTracks }) => {
 };
 
 export default Routes;
-
-/**
- * if (mode === 'playAll') {
-        // newQueue.shift();
-        // newQueue.unshift(track.uri);
-        // algo
-      }
-      if (mode === 'shuffleAll') {
-        const newQueue = [];
-        while (newQueue.length < 10) {
-          const idx = Math.floor(
-            // Math.random() * Object.keys(userTracks).length
-            Math.random() * 10
-          );
-          newQueue.push(userTracks[idx].uri);
-        }
-        newQueue.unshift(track.uri);
-      }
- */
