@@ -6,6 +6,7 @@ export default function Track({ track, chooseTrack }) {
     chooseTrack(track);
   }
 
+  console.log(track.artists);
   return (
     <div
       className="Track d-flex m-2 align-items-center"
@@ -15,7 +16,16 @@ export default function Track({ track, chooseTrack }) {
       <img src={track.albumUrl} style={{ height: '64px', width: '64px' }} />
       <div className="details ml-3">
         <div>{track.title}</div>
-        <div className="details text-muted">{track.artists}</div>
+        {/* <div className="details text-muted">{track.artists}</div> */}
+        {track.artists.length ? (
+          <div className="details text-muted">
+            {track.artists.map((a, i) =>
+              track.artists[i + 1] ? `${a} - ` : `${a}`
+            )}
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );
