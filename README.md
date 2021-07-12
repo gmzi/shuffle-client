@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# Spotify shuffle
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+All your Spotify library songs in one place to shuffle them.
 
-## Available Scripts
+Live demo: https://shuffle-client.vercel.app
 
-In the project directory, you can run:
+## USE FLOW
 
-### `npm start`
+Users log in with their Spotify account, and will get a single list with all their songs, retrieved from their Liked songs list and all their playlists (all librarys album's songs TBD).
+On that main list of songs, users can choose any song to play it individually, can play them all in the displayed order, or can shuffle them.
+Users can also use the search form to search songs by title or artist.
+On landing page, users get recommended songs for this time and day.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## API and DATABASE
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Uses Spotify API for user auth, user playlists, user liked songs and user saved albums.
+- Uses Spotify player (with library) to play tracks.
+- Uses database to store selected tracks with time and day of week. Use those tracks from database to seed the Spotify Recommendations API endpoint.
 
-### `npm test`
+## LIBRARIES
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Spotify-web-api-node for track retrieval.
+- React-spotify-web-playback to play tracks.
 
-### `npm run build`
+## STACK
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React frontend.
+- Node-express severs (one for auth process, another for tracks retrieval).
+- Postgresql database.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## TODOS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[] Export playlist. Allow users to export a new playlist with all their tracks in one place, so users can play it from the Spotify player.
+[] Advanced shuffle. Shuffle all user songs with advanced criteria (exclude terms, select from given playlists, shuffle from group of albums)
