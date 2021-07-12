@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import './Navigation.css';
-import icon from './icons/white.png';
+import icon from './icons/arrows.png';
 
 const Navigation = ({ accessToken, logout }) => {
   const handleLogout = () => {

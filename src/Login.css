@@ -29,6 +29,19 @@
   justify-content: center;
 }
 
+.Col-video,
+.Col-demo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.Logo {
+  height: 70px;
+  width: auto;
+  margin: 35px 35px;
+}
+
 @media (max-width: 414px) {
   .Col-title {
     display: flex;
@@ -39,10 +52,10 @@
   .Col-title {
     border-bottom: 1px solid rgb(121, 119, 119);
   }
-  .Col-title p {
-    font-size: x-small;
+  /* .Col-title p {
+    font-size: small;
     font-weight: bold;
-  }
+  } */
 }
 
 @media (min-width: 415px) {
@@ -53,6 +66,23 @@
   .Col-title {
     border-right: 1px solid rgb(121, 119, 119);
   }
+}
+
+.btn {
+  background-color: #1db954;
+  border: 1px solid black;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.btn:hover,
+.btn:active,
+.btn-focus {
+  background-color: #1db954;
+  border: 1px solid #1db954;
+  outline: none;
+  outline-offset: none;
+  box-shadow: none;
 }
 
 .track-name,
@@ -70,18 +100,13 @@ a {
   justify-content: center;
 }
 
-.btn {
-  background-color: #44be31;
-  color: white;
-}
-
 .Login-signup {
   margin-top: 1rem;
 }
 
 .Login-signup span {
   font-weight: bolder;
-  color: rgb(11, 242, 38);
+  color: #1db954;
 }
 .player-wrapper {
   position: relative;

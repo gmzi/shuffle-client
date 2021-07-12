@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Container, Row, Col, Media, Button, Spinner } from 'react-bootstrap';
-import ReactPlayer from 'react-player/vimeo';
+// import ReactPlayer from 'react-player/vimeo';
+import ReactPlayer from 'react-player/wistia';
 import { useHistory } from 'react-router-dom';
 import './Login.css';
 import useAuth from './useAuth';
 import axios from 'axios';
-import logo from './icons/black.png';
+import logo from './icons/logo_white.png';
 import LoadingProgressContext from './LoadingProgressContext';
 
 const URI = process.env.REACT_APP_REDIRECT_URI;
@@ -37,30 +38,35 @@ export default function Login({ code }) {
             <section className="Video">
               <Row className="Cols-container">
                 <Col className="Col-title" md={3}>
-                  <p>Spotify songs in one place to shuffle them all</p>
+                  <p>Put all your library songs in one place to shuffle them</p>
                 </Col>
                 <Col className="Col-video" md={6}>
                   <div className="player-wrapper">
                     <ReactPlayer
-                      url="https://vimeo.com/573203639"
+                      // url="https://vimeo.com/573203639"
+                      url="https://gmzieres.wistia.com/medias/bvp1geks05"
                       className="player"
                       width="100%"
                       height="100%"
                     />
                   </div>
                 </Col>
+                {/* <Col className="Col-demo" md={2}>
+                  <p>demo</p>
+                </Col> */}
               </Row>
             </section>
             <section className="Start">
-              <h6>Get Started</h6>
-              <p>Login with Spotify to retrieve all your tracks</p>
+              {/* <h6>Get Started</h6> */}
+              <img src={logo} alt="spotify-logo" className="Logo d-inline" />
+              {/* <p>Login with Spotify to retrieve all your tracks</p> */}
               <div className="btn-container">
                 <Button className="btn-lg" href={AUTH_URL}>
                   Login
                 </Button>
               </div>
               <p className="Login-signup">
-                Don't have a Spotify account?
+                Don't have an account?
                 <a href="https://www.spotify.com">
                   <span> Sign up </span>
                 </a>
