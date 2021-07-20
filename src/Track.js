@@ -5,8 +5,6 @@ export default function Track({ track, chooseTrack }) {
   function handlePlay() {
     chooseTrack(track);
   }
-
-  console.log(track.artists);
   return (
     <div
       className="Track d-flex m-2 align-items-center"
