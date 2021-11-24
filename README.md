@@ -30,5 +30,11 @@ On landing page, users get recommended songs for this time and day.
 
 ## TODOS
 
-[] Export playlist. Allow users to export a new playlist with all their tracks in one place, so users can play it from the Spotify player.
-[] Advanced shuffle. Shuffle all user songs with advanced criteria (exclude terms, select from given playlists, shuffle from group of albums)
+- [ ] FEATURE: Export playlist. Allow users to export a new playlist with all their tracks in one place, so users can play it from the Spotify player.
+- [ ] Advanced shuffle. Shuffle all user songs with advanced criteria (exclude terms, select from given playlists, shuffle from group of albums)
+- [ ] Retrieve tracks from all saved albums and add them to the list. (CREATE /albumtracks in heroku server, then add the request in client/helpers/retrieveTracks )
+- [ ] In shufle/playAll, set logic to refill queue after 200 tracks have been played
+- [ ] On shuffle or PlayAll, be able to select a track and play it inmediately, and continue with the previous queue afterwards.
+- [ ] distribute the requests and returns on the server in order to render the whole list fast and by small sections.
+- [ ] Advanced shuffle: design compartiments to shuffle from selected playlists/albums/liked
+songs / with genre/without genre with artist/without artist
