@@ -1,31 +1,34 @@
 # Spotify shuffle
 
-All your Spotify library songs in one place to shuffle them.
+All your Spotify songs in one place to shuffle them.
 
 Live demo: https://shuffle-client.vercel.app
 
 ## USE FLOW
 
-Users log in with their Spotify account, and will get a single list with all their songs, retrieved from their Liked songs list and all their playlists (all librarys album's songs TBD).
+Users log in with their Spotify account, and get a single list with all their songs, retrieved from their Liked Songs list and all their playlists (all users album's songs TBD).
 On that main list of songs, users can choose any song to play it individually, can play them all in the displayed order, or can shuffle them.
-Users can also use the search form to search songs by title or artist.
-On landing page, users get recommended songs for this time and day.
+Users can also use the search form to search songs by title or artist. 
+On landing page, users get recommended songs for current time and day.
 
-## API and DATABASE
+## API 
 
-- Uses Spotify API for user auth, user playlists, user liked songs and user saved albums.
-- Uses Spotify player (with library) to play tracks.
-- Uses database to store selected tracks with time and day of week. Use those tracks from database to seed the Spotify Recommendations API endpoint.
+- Spotify API for user auth, playlists, liked songs and saved albums, recommendations by seeded data.
+- Spotify player (with library) to play tracks.
+
+
+## Database
+- PostgreSQL database stores played tracks sorted by time and day of week. On landing page, app seeds the Spotify Recommendations API endpoint and retrieves four tracks recommended for current time and date.
 
 ## LIBRARIES
 
-- Spotify-web-api-node for track retrieval.
-- React-spotify-web-playback to play tracks.
+- [Spotify-web-api-node](https://github.com/thelinmichael/spotify-web-api-node) for track retrieval.
+- [React-spotify-web-playback](https://github.com/gilbarbara/react-spotify-web-playback) to play tracks.
 
 ## STACK
 
 - React frontend.
-- Node-express severs (one for auth process, another for tracks retrieval).
+- Node-express backend (one server for auth process, another for tracks retrieval), check them out [here](https://github.com/gmzi/shuffle-server).
 - Postgresql database.
 
 ## TODOS
