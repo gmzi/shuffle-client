@@ -31,6 +31,15 @@ On landing page, users get recommended songs for current time and day.
 - Node-express backend (one server for auth process, another for tracks retrieval), check them out [here](https://github.com/gmzi/shuffle-server).
 - Postgresql database.
 
+## Usage
+
+- Create a new app at [Spotify Dashboard](https://developer.spotify.com/dashboard/) 
+- Set .env variables CLIENT_ID and CLIENT_SECRET.
+Install packages in 'client' and 'server' folders, then: 
+- cd to client, `npm start`.
+- cd to server, `node server.js`.
+- cd to server/api, `node index.js`
+
 ## TODOS
 
 - [ ] FEATURE: Export playlist. Allow users to export a new playlist with all their tracks in one place, so users can play it from the Spotify player.
