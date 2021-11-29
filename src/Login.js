@@ -38,7 +38,7 @@ export default function Login({ code }) {
             <section className="Video">
               <Row className="Cols-container">
                 <Col className="Col-title" md={3}>
-                  <p>Put all your library songs in one place to shuffle them</p>
+                  <p>All your library songs in one place to shuffle them</p>
                 </Col>
                 <Col className="Col-video" md={6}>
                   <div className="player-wrapper">
