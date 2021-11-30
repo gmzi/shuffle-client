@@ -53,7 +53,6 @@ const Dashboard = ({
     return () => (cancel = true);
   }, [search, accessToken]);
 
-
   return (
     <div className="Dashboard-wrapper">
       <Container className="Dashboard d-flex flex-column">

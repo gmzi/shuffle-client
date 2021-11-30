@@ -1,20 +1,35 @@
 import axios from 'axios';
-import MixcloudPlayer from 'react-player/mixcloud';
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
-async function retrieveTracks(url, token, setState1, setState2) {
-  const items = [];
-  await axios
+export const retrieveTracks = async (url, token, setState1, setState2) => {
+  const newPlaylists = axios
     .post(`${url}/playlists`, { token })
     .then((res) => {
-      res.data.map((i) => items.push(i));
       setState1(true);
-    })
-    .then(axios.post(`${url}/likedtracks`, { token }))
-    .then((res) => {
-      res.data.map((i) => items.push(i));
-      setState2(true);
+      return res.data;
     });
-  return items;
+
+  const newLikedTracks = axios
+    .post(`${url}/likedtracks`, {
+      token,
+    })
+    .then((res) => {
+      setState2(true);
+      return res.data;
+    });
+
+  // const ready = async () => {
+  //   const playlists = await newPlaylists
+  //   const likedTracks = await newLikedTracks;
+  //   return { playlists, likedTracks }
+  // }
+  // return ready();
+  return newPlaylists;
 }
 
-export default { retrieveTracks };
+
+export const addToCount = async () => {
+  axios.get(`${BASE_URL}/count-add`).then((res) => {
+    return;
+  });
+}

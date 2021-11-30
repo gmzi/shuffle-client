@@ -6,7 +6,7 @@ import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
 import LoadingProgressContext from './LoadingProgressContext';
-import { retrieveTracks } from './helpers';
+import { retrieveTracks, addToCount } from './helpers'
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
@@ -54,13 +54,17 @@ export default function App() {
               'localTracks',
               JSON.stringify(fullTracks)
             );
+
             addToCount();
+
             window.location = '/';
+
           } catch (e) {
-            console.log('failed retrieving tracks', e);
+            console.log('failed retrieving user libraries', e);
           }
         }
       } else {
+        // console.log('aca taaaaaaaaaaaaaaaa')
         // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
         // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
       }
@@ -68,40 +72,13 @@ export default function App() {
     checkLocalStorage();
   }, [localTokens, localTracks]);
 
-  async function retrieveTracks(url, token, setState1, setState2) {
-    const newPlaylists = axios
-      .post(`${url}/playlists`, { token })
-      .then((res) => {
-        setState1(true);
-        return res.data;
-      });
-
-    const newLikedTracks = axios
-      .post(`${url}/likedtracks`, {
-        token,
-      })
-      .then((res) => {
-        setState2(true);
-        return res.data;
-      });
-
-    // const partial = [...newPlaylists];
-    // return [partial, ...newLikedTracks];
-    return newPlaylists;
-  }
-  async function addToCount() {
-    axios.get(`${BASE_URL}/count-add`).then((res) => {
-      return;
-    });
-  }
-
   async function logout() {
     try {
       const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
       window.localStorage.removeItem('localTokens');
       window.localStorage.removeItem('localTracks');
       setLocal((local) => null);
-      setUserTracks((userTracks) => {});
+      setUserTracks((userTracks) => { });
     } catch (e) {
       console.log('error when loging out', e);
     }

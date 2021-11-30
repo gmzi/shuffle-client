@@ -8,10 +8,11 @@ import './Routes.css';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Routes = ({ accessToken, userTracks }) => {
+
   const [queue, setQueue] = useState([]);
   // const [mode, setMode] = useState();
 
-  useEffect(() => {}, [queue]);
+  useEffect(() => { }, [queue]);
 
   function chooseTrack(track) {
     countTrack(track);
@@ -53,7 +54,7 @@ const Routes = ({ accessToken, userTracks }) => {
     setQueue((queue) => batch);
   }
 
-  
+
   return (
     <QueueContext.Provider value={{ queue }}>
       <div className="Routes-dashboard">
