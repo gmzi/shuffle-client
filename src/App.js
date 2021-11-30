@@ -50,6 +50,9 @@ export default function App() {
               setLikedTracks
             );
 
+            // console.log(fullTracks)
+            // return;
+
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(fullTracks)
@@ -80,7 +83,7 @@ export default function App() {
       setLocal((local) => null);
       setUserTracks((userTracks) => { });
     } catch (e) {
-      console.log('error when loging out', e);
+      console.log('error when logging out', e);
     }
   }
 
