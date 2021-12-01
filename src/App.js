@@ -6,7 +6,7 @@ import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
 import LoadingProgressContext from './LoadingProgressContext';
-import { retrieveTracks, transformAndConcat, addToCount } from './helpers'
+import { retrieveTracks, addToCount } from './helpers'
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
@@ -19,10 +19,8 @@ if (localTokens) {
   access = localTokens.accessToken;
 }
 
-// const tracks = window.localStorage.getItem('localTracks');
-// const localTracks = JSON.parse(tracks);
-
-const localTracks = window.localStorage.getItem('localTracks')
+const tracks = window.localStorage.getItem('userPlaylistsTracks');
+const localTracks = JSON.parse(tracks);
 
 export default function App() {
   const [local, setLocal] = useState(access);
@@ -60,32 +58,22 @@ export default function App() {
               setPlaylists
             )
 
-            console.log('playlists', userPlaylistsTracks)
-            // console.log('playlists', Object.keys(userPlaylistsTracks).length)
-
             const userLikedTracks = await retrieveTracks(
               `${TRACKS_URL}/likedtracks`,
               tokenToPost,
               setLikedTracks
             )
 
-            console.log('liked', userLikedTracks)
-            // console.log('liked', Object.keys(userLikedTracks).length)
-
-
-            const allUserTracks = transformAndConcat(userPlaylistsTracks, userLikedTracks)
-
-            // console.log('alltracks', allUserTracks)
-
-            // return;
+            // MOVE ON FROM HERE, MAKE IT MODULAR
+            window.localStorage.setItem(
+              'userPlaylistsTracks',
+              JSON.stringify(userPlaylistsTracks)
+            );
 
             window.localStorage.setItem(
-              'localTracks', allUserTracks
+              'userLikedTracks',
+              JSON.stringify(userLikedTracks)
             );
-            // window.localStorage.setItem(
-            //   'localTracks',
-            //   JSON.stringify(allUserTracks)
-            // );
 
             addToCount();
 
