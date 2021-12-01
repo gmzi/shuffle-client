@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Track from './Track';
 import './Dashboard.css';
-import QueueContext from './QueueContext';
+// import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
 
@@ -21,24 +21,10 @@ const Dashboard = ({
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
-  // TRACKS FROM LOCAL STORAGE
-  const tryLocal = window.localStorage.getItem('localTracks');
-  const tasteLocal = JSON.parse(tryLocal);
-
-  const { queue } = useContext(QueueContext)
-  console.log(queue)
-
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
-  // ------------------------------------------------------------------
-
   // -----------------------------------------------------------------
   // SEARCH FORM
 
-  // AUTH SEARCH from API
+  // Authenticate search requests from API
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);

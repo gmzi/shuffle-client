@@ -1,31 +1,34 @@
 import axios from 'axios';
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
-export const retrieveTracks = async (url, token, setState1, setState2) => {
-  const newPlaylists = axios
-    .post(`${url}/playlists`, { token })
+export const retrieveTracks = async (url, token, setState1) => {
+  const newTracks = axios
+    .post(url, { token })
     .then((res) => {
       setState1(true);
       return res.data;
     });
-
-  const newLikedTracks = axios
-    .post(`${url}/likedtracks`, {
-      token,
-    })
-    .then((res) => {
-      setState2(true);
-      return res.data;
-    });
-
-  // const ready = async () => {
-  //   const playlists = await newPlaylists
-  //   const likedTracks = await newLikedTracks;
-  //   return { playlists, likedTracks }
-  // }
-  // return ready();
-  return newPlaylists;
+  return newTracks;
 }
+// export const retrieveTracks = async (url, token, setState1, setState2) => {
+//   const newPlaylists = axios
+//     .post(`${url}/playlists`, { token })
+//     .then((res) => {
+//       setState1(true);
+//       return res.data;
+//     });
+
+//   const newLikedTracks = axios
+//     .post(`${url}/likedtracks`, {
+//       token,
+//     })
+//     .then((res) => {
+//       setState2(true);
+//       return res.data;
+//     });
+
+//   return newPlaylists;
+// }
 
 export const likedOnly = async (url, token) => {
   const newLikedTracks = axios

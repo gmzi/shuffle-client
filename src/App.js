@@ -43,21 +43,57 @@ export default function App() {
 
             const tokenToPost = newTokens.data.accessToken;
 
-            const fullTracks = await retrieveTracks(
-              TRACKS_URL,
+            // const allTracks = await retrieveTracks(
+            //   TRACKS_URL,
+            //   tokenToPost,
+            //   setPlaylists,
+            //   setLikedTracks
+            // );
+
+            // console.log(allTracks)
+
+            const userPlaylistsTracks = await retrieveTracks(
+              `${TRACKS_URL}/playlists`,
               tokenToPost,
-              setPlaylists,
+              setPlaylists
+            )
+
+            console.log('playlists', userPlaylistsTracks)
+            console.log('playlists', Object.keys(userPlaylistsTracks).length)
+
+            const userLikedTracks = await retrieveTracks(
+              `${TRACKS_URL}/likedtracks`,
+              tokenToPost,
               setLikedTracks
-            );
+            )
+
+            console.log('liked', userLikedTracks)
+            console.log('liked', Object.keys(userLikedTracks).length)
+            // TRYYYYYY OBJECT.ASSIGN METHOD OR GET A FUCKING HAMMER AND MAKE IT WORK
+            const allUserTracks = { ...userPlaylistsTracks, ...userLikedTracks }
+
+            console.log('alltracks', allUserTracks)
+            console.log('alltracks', Object.keys(allUserTracks).length)
+
+            // const all = async (oneObject, otherObject) => {
+            //   const one = await oneObject;
+            //   const two = await otherObject;
+            //   const ready = { ...one, ...two }
+            // }
+
+            // const dale = all(userPlaylistsTracks, userLikedTracks)
+            // console.log(dale)
+
+            return;
 
             // const likeIt = await likedOnly(TRACKS_URL, tokenToPost)
             // console.log(typeof (likeIt))
             // return;
 
-            window.localStorage.setItem(
-              'localTracks',
-              JSON.stringify(fullTracks)
-            );
+            // window.localStorage.setItem(
+            //   'localTracks',
+            //   JSON.stringify(allTracks)
+            // );
 
             // const TRYtracks = window.localStorage.getItem('localTracks');
             // const TRYlocalTracks = JSON.parse(TRYtracks);
