@@ -15,7 +15,7 @@ export default function Track({ track, chooseTrack }) {
       <div className="details ml-3">
         <div>{track.title}</div>
         {/* <div className="details text-muted">{track.artists}</div> */}
-        {/* {track.artists.length ? (
+        {track.artists.length ? (
           <div className="details text-muted">
             {track.artists.map((a, i) =>
               track.artists[i + 1] ? `${a} - ` : `${a}`
@@ -23,7 +23,7 @@ export default function Track({ track, chooseTrack }) {
           </div>
         ) : (
           <div></div>
-        )} */}
+        )}
       </div>
     </div>
   );

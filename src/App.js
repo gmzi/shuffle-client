@@ -19,8 +19,10 @@ if (localTokens) {
   access = localTokens.accessToken;
 }
 
-const tracks = window.localStorage.getItem('localTracks');
-const localTracks = JSON.parse(tracks);
+// const tracks = window.localStorage.getItem('localTracks');
+// const localTracks = JSON.parse(tracks);
+
+const localTracks = window.localStorage.getItem('localTracks')
 
 export default function App() {
   const [local, setLocal] = useState(access);
@@ -80,11 +82,6 @@ export default function App() {
             window.localStorage.setItem(
               'localTracks', allUserTracks
             );
-
-            const ver = window.localStorage.getItem('localTracks')
-            // console.log(ver)
-            return
-
             // window.localStorage.setItem(
             //   'localTracks',
             //   JSON.stringify(allUserTracks)

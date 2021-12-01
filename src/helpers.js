@@ -44,7 +44,6 @@ export const transformAndConcat = (obj1, obj2) => {
   const objToJson1 = JSON.stringify(obj1);
   const objToJson2 = JSON.stringify(obj2);
   const result = objToJson1.concat(objToJson2)
-  console.log(result)
   return result;
 }
 
