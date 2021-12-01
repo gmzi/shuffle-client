@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './Login';
-import Routes from './Routes';
+import Controller from './Controller';
 import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
 import LoadingProgressContext from './LoadingProgressContext';
-import { retrieveTracks, addToCount } from './helpers'
+import { retrieveTracks, likedOnly, addToCount } from './helpers'
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
@@ -50,10 +50,18 @@ export default function App() {
               setLikedTracks
             );
 
+            // const likeIt = await likedOnly(TRACKS_URL, tokenToPost)
+            // console.log(typeof (likeIt))
+            // return;
+
             window.localStorage.setItem(
               'localTracks',
               JSON.stringify(fullTracks)
             );
+
+            // const TRYtracks = window.localStorage.getItem('localTracks');
+            // const TRYlocalTracks = JSON.parse(TRYtracks);
+            // console.log(TRYlocalTracks)
 
             addToCount();
 
@@ -80,7 +88,7 @@ export default function App() {
       setLocal((local) => null);
       setUserTracks((userTracks) => { });
     } catch (e) {
-      console.log('error when loging out', e);
+      console.log('error when logging out', e);
     }
   }
 
@@ -89,7 +97,7 @@ export default function App() {
       {local ? (
         <>
           <Navigation accessToken={local} logout={logout} />
-          <Routes accessToken={local} userTracks={userTracks} />
+          <Controller accessToken={local} userTracks={userTracks} />
         </>
       ) : (
         <>

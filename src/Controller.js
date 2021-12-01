@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import QueueContext from './QueueContext';
-import './Routes.css';
+import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const Routes = ({ accessToken, userTracks }) => {
+const Controller = ({ accessToken, userTracks }) => {
 
   const [queue, setQueue] = useState([]);
   // const [mode, setMode] = useState();
@@ -57,7 +57,7 @@ const Routes = ({ accessToken, userTracks }) => {
 
   return (
     <QueueContext.Provider value={{ queue }}>
-      <div className="Routes-dashboard">
+      <div className="Controller-dashboard">
         <Dashboard
           accessToken={accessToken}
           userTracks={userTracks}
@@ -66,11 +66,11 @@ const Routes = ({ accessToken, userTracks }) => {
           shuffleAll={shuffleAll}
         />
       </div>
-      <div className="Routes-player">
+      <div className="Controller-player">
         <Player accessToken={accessToken} playAll={playAll} />
       </div>
     </QueueContext.Provider>
   );
 };
 
-export default Routes;
+export default Controller;
