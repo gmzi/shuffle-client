@@ -10,6 +10,7 @@ export const retrieveTracks = async (url, token, setState1) => {
     });
   return newTracks;
 }
+
 // export const retrieveTracks = async (url, token, setState1, setState2) => {
 //   const newPlaylists = axios
 //     .post(`${url}/playlists`, { token })
@@ -27,19 +28,31 @@ export const retrieveTracks = async (url, token, setState1) => {
 //       return res.data;
 //     });
 
-//   return newPlaylists;
+//   const ready = async () => {
+//     const playlists = await newPlaylists
+//     const likedTracks = await newLikedTracks;
+//     const result = Object.assign(likedTracks, playlists)
+//     return result;
+//     // return { playlists, likedTracks }
+//   }
+//   return ready();
+
+//   // return newPlaylists;
 // }
 
-export const likedOnly = async (url, token) => {
-  const newLikedTracks = axios
-    .post(`${url}/likedtracks`, {
-      token,
-    })
-    .then((res) => {
-      return res.data;
-    });
-  return newLikedTracks
+export const transformAndConcat = (obj1, obj2) => {
+  const objToJson1 = JSON.stringify(obj1);
+  const objToJson2 = JSON.stringify(obj2);
+  const result = objToJson1.concat(objToJson2)
+  console.log(result)
+  return result;
 }
+
+// export const tracksBatch = async (prom1, prom2) => {
+//   const firstPart = await prom1;
+//   const secondPart = await prom2;
+//   return { ...firstPart, ...secondPart }
+// }
 
 export const addToCount = async () => {
   axios.get(`${BASE_URL}/count-add`).then((res) => {

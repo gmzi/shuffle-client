@@ -6,7 +6,7 @@ import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
 import LoadingProgressContext from './LoadingProgressContext';
-import { retrieveTracks, likedOnly, addToCount } from './helpers'
+import { retrieveTracks, transformAndConcat, addToCount } from './helpers'
 
 const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
@@ -50,7 +50,7 @@ export default function App() {
             //   setLikedTracks
             // );
 
-            // console.log(allTracks)
+            // return;
 
             const userPlaylistsTracks = await retrieveTracks(
               `${TRACKS_URL}/playlists`,
@@ -59,7 +59,7 @@ export default function App() {
             )
 
             console.log('playlists', userPlaylistsTracks)
-            console.log('playlists', Object.keys(userPlaylistsTracks).length)
+            // console.log('playlists', Object.keys(userPlaylistsTracks).length)
 
             const userLikedTracks = await retrieveTracks(
               `${TRACKS_URL}/likedtracks`,
@@ -68,36 +68,27 @@ export default function App() {
             )
 
             console.log('liked', userLikedTracks)
-            console.log('liked', Object.keys(userLikedTracks).length)
-            // TRYYYYYY OBJECT.ASSIGN METHOD OR GET A FUCKING HAMMER AND MAKE IT WORK
-            const allUserTracks = { ...userPlaylistsTracks, ...userLikedTracks }
+            // console.log('liked', Object.keys(userLikedTracks).length)
 
-            console.log('alltracks', allUserTracks)
-            console.log('alltracks', Object.keys(allUserTracks).length)
 
-            // const all = async (oneObject, otherObject) => {
-            //   const one = await oneObject;
-            //   const two = await otherObject;
-            //   const ready = { ...one, ...two }
-            // }
+            const allUserTracks = transformAndConcat(userPlaylistsTracks, userLikedTracks)
 
-            // const dale = all(userPlaylistsTracks, userLikedTracks)
-            // console.log(dale)
+            // console.log('alltracks', allUserTracks)
 
-            return;
-
-            // const likeIt = await likedOnly(TRACKS_URL, tokenToPost)
-            // console.log(typeof (likeIt))
             // return;
+
+            window.localStorage.setItem(
+              'localTracks', allUserTracks
+            );
+
+            const ver = window.localStorage.getItem('localTracks')
+            // console.log(ver)
+            return
 
             // window.localStorage.setItem(
             //   'localTracks',
-            //   JSON.stringify(allTracks)
+            //   JSON.stringify(allUserTracks)
             // );
-
-            // const TRYtracks = window.localStorage.getItem('localTracks');
-            // const TRYlocalTracks = JSON.parse(TRYtracks);
-            // console.log(TRYlocalTracks)
 
             addToCount();
 
