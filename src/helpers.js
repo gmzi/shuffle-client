@@ -27,6 +27,16 @@ export const retrieveTracks = async (url, token, setState1, setState2) => {
   return newPlaylists;
 }
 
+export const likedOnly = async (url, token) => {
+  const newLikedTracks = axios
+    .post(`${url}/likedtracks`, {
+      token,
+    })
+    .then((res) => {
+      return res.data;
+    });
+  return newLikedTracks
+}
 
 export const addToCount = async () => {
   axios.get(`${BASE_URL}/count-add`).then((res) => {

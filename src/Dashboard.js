@@ -21,6 +21,11 @@ const Dashboard = ({
   const [searchResults, setSearchResults] = useState([]);
   const [activeShuffle, setActiveShuffle] = useState(false);
 
+  // TRACKS FROM LOCAL STORAGE
+  const tryLocal = window.localStorage.getItem('localTracks');
+  const tasteLocal = JSON.parse(tryLocal);
+  console.log(tasteLocal)
+
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
