@@ -24,6 +24,8 @@ const Dashboard = ({
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
+  const localStoragePlaylist = window.localStorage.getItem('')
+
   // -----------------------------------------------------------------
   // SEARCH FORM
 
