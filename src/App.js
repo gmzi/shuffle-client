@@ -7,78 +7,34 @@ import axios from 'axios';
 import './App.css';
 import LoadingProgressContext from './LoadingProgressContext';
 import { retrieveTracks, addToCount } from './helpers'
+import { mockTracks } from './mockTracks';
 
-const code = new URLSearchParams(window.location.search).get('code');
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
-const local = window.localStorage.getItem('localTokens');
-const localTokens = JSON.parse(local);
+const code = new URLSearchParams(window.location.search).get('code');
+const localStoredTokens = JSON.parse(window.localStorage.getItem('localTokens'))
+
 let access;
-if (localTokens) {
-  access = localTokens.accessToken;
+if (localStoredTokens) {
+  access = localStoredTokens.accessToken;
 }
 
 // const localPlaylistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
 // const localLikedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
 
-const localPlaylistsTracks = {
-  "0": {
-    "artists": [
-      "Aguas Argentinas",
-      "Daniel Schneck",
-      "Guille Airoldi y el viaje"
-    ],
-    "title": "Aquí, en la Mitad de Mi Vida",
-    "uri": "spotify:track:2dbXPzbVwEeAoZHKUeAHmL",
-    "albumUrl": "https://i.scdn.co/image/ab67616d00001e0275e37570af91b82480878b35"
-  },
-  "160": {
-    "artists": [
-      "Giacomo Puccini",
-      "Orchestre National De France",
-      "Yoel Levi"
-    ],
-    "title": "Edgar, Act III: Prelude (Lento triste)",
-    "uri": "spotify:track:1n7hUjjU9MyeIJxLnrZ4f4",
-    "albumUrl": "https://i.scdn.co/image/ab67616d00001e02678b0a6880f7a515285aa532"
-  }
-}
-
-const localLikedTracks = {
-  "0": {
-    "artists": [
-      "Aguas Argentinas",
-      "Daniel Schneck",
-      "Guille Airoldi y el viaje"
-    ],
-    "title": "Aquí, en la Mitad de Mi Vida",
-    "uri": "spotify:track:2dbXPzbVwEeAoZHKUeAHmL",
-    "albumUrl": "https://i.scdn.co/image/ab67616d00001e0275e37570af91b82480878b35"
-  },
-  "160": {
-    "artists": [
-      "Giacomo Puccini",
-      "Orchestre National De France",
-      "Yoel Levi"
-    ],
-    "title": "Edgar, Act III: Prelude (Lento triste)",
-    "uri": "spotify:track:1n7hUjjU9MyeIJxLnrZ4f4",
-    "albumUrl": "https://i.scdn.co/image/ab67616d00001e02678b0a6880f7a515285aa532"
-  }
-}
-
 export default function App() {
-  const [local, setLocal] = useState(access);
-  const [playlistsTracks, setPlaylistsTracks] = useState(localPlaylistsTracks);
-  const [likedTracks, setLikedTracks] = useState(localLikedTracks)
+  const [localToken, setLocalToken] = useState(access);
+  const [playlistsTracks, setPlaylistsTracks] = useState(mockTracks);
+  const [likedTracks, setLikedTracks] = useState(mockTracks)
   // loading wheels:
   const [loadingPlaylistsTracks, setLoadingPlaylistsTracks] = useState();
   const [loadingLikedTracks, setLoadingLikedTracks] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
-      if (!localTokens) {
+      if (!localToken) {
+        // if (!localStoredTokens) {
         if (code) {
           try {
             const newTokens = await axios.post(`${BASE_URL}/login`, {
@@ -139,7 +95,7 @@ export default function App() {
       }
     }
     checkLocalStorage();
-  }, [localTokens, localPlaylistsTracks]);
+  }, [localToken]);
 
   async function logout() {
     try {
@@ -147,7 +103,7 @@ export default function App() {
       window.localStorage.removeItem('localTokens');
       window.localStorage.removeItem('userPlaylistsTracks');
       window.localStorage.removeItem('userLikedTracks');
-      setLocal((local) => null);
+      setLocalToken((localToken) => null);
       setPlaylistsTracks((playlistsTracks) => { });
       setLikedTracks((likedTracks) => { });
     } catch (e) {
@@ -157,15 +113,15 @@ export default function App() {
 
   return (
     <div>
-      {local ? (
+      {localToken ? (
         <>
-          <Navigation accessToken={local} logout={logout} />
-          <Controller accessToken={local} playlistsTracks={playlistsTracks} likedTracks={likedTracks} />
+          <Navigation accessToken={localToken} logout={logout} />
+          <Controller accessToken={localToken} playlistsTracks={playlistsTracks} likedTracks={likedTracks} />
         </>
       ) : (
         <>
           <LoadingProgressContext.Provider value={{ loadingPlaylistsTracks, loadingLikedTracks }}>
-            <Navigation accessToken={local} logout={logout} />
+            <Navigation accessToken={localToken} logout={logout} />
             <Login code={code} />
           </LoadingProgressContext.Provider>
         </>
