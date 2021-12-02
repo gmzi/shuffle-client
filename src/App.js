@@ -116,7 +116,8 @@ export default function App() {
       {localToken ? (
         <>
           <Navigation accessToken={localToken} logout={logout} />
-          <Controller accessToken={localToken} playlistsTracks={playlistsTracks} likedTracks={likedTracks} />
+          <Controller accessToken={localToken} />
+          {/* <Controller accessToken={localToken} playlistsTracks={playlistsTracks} likedTracks={likedTracks} /> */}
         </>
       ) : (
         <>

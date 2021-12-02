@@ -7,10 +7,12 @@ import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const Controller = ({ accessToken, playlistsTracks, likedTracks }) => {
+const Controller = ({ accessToken }) => {
+
+  const playlistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
+  const likedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
 
   const [queue, setQueue] = useState([]);
-  // const [mode, setMode] = useState();
 
   useEffect(() => { }, [queue]);
 
@@ -33,14 +35,18 @@ const Controller = ({ accessToken, playlistsTracks, likedTracks }) => {
   }
 
   function playAll(offset = 0, top = 10) {
-    // setMode((mode) => 'playAll');
+
+    // refactor function to loop over two lists instead of one
+
     const allQueue = Object.values(playlistsTracks).map((t) => t.uri);
     const batch = allQueue.slice(offset, top);
     setQueue((queue) => batch);
   }
 
   function shuffleAll(offset = 0, top = 10) {
-    // setMode((mode) => 'shuffleAll');
+
+    // refactor function to loop over two lists instead of one
+
     const allUris = Object.values(playlistsTracks).map((t) => t.uri);
     const batch = [];
     let previousIdx = [];

@@ -24,17 +24,13 @@ const Dashboard = ({
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
 
-  const localStoragePlaylist = window.localStorage.getItem('')
-
   // -----------------------------------------------------------------
   // SEARCH FORM
-
   // Authenticate search requests from API
   useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
-
   // SEARCH LOGIC
   useEffect(() => {
     if (!search) return setSearchResults([]);
@@ -62,6 +58,9 @@ const Dashboard = ({
     });
     return () => (cancel = true);
   }, [search, accessToken]);
+  // -----------------------------------------------------------------
+  // TRACK RENDERING LOGIC. MAKE IT MODULAR WO WHEN ONE ROUTE LOADS THROW THE TRACKS
+  // TO LIST, WHILE BROWSER KEEPS WORKING ON PENDING TRACKS. 
 
   return (
     <div className="Dashboard-wrapper">
