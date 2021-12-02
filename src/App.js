@@ -19,16 +19,16 @@ if (localTokens) {
   access = localTokens.accessToken;
 }
 
-// const tracks = window.localStorage.getItem('userPlaylistsTracks');
-// const localTracks = JSON.parse(tracks);
 const localPlaylistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
+const localLikedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
 
 export default function App() {
   const [local, setLocal] = useState(access);
-  // const [userTracks, setUserTracks] = useState(localTracks);
   const [playlistsTracks, setPlaylistsTracks] = useState(localPlaylistsTracks);
-  const [playlists, setPlaylists] = useState();
-  const [likedTracks, setLikedTracks] = useState();
+  const [likedTracks, setLikedTracks] = useState(localLikedTracks)
+  // loading wheels:
+  const [loadingPlaylists, setLoadingPlaylists] = useState();
+  const [loadingLikedTracks, setLoadingLikedTracks] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
@@ -57,13 +57,13 @@ export default function App() {
             const userPlaylistsTracks = await retrieveTracks(
               `${TRACKS_URL}/playlists`,
               tokenToPost,
-              setPlaylists
+              setLoadingPlaylists
             )
 
             const userLikedTracks = await retrieveTracks(
               `${TRACKS_URL}/likedtracks`,
               tokenToPost,
-              setLikedTracks
+              setLoadingLikedTracks
             )
 
             window.localStorage.setItem(
@@ -100,6 +100,7 @@ export default function App() {
       const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
       window.localStorage.removeItem('localTokens');
       window.localStorage.removeItem('userPlaylistsTracks');
+      window.localStorage.removeItem('userLikedTracks');
       setLocal((local) => null);
       setPlaylistsTracks((playlistsTracks) => { });
     } catch (e) {
@@ -112,11 +113,11 @@ export default function App() {
       {local ? (
         <>
           <Navigation accessToken={local} logout={logout} />
-          <Controller accessToken={local} playlistsTracks={playlistsTracks} />
+          <Controller accessToken={local} playlistsTracks={playlistsTracks} likedTracks={likedTracks} />
         </>
       ) : (
         <>
-          <LoadingProgressContext.Provider value={{ playlists, likedTracks }}>
+          <LoadingProgressContext.Provider value={{ loadingPlaylists, loadingLikedTracks }}>
             <Navigation accessToken={local} logout={logout} />
             <Login code={code} />
           </LoadingProgressContext.Provider>

@@ -7,7 +7,7 @@ import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const Controller = ({ accessToken, playlistsTracks }) => {
+const Controller = ({ accessToken, playlistsTracks, likedTracks }) => {
 
   const [queue, setQueue] = useState([]);
   // const [mode, setMode] = useState();
@@ -54,6 +54,14 @@ const Controller = ({ accessToken, playlistsTracks }) => {
     setQueue((queue) => batch);
   }
 
+  function smartShuffle() {
+    // TBD
+  }
+
+  function exportPlaylist() {
+    // TBD
+  }
+
 
   return (
     <QueueContext.Provider value={{ queue }}>
@@ -61,9 +69,12 @@ const Controller = ({ accessToken, playlistsTracks }) => {
         <Dashboard
           accessToken={accessToken}
           playlistsTracks={playlistsTracks}
+          likedTracks={likedTracks}
           chooseTrack={chooseTrack}
           playAll={playAll}
           shuffleAll={shuffleAll}
+          smartShuffle={smartShuffle}
+          exportPlaylist={exportPlaylist}
         />
       </div>
       <div className="Controller-player">

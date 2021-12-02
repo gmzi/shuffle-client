@@ -14,9 +14,12 @@ const spotifyApi = new SpotifyWebApi({
 const Dashboard = ({
   accessToken,
   playlistsTracks,
+  likedTracks,
   chooseTrack,
   playAll,
   shuffleAll,
+  smartShuffle,
+  exportPlaylist
 }) => {
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
@@ -77,10 +80,15 @@ const Dashboard = ({
           <Button onClick={shuffleAll} type="Button" className="btn-player">
             Shuffle
           </Button>
-
-          {/* <Button onClick="#" className="btn-player disabled">
+          <Button onClick={smartShuffle} className="btn-player disabled">
             Smart Shuffle
-          </Button> */}
+          </Button>
+          <Button onClick={exportPlaylist} className="btn-player disabled">
+            Export playlist
+          </Button>
+          <div>
+            <p className="text-light">Total tracks: {Object.keys(playlistsTracks).length + Object.keys(likedTracks).length}</p>
+          </div>
         </div>
         <Container
           className="tracks-container flex-grow-1 my-2"
@@ -113,6 +121,15 @@ const Dashboard = ({
             <div>
               <p>No tracks yet</p>
             </div>
+          )}
+          {likedTracks ? (
+            Object.entries(likedTracks).map(([key, value]) => {
+              return (
+                <Track key={key} track={value} chooseTrack={chooseTrack} />
+              )
+            })
+          ) : (
+            null
           )}
         </Container>
       </Container>

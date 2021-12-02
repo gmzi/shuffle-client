@@ -6,7 +6,6 @@ export const retrieveTracks = async (url, token, setState1) => {
     .post(url, { token })
     .then((res) => {
       setState1(true);
-      console.log(res.data)
       return res.data;
     });
   return newTracks;
