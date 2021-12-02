@@ -7,7 +7,7 @@ import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-const Controller = ({ accessToken, userTracks }) => {
+const Controller = ({ accessToken, playlistsTracks }) => {
 
   const [queue, setQueue] = useState([]);
   // const [mode, setMode] = useState();
@@ -34,14 +34,14 @@ const Controller = ({ accessToken, userTracks }) => {
 
   function playAll(offset = 0, top = 10) {
     // setMode((mode) => 'playAll');
-    const allQueue = Object.values(userTracks).map((t) => t.uri);
+    const allQueue = Object.values(playlistsTracks).map((t) => t.uri);
     const batch = allQueue.slice(offset, top);
     setQueue((queue) => batch);
   }
 
   function shuffleAll(offset = 0, top = 10) {
     // setMode((mode) => 'shuffleAll');
-    const allUris = Object.values(userTracks).map((t) => t.uri);
+    const allUris = Object.values(playlistsTracks).map((t) => t.uri);
     const batch = [];
     let previousIdx = [];
     while (batch.length < top) {
@@ -60,7 +60,7 @@ const Controller = ({ accessToken, userTracks }) => {
       <div className="Controller-dashboard">
         <Dashboard
           accessToken={accessToken}
-          userTracks={userTracks}
+          playlistsTracks={playlistsTracks}
           chooseTrack={chooseTrack}
           playAll={playAll}
           shuffleAll={shuffleAll}

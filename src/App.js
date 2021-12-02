@@ -19,12 +19,14 @@ if (localTokens) {
   access = localTokens.accessToken;
 }
 
-const tracks = window.localStorage.getItem('userPlaylistsTracks');
-const localTracks = JSON.parse(tracks);
+// const tracks = window.localStorage.getItem('userPlaylistsTracks');
+// const localTracks = JSON.parse(tracks);
+const localPlaylistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
 
 export default function App() {
   const [local, setLocal] = useState(access);
-  const [userTracks, setUserTracks] = useState(localTracks);
+  // const [userTracks, setUserTracks] = useState(localTracks);
+  const [playlistsTracks, setPlaylistsTracks] = useState(localPlaylistsTracks);
   const [playlists, setPlaylists] = useState();
   const [likedTracks, setLikedTracks] = useState();
 
@@ -64,7 +66,6 @@ export default function App() {
               setLikedTracks
             )
 
-            // MOVE ON FROM HERE, MAKE IT MODULAR
             window.localStorage.setItem(
               'userPlaylistsTracks',
               JSON.stringify(userPlaylistsTracks)
@@ -87,18 +88,20 @@ export default function App() {
         console.log('aca taaaaaaaaaaaaaaaa')
         // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
         // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
+        // TODO: offer the option to refresh user tracks library, in case user updates its spotify library, to have
+        // the option to bring that update inmediately. 
       }
     }
     checkLocalStorage();
-  }, [localTokens, localTracks]);
+  }, [localTokens, localPlaylistsTracks]);
 
   async function logout() {
     try {
       const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
       window.localStorage.removeItem('localTokens');
-      window.localStorage.removeItem('localTracks');
+      window.localStorage.removeItem('userPlaylistsTracks');
       setLocal((local) => null);
-      setUserTracks((userTracks) => { });
+      setPlaylistsTracks((playlistsTracks) => { });
     } catch (e) {
       console.log('error when logging out', e);
     }
@@ -109,7 +112,7 @@ export default function App() {
       {local ? (
         <>
           <Navigation accessToken={local} logout={logout} />
-          <Controller accessToken={local} userTracks={userTracks} />
+          <Controller accessToken={local} playlistsTracks={playlistsTracks} />
         </>
       ) : (
         <>

@@ -13,7 +13,7 @@ const spotifyApi = new SpotifyWebApi({
 
 const Dashboard = ({
   accessToken,
-  userTracks,
+  playlistsTracks,
   chooseTrack,
   playAll,
   shuffleAll,
@@ -103,8 +103,8 @@ const Dashboard = ({
           ) : (
             <div></div>
           )}
-          {userTracks ? (
-            Object.entries(userTracks).map(([key, value]) => {
+          {playlistsTracks ? (
+            Object.entries(playlistsTracks).map(([key, value]) => {
               return (
                 <Track key={key} track={value} chooseTrack={chooseTrack} />
               );
