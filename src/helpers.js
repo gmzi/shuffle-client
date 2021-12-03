@@ -1,11 +1,15 @@
 import axios from 'axios';
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
-export const retrieveTracks = async (url, token, setState1) => {
+export const retrieveTracks = async (
+  url,
+  token,
+  // setState1
+) => {
   const newTracks = axios
     .post(url, { token })
     .then((res) => {
-      setState1(true);
+      // setState1(true);
       return res.data;
     });
   return newTracks;

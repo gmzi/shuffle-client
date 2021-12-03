@@ -4,7 +4,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import Tracklist from './Tracklist'
 import Track from './Track';
 import './Dashboard.css';
-import { mockTracks } from './mockTracks';
+import { retrieveTracks } from './helpers';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
@@ -16,8 +16,6 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 const Dashboard = ({ accessToken,
-  // playlistsTracks,
-  // likedTracks,
   chooseTrack,
   playAll,
   shuffleAll,
@@ -30,15 +28,51 @@ const Dashboard = ({ accessToken,
 
   //----------------------------------------------------------------
   //REQUESTS LOGIC
-  /*
-  If local storage tracks: use those, 
-  else trigger the requests
-  */
-  const playlistsTracks = mockTracks;
-  const likedTracks = mockTracks;
+  const localPlaylistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
+  const localLikedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
 
+  const [playlistsTracks, setPlaylistsTracks] = useState()
+  const [likedTracks, setLikedTracks] = useState()
 
-  // --------------------------------------------------------------
+  useEffect(() => {
+    async function checkLocalStorage() {
+      // if no playlists in localStorage, means no tracks at all, so request all lists:
+      if (!localPlaylistsTracks) {
+        const userPlaylistsTracks = await retrieveTracks(
+          `${TRACKS_URL}/playlists`,
+          accessToken,
+        )
+
+        // set state so they can render ASAP
+        setPlaylistsTracks(userPlaylistsTracks)
+
+        // repeat process for further user lists:
+        const userLikedTracks = await retrieveTracks(
+          `${TRACKS_URL}/likedtracks`,
+          accessToken
+        )
+
+        setLikedTracks(userLikedTracks)
+
+        // store user tracks in local
+        window.localStorage.setItem(
+          'userLikedTracks',
+          JSON.stringify(userLikedTracks)
+        );
+
+        window.localStorage.setItem(
+          'userPlaylistsTracks',
+          JSON.stringify(userPlaylistsTracks)
+        );
+
+        return;
+      }
+      // if there are tracks in local, render them without requesting:
+      setPlaylistsTracks(localPlaylistsTracks)
+      setLikedTracks(localLikedTracks)
+    }
+    checkLocalStorage()
+  }, [])
 
   // -----------------------------------------------------------------
   // SEARCH FORM
@@ -74,9 +108,6 @@ const Dashboard = ({ accessToken,
     });
     return () => (cancel = true);
   }, [search, accessToken]);
-  // -----------------------------------------------------------------
-  // TRACK RENDERING LOGIC. MAKE IT MODULAR WO WHEN ONE ROUTE LOADS THROW THE TRACKS
-  // TO LIST, WHILE BROWSER KEEPS WORKING ON PENDING TRACKS. 
 
   return (
     <div className="Dashboard-wrapper">
@@ -103,9 +134,9 @@ const Dashboard = ({ accessToken,
           <Button onClick={exportPlaylist} className="btn-player disabled">
             Export playlist
           </Button>
-          <div>
+          {playlistsTracks && likedTracks ? (
             <p className="text-light">Total tracks: {Object.keys(playlistsTracks).length + Object.keys(likedTracks).length}</p>
-          </div>
+          ) : (null)}
         </div>
         <Container
           className="tracks-container flex-grow-1 my-2"
@@ -143,26 +174,6 @@ const Dashboard = ({ accessToken,
               <p>Loading wheel</p>
             </div>
           )}
-          {/* {playlistsTracks ? (
-            Object.entries(playlistsTracks).map(([key, value]) => {
-              return (
-                <Track key={key} track={value} chooseTrack={chooseTrack} />
-              );
-            })
-          ) : (
-            <div>
-              <p>No tracks yet</p>
-            </div>
-          )} */}
-          {/* {likedTracks ? (
-            Object.entries(likedTracks).map(([key, value]) => {
-              return (
-                <Track key={key} track={value} chooseTrack={chooseTrack} />
-              )
-            })
-          ) : (
-            null
-          )} */}
         </Container>
       </Container>
     </div>

@@ -10,7 +10,7 @@ import { retrieveTracks, addToCount } from './helpers'
 import { mockTracks } from './mockTracks';
 
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
-const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
+// const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
 const code = new URLSearchParams(window.location.search).get('code');
 const localStoredTokens = JSON.parse(window.localStorage.getItem('localTokens'))
@@ -25,8 +25,8 @@ if (localStoredTokens) {
 
 export default function App() {
   const [localToken, setLocalToken] = useState(access);
-  const [playlistsTracks, setPlaylistsTracks] = useState(mockTracks);
-  const [likedTracks, setLikedTracks] = useState(mockTracks)
+  // const [playlistsTracks, setPlaylistsTracks] = useState(mockTracks);
+  // const [likedTracks, setLikedTracks] = useState(mockTracks)
   // loading wheels:
   const [loadingPlaylistsTracks, setLoadingPlaylistsTracks] = useState();
   const [loadingLikedTracks, setLoadingLikedTracks] = useState();
@@ -44,41 +44,7 @@ export default function App() {
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            const tokenToPost = newTokens.data.accessToken;
-
-            // REQUESTS FOR USER TRACKS:
-
-            const userPlaylistsTracks = await retrieveTracks(
-              `${TRACKS_URL}/playlists`,
-              tokenToPost,
-              setLoadingPlaylistsTracks
-            )
-
-            window.localStorage.setItem(
-              'userPlaylistsTracks',
-              JSON.stringify(userPlaylistsTracks)
-            );
-
-            // console.log(userPlaylistsTracks)
-            // console.log(Object.keys(userPlaylistsTracks).length)
-            // return;
-
-            const userLikedTracks = await retrieveTracks(
-              `${TRACKS_URL}/likedtracks`,
-              tokenToPost,
-              setLoadingLikedTracks
-            )
-
-            window.localStorage.setItem(
-              'userLikedTracks',
-              JSON.stringify(userLikedTracks)
-            );
-
-            // console.log(userLikedTracks)
-            // console.log(Object.keys(userLikedTracks).length)
-            // return;
-
-            addToCount();
+            // const tokenToPost = newTokens.data.accessToken;
 
             window.location = '/';
 
@@ -104,8 +70,8 @@ export default function App() {
       window.localStorage.removeItem('userPlaylistsTracks');
       window.localStorage.removeItem('userLikedTracks');
       setLocalToken((localToken) => null);
-      setPlaylistsTracks((playlistsTracks) => { });
-      setLikedTracks((likedTracks) => { });
+      // setPlaylistsTracks((playlistsTracks) => { });
+      // setLikedTracks((likedTracks) => { });
     } catch (e) {
       console.log('error when logging out', e);
     }
