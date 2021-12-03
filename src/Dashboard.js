@@ -109,6 +109,15 @@ const Dashboard = ({ accessToken,
     return () => (cancel = true);
   }, [search, accessToken]);
 
+
+  const handlePlayAll = () => {
+    playAll(playlistsTracks, likedTracks)
+  }
+
+  const handleShuffleAll = () => {
+    shuffleAll(playlistsTracks, likedTracks)
+  }
+
   return (
     <div className="Dashboard-wrapper">
       <Container className="Dashboard d-flex flex-column">
@@ -121,11 +130,10 @@ const Dashboard = ({ accessToken,
           className="Form"
         />
         <div className="btns-container">
-          <Button onClick={playAll} type="Button" className="btn-player">
+          <Button onClick={handlePlayAll} type="Button" className="btn-player">
             Play All
           </Button>
-
-          <Button onClick={shuffleAll} type="Button" className="btn-player">
+          <Button onClick={handleShuffleAll} type="Button" className="btn-player">
             Shuffle
           </Button>
           <Button onClick={smartShuffle} className="btn-player disabled">
@@ -160,7 +168,7 @@ const Dashboard = ({ accessToken,
             <div></div>
           )}
           {playlistsTracks ? (
-            <Tracklist listName={"Playlists"} tracks={playlistsTracks} />
+            <Tracklist listName={"Playlists"} tracks={playlistsTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
               <p>Loading wheel</p>

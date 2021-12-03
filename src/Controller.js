@@ -9,9 +9,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const Controller = ({ accessToken }) => {
 
-  const playlistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
-  const likedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
-
   const [queue, setQueue] = useState([]);
 
   useEffect(() => { }, [queue]);
@@ -34,26 +31,41 @@ const Controller = ({ accessToken }) => {
     });
   }
 
-  function playAll(offset = 0, top = 10) {
+  function playAll(playlistsTracks, likedTracks, offset = 0, top = 10) {
+    let fullQueue;
 
-    // refactor function to loop over two lists instead of one
-
-    const allQueue = Object.values(playlistsTracks).map((t) => t.uri);
-    const batch = allQueue.slice(offset, top);
+    if (playlistsTracks && !likedTracks) {
+      fullQueue = Object.values(playlistsTracks).map((t) => t.uri)
+    } else if (playlistsTracks && likedTracks) {
+      const playlists = Object.values(playlistsTracks).map((t) => t.uri)
+      const liked = Object.values(likedTracks).map((t) => t.uri)
+      fullQueue = [...playlists, ...liked]
+    } else {
+      alert('songs are on the way!')
+      return;
+    }
+    const batch = fullQueue.slice(offset, top);
     setQueue((queue) => batch);
   }
 
-  function shuffleAll(offset = 0, top = 10) {
-
-    // refactor function to loop over two lists instead of one
-
-    const allUris = Object.values(playlistsTracks).map((t) => t.uri);
+  function shuffleAll(playlistsTracks, likedTracks, offset = 0, top = 10) {
+    let fullList;
+    if (playlistsTracks && !likedTracks) {
+      fullList = Object.values(playlistsTracks).map((t) => t.uri)
+    } else if (playlistsTracks && likedTracks) {
+      const playlists = Object.values(playlistsTracks).map((t) => t.uri);
+      const liked = Object.values(likedTracks).map((t) => t.uri);
+      fullList = [...playlists, ...liked]
+    } else {
+      alert('songs are on the way!')
+      return;
+    }
     const batch = [];
     let previousIdx = [];
     while (batch.length < top) {
       const idx = Math.floor(Math.random() * top);
       if (!previousIdx.includes(idx)) {
-        batch.push(allUris[idx]);
+        batch.push(fullList[idx]);
         previousIdx.push(idx);
       }
     }
@@ -74,8 +86,6 @@ const Controller = ({ accessToken }) => {
       <div className="Controller-dashboard">
         <Dashboard
           accessToken={accessToken}
-          playlistsTracks={playlistsTracks}
-          likedTracks={likedTracks}
           chooseTrack={chooseTrack}
           playAll={playAll}
           shuffleAll={shuffleAll}

@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Track from './Track';
 
-function chooseTrack() {
-    console.log('manage this')
-}
-
-export default function Tracklist({ listName, tracks }) {
+export default function Tracklist({ listName, tracks, chooseTrack }) {
     const trackList = Object.entries(tracks).map(([key, value]) => {
         return (
             <Track key={key} track={value} chooseTrack={chooseTrack} />
