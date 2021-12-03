@@ -1,28 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
+import Tracklist from './Tracklist'
 import Track from './Track';
 import './Dashboard.css';
+import { mockTracks } from './mockTracks';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
 const spotifyApi = new SpotifyWebApi({
   clientId: ID,
 });
 
-const Dashboard = ({
-  accessToken,
-  playlistsTracks,
-  likedTracks,
+const Dashboard = ({ accessToken,
+  // playlistsTracks,
+  // likedTracks,
   chooseTrack,
   playAll,
   shuffleAll,
   smartShuffle,
   exportPlaylist
 }) => {
+
   const [search, setSearch] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+
+  //----------------------------------------------------------------
+  //REQUESTS LOGIC
+  /*
+  If local storage tracks: use those, 
+  else trigger the requests
+  */
+  const playlistsTracks = mockTracks;
+  const likedTracks = mockTracks;
+
+
+  // --------------------------------------------------------------
 
   // -----------------------------------------------------------------
   // SEARCH FORM
@@ -113,6 +129,21 @@ const Dashboard = ({
             <div></div>
           )}
           {playlistsTracks ? (
+            <Tracklist listName={"Playlists"} tracks={playlistsTracks} />
+          ) : (
+            <div>
+              <p>Loading wheel</p>
+            </div>
+          )}
+
+          {likedTracks ? (
+            <Tracklist listName={"Liked songs"} tracks={likedTracks} />
+          ) : (
+            <div>
+              <p>Loading wheel</p>
+            </div>
+          )}
+          {/* {playlistsTracks ? (
             Object.entries(playlistsTracks).map(([key, value]) => {
               return (
                 <Track key={key} track={value} chooseTrack={chooseTrack} />
@@ -122,8 +153,8 @@ const Dashboard = ({
             <div>
               <p>No tracks yet</p>
             </div>
-          )}
-          {likedTracks ? (
+          )} */}
+          {/* {likedTracks ? (
             Object.entries(likedTracks).map(([key, value]) => {
               return (
                 <Track key={key} track={value} chooseTrack={chooseTrack} />
@@ -131,7 +162,7 @@ const Dashboard = ({
             })
           ) : (
             null
-          )}
+          )} */}
         </Container>
       </Container>
     </div>
