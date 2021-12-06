@@ -1,34 +1,36 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Media, Button, Spinner } from 'react-bootstrap';
-// import ReactPlayer from 'react-player/vimeo';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import ReactPlayer from 'react-player/wistia';
-import { useHistory } from 'react-router-dom';
-import './Login.css';
-import useAuth from './useAuth';
+// import { useHistory } from 'react-router-dom';
+import './Landing.css';
 import axios from 'axios';
 import logo from './icons/logo_white.png';
-import LoadingProgressContext from './LoadingProgressContext';
+// import LoadingProgressContext from './LoadingProgressContext';
 
 const URI = process.env.REACT_APP_REDIRECT_URI;
+const ID = `${process.env.REACT_APP_CLIENT_ID}`
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${ID}&response_type=code&redirect_uri=${URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative`;
 
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=b4217743307a432d807c1e5840dde3a2&response_type=code&redirect_uri=${URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative`;
-
-export default function Login({ code }) {
+export default function Landing({ code }) {
   const [recommended, setRecommended] = useState([]);
-  const history = useHistory();
-  const { playlists, likedTracks } = useContext(LoadingProgressContext);
+  // const history = useHistory();
+  // const { playlists, likedTracks } = useContext(LoadingProgressContext);
 
-  useEffect(async () => {
-    axios
-      .get('https://shuffle-server.vercel.app/api/recommendations')
-      .then((res) => {
-        const tracks = [];
-        for (let key in res.data) {
-          tracks.push(res.data[key]);
-        }
-        setRecommended(tracks);
-      });
-  }, []);
+  useEffect(() => {
+    async function fetchRecommendedTracks() {
+      axios
+        .get('https://shuffle-server.vercel.app/api/recommendations')
+        .then((res) => {
+          const tracks = [];
+          for (let key in res.data) {
+            tracks.push(res.data[key]);
+          }
+          setRecommended(tracks)
+        })
+    }
+    fetchRecommendedTracks();
+  }, [])
+
 
   return (
     <div>
@@ -43,7 +45,6 @@ export default function Login({ code }) {
                 <Col className="Col-video" md={6}>
                   <div className="player-wrapper">
                     <ReactPlayer
-                      // url="https://vimeo.com/573203639"
                       url="https://gmzieres.wistia.com/medias/bvp1geks05"
                       className="player"
                       width="100%"
@@ -51,13 +52,9 @@ export default function Login({ code }) {
                     />
                   </div>
                 </Col>
-                {/* <Col className="Col-demo" md={2}>
-                  <p>demo</p>
-                </Col> */}
               </Row>
             </section>
             <section className="Start">
-              {/* <h6>Get Started</h6> */}
               <img src={logo} alt="spotify-logo" className="Logo d-inline" />
               {/* <p>Login with Spotify to retrieve all your tracks</p> */}
               <div className="btn-container">
@@ -90,6 +87,7 @@ export default function Login({ code }) {
                               <img
                                 src={recommended[0].albumUrl}
                                 style={{ height: '64px', width: '64px' }}
+                                alt="album-cover"
                               />
                             </a>
                             <a href={recommended[0].uri}>
@@ -111,6 +109,7 @@ export default function Login({ code }) {
                               <img
                                 src={recommended[1].albumUrl}
                                 style={{ height: '64px', width: '64px' }}
+                                alt="album-cover"
                               />
                             </a>
                             <a href={recommended[1].uri}>
@@ -132,6 +131,7 @@ export default function Login({ code }) {
                               <img
                                 src={recommended[2].albumUrl}
                                 style={{ height: '64px', width: '64px' }}
+                                alt="album-cover"
                               />
                             </a>
                             <a href={recommended[2].uri}>
@@ -153,6 +153,7 @@ export default function Login({ code }) {
                               <img
                                 src={recommended[3].albumUrl}
                                 style={{ height: '64px', width: '64px' }}
+                                alt="album-cover"
                               />
                             </a>
                             <a href={recommended[3].uri}>
@@ -176,24 +177,7 @@ export default function Login({ code }) {
           </Container>
         ) : (
           <Container fluid className="loading">
-            <p>This could take a while...</p>
-
-            {!playlists ? (
-              <>
-                <p>Loading tracks from all your playlists</p>
-                <Spinner animation="border" variant="success" />
-              </>
-            ) : (
-              <p>playlists tracks done</p>
-            )}
-            {!likedTracks ? (
-              <>
-                <p>Loading tracks from all your liked tracks list</p>
-                <Spinner animation="border" variant="success" />
-              </>
-            ) : (
-              <p>Liked tracks done</p>
-            )}
+            <p>Loging in...</p>
           </Container>
         )}
       </>

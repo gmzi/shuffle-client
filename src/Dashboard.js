@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Button } from 'react-bootstrap';
+import { Container, Form, Button, Spinner } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Tracklist from './Tracklist'
 import Track from './Track';
@@ -64,15 +64,14 @@ const Dashboard = ({ accessToken,
           'userPlaylistsTracks',
           JSON.stringify(userPlaylistsTracks)
         );
-
         return;
       }
-      // if there are tracks in local, render them without requesting:
+      // if there are tracks in local, render them without request:
       setPlaylistsTracks(localPlaylistsTracks)
       setLikedTracks(localLikedTracks)
     }
     checkLocalStorage()
-  }, [])
+  }, [accessToken])
 
   // -----------------------------------------------------------------
   // SEARCH FORM
@@ -171,7 +170,8 @@ const Dashboard = ({ accessToken,
             <Tracklist listName={"Playlists"} tracks={playlistsTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
-              <p>Loading wheel</p>
+              <p>Loading tracks from all your playlists</p>
+              <Spinner animation="border" variant="success" />
             </div>
           )}
 
@@ -179,7 +179,8 @@ const Dashboard = ({ accessToken,
             <Tracklist listName={"Liked songs"} tracks={likedTracks} />
           ) : (
             <div>
-              <p>Loading wheel</p>
+              <p>Loading tracks from your Liked Songs</p>
+              <Spinner animation="border" variant="success" />
             </div>
           )}
         </Container>

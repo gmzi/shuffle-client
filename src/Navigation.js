@@ -1,10 +1,18 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
+import axios from 'axios';
 import './Navigation.css';
 import icon from './icons/arrows.png';
 
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+
 const Navigation = ({ accessToken, logout }) => {
-  const handleLogout = () => {
+
+  const handleLogout = async () => {
+    const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
+    window.localStorage.removeItem('localTokens');
+    window.localStorage.removeItem('userPlaylistsTracks');
+    window.localStorage.removeItem('userLikedTracks');
     logout();
   };
 

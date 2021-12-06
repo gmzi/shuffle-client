@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Login from './Login';
+import Landing from './Landing';
 import Controller from './Controller';
 import Navigation from './Navigation';
 import axios from 'axios';
 import './App.css';
-import LoadingProgressContext from './LoadingProgressContext';
-import { retrieveTracks, addToCount } from './helpers'
-import { mockTracks } from './mockTracks';
 
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
-// const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
 const code = new URLSearchParams(window.location.search).get('code');
 const localStoredTokens = JSON.parse(window.localStorage.getItem('localTokens'))
@@ -20,21 +16,12 @@ if (localStoredTokens) {
   access = localStoredTokens.accessToken;
 }
 
-// const localPlaylistsTracks = JSON.parse(window.localStorage.getItem('userPlaylistsTracks'))
-// const localLikedTracks = JSON.parse(window.localStorage.getItem('userLikedTracks'))
-
 export default function App() {
   const [localToken, setLocalToken] = useState(access);
-  // const [playlistsTracks, setPlaylistsTracks] = useState(mockTracks);
-  // const [likedTracks, setLikedTracks] = useState(mockTracks)
-  // loading wheels:
-  const [loadingPlaylistsTracks, setLoadingPlaylistsTracks] = useState();
-  const [loadingLikedTracks, setLoadingLikedTracks] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
       if (!localToken) {
-        // if (!localStoredTokens) {
         if (code) {
           try {
             const newTokens = await axios.post(`${BASE_URL}/login`, {
@@ -44,10 +31,7 @@ export default function App() {
               'localTokens',
               JSON.stringify(newTokens.data)
             );
-            // const tokenToPost = newTokens.data.accessToken;
-
             window.location = '/';
-
           } catch (e) {
             console.log('failed retrieving user libraries', e);
           }
@@ -65,13 +49,11 @@ export default function App() {
 
   async function logout() {
     try {
-      const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
-      window.localStorage.removeItem('localTokens');
-      window.localStorage.removeItem('userPlaylistsTracks');
-      window.localStorage.removeItem('userLikedTracks');
+      // const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
+      // window.localStorage.removeItem('localTokens');
+      // window.localStorage.removeItem('userPlaylistsTracks');
+      // window.localStorage.removeItem('userLikedTracks');
       setLocalToken((localToken) => null);
-      // setPlaylistsTracks((playlistsTracks) => { });
-      // setLikedTracks((likedTracks) => { });
     } catch (e) {
       console.log('error when logging out', e);
     }
@@ -79,17 +61,14 @@ export default function App() {
 
   return (
     <div>
+      <Navigation accessToken={localToken} logout={logout} />
       {localToken ? (
         <>
-          <Navigation accessToken={localToken} logout={logout} />
           <Controller accessToken={localToken} />
         </>
       ) : (
         <>
-          <LoadingProgressContext.Provider value={{ loadingPlaylistsTracks, loadingLikedTracks }}>
-            <Navigation accessToken={localToken} logout={logout} />
-            <Login code={code} />
-          </LoadingProgressContext.Provider>
+          <Landing code={code} />
         </>
       )}
     </div>
