@@ -176,7 +176,7 @@ const Dashboard = ({ accessToken,
           )}
 
           {likedTracks ? (
-            <Tracklist listName={"Liked songs"} tracks={likedTracks} />
+            <Tracklist listName={"Liked Songs"} tracks={likedTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
               <p>Loading tracks from your Liked Songs</p>
