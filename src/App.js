@@ -13,6 +13,7 @@ const localStoredTokens = JSON.parse(window.localStorage.getItem('localTokens'))
 
 let access;
 if (localStoredTokens) {
+  console.log(localStoredTokens)
   access = localStoredTokens.accessToken;
 }
 
@@ -37,7 +38,15 @@ export default function App() {
           }
         }
       } else {
-        console.log('aca taaaaaaaaaaaaaaaa')
+        // check if token is expired:
+        // save date and time of login, add 3600 seconds to that, store it in local. On access, check if current 
+        // date and time > than saved login, if so {refresh token} else {use access token}, Might have
+        // to implement this check in Player component to validate the player. 
+        console.log('access_token', localToken.accessToken)
+        console.log('refresh_token', localToken.refreshToken)
+        console.log('expires_in', localToken.expiresIn)
+        const loginTime = new Date();
+        console.log(loginTime.getTime() / 1000)
         // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
         // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
         // TODO: offer the option to refresh user tracks library, in case user updates its spotify library, to have
