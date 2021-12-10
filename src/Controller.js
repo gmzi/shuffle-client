@@ -76,8 +76,10 @@ const Controller = ({ accessToken }) => {
     // TBD
   }
 
-  function exportPlaylist() {
+  async function exportPlaylist() {
     // TBD
+    // const getUser = await axios.get('https://api.spotify.com/v1/me', { accessToken })
+    // console.log(getUser)
   }
 
 
