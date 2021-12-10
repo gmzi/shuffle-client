@@ -56,31 +56,26 @@ export default function App() {
           }
         }
       } else {
-        // check if token is expired:
+        // CHECK IF TOKEN EXPIRED:
         const now = new Date();
         const newLoginTime = now.getTime();
-        // const validTime = localLoginTime + ((expiresIn / 60) * 60 * 1000)
-        const validTime = localLoginTime + ((30 / 60) * 60 * 1000)
-        // REFRESH TOKEN IF EXPIRED:
+        const validTime = localLoginTime + ((expiresIn / 60) * 60 * 1000)
+
+        // DEV: set shorter token expiration time in order to test logic:
+        // const validTime = localLoginTime + ((30 / 60) * 60 * 1000)
+
+        // REFRESH TOKEN:
         if (now.getTime() > validTime) {
-          console.log('token might have expired, request a refresh to the correspondant route')
           const newTokens = await axios.post(`${BASE_URL}/refresh`, { refreshToken })
           // update local storage:
           window.localStorage.setItem('accessToken', JSON.stringify(newTokens.data.accessToken))
           window.localStorage.setItem('expiresIn', JSON.stringify(newTokens.data.expiresIn))
           window.localStorage.setItem('loginTime', JSON.stringify(newLoginTime))
-          // update state
-          setLocalAccessToken(newTokens.data.accessToken)
-          setLocalExpiresIn(newTokens.data.expiresIn)
-          setLocalLoginTime(newLoginTime)
           // reload with updated tokens, triggering a reload in dashboard to refresh user tracks:
           window.location = '/';
+          // stop Controller from rendering Player without token:
           return;
         }
-        // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
-        // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
-        // TODO: offer the option to refresh user tracks library, in case user updates its spotify library, to have
-        // the option to bring that update inmediately. 
       }
     }
     checkLocalStorage();
