@@ -10,7 +10,10 @@ const Navigation = ({ accessToken, logout }) => {
 
   const handleLogout = async () => {
     const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
-    window.localStorage.removeItem('localTokens');
+    window.localStorage.removeItem('accessToken');
+    window.localStorage.removeItem('refreshToken');
+    window.localStorage.removeItem('expiresIn');
+    window.localStorage.removeItem('loginTime');
     window.localStorage.removeItem('userPlaylistsTracks');
     window.localStorage.removeItem('userLikedTracks');
     logout();

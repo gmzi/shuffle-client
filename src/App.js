@@ -9,29 +9,47 @@ import './App.css';
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
 const code = new URLSearchParams(window.location.search).get('code');
-const localStoredTokens = JSON.parse(window.localStorage.getItem('localTokens'))
 
-let access;
-if (localStoredTokens) {
-  console.log(localStoredTokens)
-  access = localStoredTokens.accessToken;
+const localStoredAccessToken = JSON.parse(window.localStorage.getItem('accessToken'))
+const localStoredRefreshToken = JSON.parse(window.localStorage.getItem('refreshToken'))
+const localStoredExpiresIn = JSON.parse(window.localStorage.getItem('expiresIn'))
+const localLoginTime = JSON.parse(window.localStorage.getItem('loginTime'))
+
+let accessToken;
+let refreshToken;
+let expiresIn;
+let loginTime;
+
+if (localStoredAccessToken) {
+  accessToken = localStoredAccessToken;
+  refreshToken = localStoredRefreshToken;
+  expiresIn = localStoredExpiresIn;
+  loginTime = localLoginTime;
 }
 
 export default function App() {
-  const [localToken, setLocalToken] = useState(access);
+  const [localAccessToken, setLocalAccessToken] = useState(accessToken);
+  const [localRefreshToken, setLocalRefreshToken] = useState(refreshToken)
+  const [localExpiresIn, setLocalExpiresIn] = useState(expiresIn)
+  const [localLoginTime, setLocalLoginTime] = useState(loginTime)
 
   useEffect(() => {
     async function checkLocalStorage() {
-      if (!localToken) {
+      if (!localAccessToken) {
         if (code) {
           try {
             const newTokens = await axios.post(`${BASE_URL}/login`, {
               code,
             });
-            window.localStorage.setItem(
-              'localTokens',
-              JSON.stringify(newTokens.data)
-            );
+            window.localStorage.setItem('accessToken', JSON.stringify(newTokens.data.accessToken))
+            window.localStorage.setItem('refreshToken', JSON.stringify(newTokens.data.refreshToken))
+            window.localStorage.setItem('expiresIn', JSON.stringify(newTokens.data.expiresIn))
+
+            // store login time:
+            const loginDate = new Date();
+            const loginTime = loginDate.getTime();
+            window.localStorage.setItem('loginTime', JSON.stringify(loginTime))
+
             window.location = '/';
           } catch (e) {
             console.log('failed retrieving user libraries', e);
@@ -39,14 +57,26 @@ export default function App() {
         }
       } else {
         // check if token is expired:
-        // save date and time of login, add 3600 seconds to that, store it in local. On access, check if current 
-        // date and time > than saved login, if so {refresh token} else {use access token}, Might have
-        // to implement this check in Player component to validate the player. 
-        console.log('access_token', localToken.accessToken)
-        console.log('refresh_token', localToken.refreshToken)
-        console.log('expires_in', localToken.expiresIn)
-        const loginTime = new Date();
-        console.log(loginTime.getTime() / 1000)
+        const now = new Date();
+        const newLoginTime = now.getTime();
+        // const validTime = localLoginTime + ((expiresIn / 60) * 60 * 1000)
+        const validTime = localLoginTime + ((30 / 60) * 60 * 1000)
+        // REFRESH TOKEN IF EXPIRED:
+        if (now.getTime() > validTime) {
+          console.log('token might have expired, request a refresh to the correspondant route')
+          const newTokens = await axios.post(`${BASE_URL}/refresh`, { refreshToken })
+          // update local storage:
+          window.localStorage.setItem('accessToken', JSON.stringify(newTokens.data.accessToken))
+          window.localStorage.setItem('expiresIn', JSON.stringify(newTokens.data.expiresIn))
+          window.localStorage.setItem('loginTime', JSON.stringify(newLoginTime))
+          // update state
+          setLocalAccessToken(newTokens.data.accessToken)
+          setLocalExpiresIn(newTokens.data.expiresIn)
+          setLocalLoginTime(newLoginTime)
+          // reload with updated tokens, triggering a reload in dashboard to refresh user tracks:
+          window.location = '/';
+          return;
+        }
         // TODO: check if existing token is valid, proceed with render if it is, else refresh accessToken.
         // TODO: render loading icon while retrieving tracks, instead of loading the login compnent twice.
         // TODO: offer the option to refresh user tracks library, in case user updates its spotify library, to have
@@ -54,7 +84,7 @@ export default function App() {
       }
     }
     checkLocalStorage();
-  }, [localToken]);
+  }, []);
 
   async function logout() {
     try {
@@ -62,7 +92,7 @@ export default function App() {
       // window.localStorage.removeItem('localTokens');
       // window.localStorage.removeItem('userPlaylistsTracks');
       // window.localStorage.removeItem('userLikedTracks');
-      setLocalToken((localToken) => null);
+      setLocalAccessToken((localAccessToken) => null);
     } catch (e) {
       console.log('error when logging out', e);
     }
@@ -70,10 +100,10 @@ export default function App() {
 
   return (
     <div>
-      <Navigation accessToken={localToken} logout={logout} />
-      {localToken ? (
+      <Navigation accessToken={localAccessToken} logout={logout} />
+      {localAccessToken ? (
         <>
-          <Controller accessToken={localToken} />
+          <Controller accessToken={localAccessToken} />
         </>
       ) : (
         <>
