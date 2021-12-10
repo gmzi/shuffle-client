@@ -9,7 +9,6 @@ const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 const Navigation = ({ accessToken, logout }) => {
 
   const handleLogout = async () => {
-    // await axios.post(`${BASE_URL}/logout`, { accessToken });
     window.localStorage.removeItem('accessToken');
     window.localStorage.removeItem('refreshToken');
     window.localStorage.removeItem('expiresIn');
