@@ -78,8 +78,25 @@ const Controller = ({ accessToken }) => {
 
   async function exportPlaylist() {
     // TBD
-    // const getUser = await axios.get('https://api.spotify.com/v1/me', { accessToken })
-    // console.log(getUser)
+    const user = await axios.get(
+      'https://api.spotify.com/v1/me',
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
+    );
+    // USER ID:
+    console.log(user.data.id)
+    // FIX THIS REQUEST TO CREATE PLAYLIST, AFTER CREATING IT ADD ALL TRACKS
+    // ONCE ALL DONE, MOVE THIS LOGIC TO SERVER.
+    const newPlaylist = await axios.post(
+      `https://api.spotify.com/v1/users/${user.data.id}/playlists`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        data: { name: "Brand new", description: "just made it!", public: false }
+
+      }
+    )
+    console.log(newPlaylist)
   }
 
 

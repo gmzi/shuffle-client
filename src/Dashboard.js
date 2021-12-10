@@ -138,7 +138,7 @@ const Dashboard = ({ accessToken,
           <Button onClick={smartShuffle} className="btn-player disabled">
             Smart Shuffle
           </Button>
-          <Button onClick={exportPlaylist} className="btn-player disabled">
+          <Button onClick={exportPlaylist} className="btn-player">
             Export playlist
           </Button>
           {playlistsTracks && likedTracks ? (
