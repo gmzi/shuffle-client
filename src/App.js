@@ -82,15 +82,7 @@ export default function App() {
   }, []);
 
   async function logout() {
-    try {
-      // const cleanServerToken = await axios.get(`${BASE_URL}/logout`);
-      // window.localStorage.removeItem('localTokens');
-      // window.localStorage.removeItem('userPlaylistsTracks');
-      // window.localStorage.removeItem('userLikedTracks');
-      setLocalAccessToken((localAccessToken) => null);
-    } catch (e) {
-      console.log('error when logging out', e);
-    }
+    setLocalAccessToken((localAccessToken) => null);
   }
 
   return (
