@@ -117,6 +117,10 @@ const Dashboard = ({ accessToken,
     shuffleAll(playlistsTracks, likedTracks)
   }
 
+  const handleExportPlaylist = () => {
+    exportPlaylist(playlistsTracks, likedTracks)
+  }
+
   return (
     <div className="Dashboard-wrapper">
       <Container className="Dashboard d-flex flex-column">
@@ -138,7 +142,7 @@ const Dashboard = ({ accessToken,
           <Button onClick={smartShuffle} className="btn-player disabled">
             Smart Shuffle
           </Button>
-          <Button onClick={exportPlaylist} className="btn-player">
+          <Button onClick={handleExportPlaylist} className="btn-player">
             Export playlist
           </Button>
           {playlistsTracks && likedTracks ? (

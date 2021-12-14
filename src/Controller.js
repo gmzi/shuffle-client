@@ -76,27 +76,68 @@ const Controller = ({ accessToken }) => {
     // TBD
   }
 
-  async function exportPlaylist() {
-    // TBD
+  async function exportPlaylist(playlistsTracks, likedTracks, offset = 0, top = 10) {
+    // GET USER ID:
     const user = await axios.get(
       'https://api.spotify.com/v1/me',
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    // USER ID:
-    console.log(user.data.id)
-    // FIX THIS REQUEST TO CREATE PLAYLIST, AFTER CREATING IT ADD ALL TRACKS
-    // ONCE ALL DONE, MOVE THIS LOGIC TO SERVER.
+    const userID = user.data.id;
+    // CREATE PLAYLIST IN USER'S LIBRARY:
+    const data = { name: "Shuffle me again!", description: "made for shuffle" }
     const newPlaylist = await axios.post(
-      `https://api.spotify.com/v1/users/${user.data.id}/playlists`,
+      `https://api.spotify.com/v1/users/${userID}/playlists`,
+      data,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
-        data: { name: "Brand new", description: "just made it!", public: false }
-
       }
     )
-    console.log(newPlaylist)
+    console.log(newPlaylist.data)
+    const newPlaylistUrl = newPlaylist.data.external_urls;
+    const newPlaylistLink = newPlaylist.data.href;
+    const newPlaylistId = newPlaylist.data.id;
+
+    // ADD ALL TRACKS TO NEW PLAYLIST:
+    let fullArray
+    if (playlistsTracks && !likedTracks) {
+      fullArray = Object.values(playlistsTracks).map((t) => t.uri)
+    } else if (playlistsTracks && likedTracks) {
+      const playlists = Object.values(playlistsTracks).map((t) => t.uri)
+      const liked = Object.values(likedTracks).map((t) => t.uri)
+      fullArray = [...playlists, ...liked]
+    } else {
+      alert('songs are on the way!')
+      return;
+    }
+    const tracks = {
+      "uris": fullArray,
+    }
+    // const addTracks = await axios.post(
+    //   `https://api.spotify.com/v1/playlists/${newPlaylistId}/tracks`,
+    //   tracks,
+    //   {
+    //     headers: { Authorization: `Bearer ${accessToken}` },
+    //   }
+    // )
+    // console.log(addTracks)
+    playlistFiller(fullArray)
+  }
+
+  function playlistFiller(arr) {
+    const copy = [...arr]
+    if (arr.length < 100) {
+      // make axios request with copy
+      console.log(copy.length)
+      console.log('ultima vuelta')
+      return
+    } else {
+      console.log(copy.splice(0, 99))
+      // make axios request with copy.splice(0, 99)
+      console.log(copy.length)
+      return playlistFiller(copy)
+    }
   }
 
 

@@ -9,7 +9,21 @@ import logo from './icons/logo_white.png';
 
 const URI = process.env.REACT_APP_REDIRECT_URI;
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${ID}&response_type=code&redirect_uri=${URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative`;
+// const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${ID}&response_type=code&redirect_uri=${URI}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state%20playlist-read-private%20playlist-read-collaborative`;
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=${ID}&response_type=code&redirect_uri=${URI}&
+scope=
+streaming%20
+user-read-email%20
+user-read-private%20
+user-library-read%20
+user-library-modify%20
+user-read-playback-state%20
+user-modify-playback-state%20
+playlist-read-private%20
+playlist-read-collaborative%20
+playlist-modify-private%20
+playlist-modify-public
+`
 
 export default function Landing({ code }) {
   const [recommended, setRecommended] = useState([]);
