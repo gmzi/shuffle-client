@@ -76,7 +76,7 @@ const Controller = ({ accessToken }) => {
     // TBD
   }
 
-  async function exportPlaylist(playlistsTracks, likedTracks, offset = 0, top = 10) {
+  async function exportPlaylist(playlistsTracks, likedTracks) {
     // GET USER ID:
     const user = await axios.get(
       'https://api.spotify.com/v1/me',
@@ -85,8 +85,14 @@ const Controller = ({ accessToken }) => {
       }
     );
     const userID = user.data.id;
+
+    // CHECK IF USER ALREADY HAS A SHUFFLER PLAYLIST
+    // IF THEY DO, UPDATE OR DELETE
+
+    // IF NOT, CONTINUE:
+
     // CREATE PLAYLIST IN USER'S LIBRARY:
-    const data = { name: "Shuffle me again!", description: "made for shuffle" }
+    const data = { name: "Shuffler", description: "made to shuffle" }
     const newPlaylist = await axios.post(
       `https://api.spotify.com/v1/users/${userID}/playlists`,
       data,
@@ -111,33 +117,41 @@ const Controller = ({ accessToken }) => {
       alert('songs are on the way!')
       return;
     }
-    const tracks = {
-      "uris": fullArray,
-    }
-    // const addTracks = await axios.post(
-    //   `https://api.spotify.com/v1/playlists/${newPlaylistId}/tracks`,
-    //   tracks,
-    //   {
-    //     headers: { Authorization: `Bearer ${accessToken}` },
-    //   }
-    // )
-    // console.log(addTracks)
-    playlistFiller(fullArray)
+    playlistFiller(fullArray, newPlaylistId, accessToken)
   }
 
-  function playlistFiller(arr) {
+  async function playlistFiller(arr, playlistID, accessToken) {
+    console.log(arr.length)
     const copy = [...arr]
-    if (arr.length < 100) {
+    let tracks;
+    if (copy.length > 0 && copy.length < 100) {
+      tracks = {
+        "uris": copy
+      }
       // make axios request with copy
-      console.log(copy.length)
-      console.log('ultima vuelta')
+      const addTracks = await axios.post(
+        `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+        tracks,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      )
       return
-    } else {
-      console.log(copy.splice(0, 99))
-      // make axios request with copy.splice(0, 99)
-      console.log(copy.length)
-      return playlistFiller(copy)
     }
+    if (copy.length > 100) {
+      tracks = {
+        "uris": copy.length > 200 ? copy.splice(99, 100) : copy.splice(99, copy.length - 1)
+      }
+      const addTracks = await axios.post(
+        `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+        tracks,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` }
+        }
+      )
+      return playlistFiller(copy, playlistID, accessToken)
+    }
+    return
   }
 
 
