@@ -4,6 +4,7 @@ import './Track.css';
 export default function Track({ track, chooseTrack }) {
 
   function handlePlay() {
+    console.log(track)
     chooseTrack(track);
   }
 
