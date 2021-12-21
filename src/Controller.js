@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import QueueContext from './QueueContext';
-import { fillPlaylist } from './helpers';
+import { fillPlaylist, updatePlaylist } from './helpers';
 import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -100,7 +100,6 @@ const Controller = ({ accessToken }) => {
     const userID = user.data.id;
 
     // CHECK IF USER ALREADY HAS A SHUFFLE PLAYLIST
-    // IF THEY DO, UPDATE OR DELETE
     const existingPlaylist = await axios.post(
       `${TRACKS_URL}/existing-playlist`, { token: accessToken }
     )
@@ -121,14 +120,43 @@ const Controller = ({ accessToken }) => {
       fillPlaylist(fullArray, newPlaylistId, accessToken)
       return
     }
-    // UPDATE PLAYLIST IN USERS LIBRARY
-    const existingPLaylistID = existingPlaylist.data
-    console.log(existingPLaylistID)
-    console.log(fullArray)
-    const updatePL = await axios.post(
-      `${TRACKS_URL}/update`, { token: accessToken, tracks: JSON.stringify(fullArray), id: existingPLaylistID }
-    )
+    // IF PLAYLIST EXISTS, UPDATE IT:
+    // get tracks from user Spotify:
+    const userTracks = existingPlaylist.data.tracks
+    const playlistID = existingPlaylist.data.id;
+
+    //  DELETE userTracks recursively, 
+    // merge userTracks and fullArray
+    // fillPlaylist with combined array
+
+    // merge with local tracks, no repetitions:
+    console.log(userTracks.length)
+    console.log(fullArray.length)
+    const updated = compareArrays(userTracks, fullArray)
+
+    function compareArrays(sourceOfTruth, toUpdate) {
+      const updated = [];
+      sourceOfTruth.forEach((item) => {
+        if (!toUpdate.includes(item)) {
+          updated.push(item)
+        }
+      })
+      return updated;
+    }
+    console.log(updated)
+    // updatePlaylist(updated, playlistID, accessToken)
+    // update playlist in user library:
+    // const updateRequest = await axios.put(
+    //   `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+    //   { uris: updated },
+    //   {
+    //     headers: { Authorization: `Bearer ${accessToken}` }
+    //   }
+    // )
     return;
+    // const updatePL = await axios.post(
+    //   `${TRACKS_URL}/update`, { token: accessToken, id: existingPLaylistID }
+    // )
     /* GRAB 'fullArray', send it to server in req body, in server, get all tracks
     from existingPlaylistID, compare them with fullArray:
     if fullArray.includes(track) && existingPlaylistTracks.includes(track){
