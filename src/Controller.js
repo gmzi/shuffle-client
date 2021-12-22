@@ -1,7 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { ProgressBar } from 'react-bootstrap';
 import Dashboard from './Dashboard';
 import Player from './Player';
+import Progressbar from './Progressbar';
 import QueueContext from './QueueContext';
 import { fillPlaylist, emptyPlaylist } from './helpers';
 import './Controller.css';
@@ -12,6 +14,8 @@ const TRACKS_URL = process.env.REACT_APP_TRACKS_URL;
 const Controller = ({ accessToken }) => {
 
   const [queue, setQueue] = useState([]);
+  const [loadingProgress, setLoadingProgress] = useState();
+  const [max, setMax] = useState()
 
   useEffect(() => { }, [queue]);
 
@@ -79,16 +83,25 @@ const Controller = ({ accessToken }) => {
   }
 
   async function exportPlaylist(playlistsTracks, likedTracks) {
+
+    if (loadingProgress) {
+      alert('export in progress')
+      return;
+    }
+
     // CHECK IF ALL TRACKS ARE LOADED, IF NOT, DISPLAY ALERT
-    let localTracks;
-    if (playlistsTracks && likedTracks) {
-      const playlists = Object.values(playlistsTracks).map((t) => t.uri)
-      const liked = Object.values(likedTracks).map((t) => t.uri)
-      localTracks = [...playlists, ...liked]
-    } else {
+    if (!playlistsTracks || !likedTracks) {
       alert('songs are on the way, please retry after they completely load')
       return;
     }
+
+    // MAKE AN ARRAY WITH ALL LOCAL TRACKS
+    const playlists = Object.values(playlistsTracks).map((t) => t.uri)
+    const liked = Object.values(likedTracks).map((t) => t.uri)
+    const localTracks = [...playlists, ...liked]
+
+    // SET MAX VALUE FOR PROGRESS LOADING:
+    setMax(localTracks.length)
 
     // GET USER ID:
     const user = await axios.get(
@@ -118,9 +131,10 @@ const Controller = ({ accessToken }) => {
       // const newPlaylistLink = newPlaylist.data.href;
       const newPlaylistId = newPlaylist.data.id;
       // TODO: add a progress bar with the arr.length in helper
-      fillPlaylist(localTracks, newPlaylistId, accessToken)
+      fillPlaylist(localTracks, newPlaylistId, accessToken, setLoadingProgress)
       return
     }
+
     // IF PLAYLIST EXISTS, UPDATE IT:
     // get tracks and id of user's Shuffle/gmzi playlist:
     const userTracks = existingPlaylist.data.tracks
@@ -131,26 +145,35 @@ const Controller = ({ accessToken }) => {
     // const symmetricDifference = userTracks.filter(x => !localTracks.includes(x)).concat(localTracks.filter(x => !userTracks.includes(x)))
     const tracksToAdd = localTracks.filter(t => !userTracks.includes(t))
     // add localTracks to user's Shuffle/gmzi playlist:
-    fillPlaylist(tracksToAdd, playlistID, accessToken)
-    return
+    if (tracksToAdd.length) {
+      fillPlaylist(tracksToAdd, playlistID, accessToken, setLoadingProgress)
+      return;
+    }
+    return;
   }
 
   return (
-    <QueueContext.Provider value={{ queue }}>
-      <div className="Controller-dashboard">
-        <Dashboard
-          accessToken={accessToken}
-          chooseTrack={chooseTrack}
-          playAll={playAll}
-          shuffleAll={shuffleAll}
-          smartShuffle={smartShuffle}
-          exportPlaylist={exportPlaylist}
-        />
-      </div>
-      <div className="Controller-player">
-        <Player accessToken={accessToken} playAll={playAll} />
-      </div>
-    </QueueContext.Provider>
+    <div>
+      {loadingProgress ? (
+        <Progressbar tracksLoaded={loadingProgress} max={max} />
+      ) : null}
+      <QueueContext.Provider value={{ queue }}>
+        <div className="Controller-dashboard">
+          <Dashboard
+            accessToken={accessToken}
+            chooseTrack={chooseTrack}
+            playAll={playAll}
+            shuffleAll={shuffleAll}
+            smartShuffle={smartShuffle}
+            exportPlaylist={exportPlaylist}
+            loadingProgress={loadingProgress}
+          />
+        </div>
+        <div className="Controller-player">
+          <Player accessToken={accessToken} playAll={playAll} />
+        </div>
+      </QueueContext.Provider>
+    </div>
   );
 };
 

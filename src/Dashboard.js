@@ -20,7 +20,7 @@ const Dashboard = ({ accessToken,
   playAll,
   shuffleAll,
   smartShuffle,
-  exportPlaylist
+  exportPlaylist,
 }) => {
 
   const [search, setSearch] = useState('');
@@ -124,27 +124,33 @@ const Dashboard = ({ accessToken,
   return (
     <div className="Dashboard-wrapper">
       <Container className="Dashboard d-flex flex-column">
-        <Form.Control
-          as="input"
-          type="search"
-          placeholder="Search Songs/Artists"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="Form"
-        />
-        <div className="btns-container">
-          <Button onClick={handlePlayAll} type="Button" className="btn-player">
-            Play All
-          </Button>
-          <Button onClick={handleShuffleAll} type="Button" className="btn-player">
-            Shuffle
-          </Button>
-          <Button onClick={smartShuffle} className="btn-player disabled">
-            Smart Shuffle
-          </Button>
-          <Button onClick={handleExportPlaylist} className="btn-player">
-            Export playlist
-          </Button>
+        <div className="top-dashboard">
+          <>
+            <Form.Control
+              as="input"
+              type="search"
+              placeholder="Search Songs/Artists"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="Form"
+            />
+            <div className="btns-container">
+              <Button onClick={handlePlayAll} type="Button" className="btn-player">
+                Play All
+              </Button>
+              <Button onClick={handleShuffleAll} type="Button" className="btn-player">
+                Shuffle
+              </Button>
+              <Button onClick={handleExportPlaylist} className="btn-player">
+                Export playlist
+              </Button>
+              <Button onClick={smartShuffle} className="btn-player disabled">
+                Smart Shuffle
+              </Button>
+            </div>
+          </>
+        </div>
+        <div>
           {playlistsTracks && likedTracks ? (
             <p className="text-light">Total tracks: {Object.keys(playlistsTracks).length + Object.keys(likedTracks).length}</p>
           ) : (null)}
@@ -178,7 +184,6 @@ const Dashboard = ({ accessToken,
               <Spinner animation="border" variant="success" />
             </div>
           )}
-
           {likedTracks ? (
             <Tracklist listName={"Liked Songs"} tracks={likedTracks} chooseTrack={chooseTrack} />
           ) : (

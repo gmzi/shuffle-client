@@ -9,7 +9,7 @@ export default function Tracklist({ listName, tracks, chooseTrack }) {
     })
     return (
         <div>
-            <h6>Form your {listName}</h6>
+            <h6>From your {listName}</h6>
             {trackList}
         </div>
     )
