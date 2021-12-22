@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import QueueContext from './QueueContext';
-import { fillPlaylist, updatePlaylist } from './helpers';
+import { fillPlaylist, emptyPlaylist } from './helpers';
 import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -79,12 +79,12 @@ const Controller = ({ accessToken }) => {
   }
 
   async function exportPlaylist(playlistsTracks, likedTracks) {
-    // CHECK IF ALL TRACKS ARE LOADED, IF NOT, MAKE USER WAIT
-    let fullArray;
+    // CHECK IF ALL TRACKS ARE LOADED, IF NOT, DISPLAY ALERT
+    let localTracks;
     if (playlistsTracks && likedTracks) {
       const playlists = Object.values(playlistsTracks).map((t) => t.uri)
       const liked = Object.values(likedTracks).map((t) => t.uri)
-      fullArray = [...playlists, ...liked]
+      localTracks = [...playlists, ...liked]
     } else {
       alert('songs are on the way, please retry after they completely load')
       return;
@@ -103,6 +103,7 @@ const Controller = ({ accessToken }) => {
     const existingPlaylist = await axios.post(
       `${TRACKS_URL}/existing-playlist`, { token: accessToken }
     )
+
     if (!existingPlaylist.data) {
       // CREATE PLAYLIST IN USER'S LIBRARY:
       const data = { name: "Shuffle/gmzi", description: "made to shuffle" }
@@ -117,61 +118,22 @@ const Controller = ({ accessToken }) => {
       // const newPlaylistLink = newPlaylist.data.href;
       const newPlaylistId = newPlaylist.data.id;
       // TODO: add a progress bar with the arr.length in helper
-      fillPlaylist(fullArray, newPlaylistId, accessToken)
+      fillPlaylist(localTracks, newPlaylistId, accessToken)
       return
     }
     // IF PLAYLIST EXISTS, UPDATE IT:
-    // get tracks from user Spotify:
+    // get tracks and id of user's Shuffle/gmzi playlist:
     const userTracks = existingPlaylist.data.tracks
     const playlistID = existingPlaylist.data.id;
-
-    //  DELETE userTracks recursively, 
-    // merge userTracks and fullArray
-    // fillPlaylist with combined array
-
-    // merge with local tracks, no repetitions:
+    // Compare userTracks with localTracks:
     console.log(userTracks.length)
-    console.log(fullArray.length)
-    const updated = compareArrays(userTracks, fullArray)
-
-    function compareArrays(sourceOfTruth, toUpdate) {
-      const updated = [];
-      sourceOfTruth.forEach((item) => {
-        if (!toUpdate.includes(item)) {
-          updated.push(item)
-        }
-      })
-      return updated;
-    }
-    console.log(updated)
-    // updatePlaylist(updated, playlistID, accessToken)
-    // update playlist in user library:
-    // const updateRequest = await axios.put(
-    //   `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
-    //   { uris: updated },
-    //   {
-    //     headers: { Authorization: `Bearer ${accessToken}` }
-    //   }
-    // )
-    return;
-    // const updatePL = await axios.post(
-    //   `${TRACKS_URL}/update`, { token: accessToken, id: existingPLaylistID }
-    // )
-    /* GRAB 'fullArray', send it to server in req body, in server, get all tracks
-    from existingPlaylistID, compare them with fullArray:
-    if fullArray.includes(track) && existingPlaylistTracks.includes(track){
-      throw it away
-    } else {
-      add it to mixed array,
-      update existingPL with mixed array
-    }
-    // GET ALL TRACKS FROM EXISTING PL, COMPARE THEM WITH 
-    // TRACKS IN LIBRARY
-    return;
-    // IF NOT, CONTINUE:
-    */
+    console.log(localTracks.length)
+    // const symmetricDifference = userTracks.filter(x => !localTracks.includes(x)).concat(localTracks.filter(x => !userTracks.includes(x)))
+    const tracksToAdd = localTracks.filter(t => !userTracks.includes(t))
+    // add localTracks to user's Shuffle/gmzi playlist:
+    fillPlaylist(tracksToAdd, playlistID, accessToken)
+    return
   }
-
 
   return (
     <QueueContext.Provider value={{ queue }}>

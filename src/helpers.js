@@ -24,7 +24,8 @@ export const fillPlaylist = async (arr, playlistID, accessToken) => {
   let tracks;
   if (copy.length > 0 && copy.length < 100) {
     tracks = {
-      "uris": copy
+      "uris": copy,
+      "position": 0,
     }
     // make axios request with copy
     const addTracks = await axios.post(
@@ -52,7 +53,7 @@ export const fillPlaylist = async (arr, playlistID, accessToken) => {
   return
 }
 
-export const updatePlaylist = async (arr, playlistID, accessToken) => {
+export const emptyPlaylist = async (arr, playlistID, accessToken) => {
   // TODO: USE THIS LENGTH TO FEED A PROGRESS BAR THAT INDICATES USER THE 
   // PROGRESS OF THE OPERATION
   console.log(arr.length)
@@ -85,7 +86,7 @@ export const updatePlaylist = async (arr, playlistID, accessToken) => {
       }
     )
     console.log(addTracks)
-    return await updatePlaylist(copy, playlistID, accessToken)
+    return await emptyPlaylist(copy, playlistID, accessToken)
   }
   return
 }
