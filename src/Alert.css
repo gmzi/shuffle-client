@@ -1,0 +1,33 @@
+.alert {
+    margin-top: .5rem;
+    margin-bottom: 0px;
+    border: 3px solid green;
+    border-radius: 5px;
+    background-color: rgba(87, 126, 87, 0.849);
+}
+
+.alert-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.message {
+    color: white;
+    margin: 0px 5px;
+}
+
+.links-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+
+.link {
+    margin: 5px 5px;
+    padding: .1rem .5rem;
+    border-radius: 15px;
+    background-color: rgb(219, 219, 248);
+    border: none;
+    outline: none;
+    box-shadow: 5px 5px 5px rgb(90, 6, 6);
+}

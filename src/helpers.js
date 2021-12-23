@@ -15,9 +15,9 @@ export const retrieveTracks = async (
   return newTracks;
 }
 
-export const fillPlaylist = async (arr, playlistID, accessToken, setLoadingProgress) => {
-  // TODO: USE THIS LENGTH TO FEED A PROGRESS BAR THAT INDICATES USER THE 
-  setLoadingProgress(arr.length)
+export const fillPlaylist = async (arr, playlistID, accessToken, setExportedTracks) => {
+
+  // setExportedTracks(arr.length)
 
   const copy = [...arr]
   let tracks;
@@ -34,7 +34,7 @@ export const fillPlaylist = async (arr, playlistID, accessToken, setLoadingProgr
         headers: { Authorization: `Bearer ${accessToken}` }
       }
     )
-    setLoadingProgress(false)
+    setExportedTracks(false)
     return
   }
   if (copy.length > 100) {
@@ -48,9 +48,10 @@ export const fillPlaylist = async (arr, playlistID, accessToken, setLoadingProgr
         headers: { Authorization: `Bearer ${accessToken}` }
       }
     )
-    setLoadingProgress(arr.length)
-    return fillPlaylist(copy, playlistID, accessToken, setLoadingProgress)
+    setExportedTracks(arr.length)
+    return fillPlaylist(copy, playlistID, accessToken, setExportedTracks)
   }
+  setExportedTracks(false)
   return
 }
 

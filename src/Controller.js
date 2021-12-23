@@ -14,7 +14,7 @@ const TRACKS_URL = process.env.REACT_APP_TRACKS_URL;
 const Controller = ({ accessToken }) => {
 
   const [queue, setQueue] = useState([]);
-  const [loadingProgress, setLoadingProgress] = useState();
+  const [exportedTracks, setExportedTracks] = useState();
   const [max, setMax] = useState()
   const [exportedPlaylistUri, setExportedPlaylistUri] = useState()
 
@@ -85,7 +85,7 @@ const Controller = ({ accessToken }) => {
 
   async function exportPlaylist(playlistsTracks, likedTracks) {
 
-    if (loadingProgress) {
+    if (exportedTracks) {
       alert('export in progress')
       return;
     }
@@ -95,6 +95,10 @@ const Controller = ({ accessToken }) => {
       alert('songs are on the way, please retry after they completely load')
       return;
     }
+    // clear uri from any previous exports:
+    // setExportedPlaylistUri((x) => false)
+    // setExportedTracks((x) => 1)
+    setExportedPlaylistUri(null)
 
     // MAKE AN ARRAY WITH ALL LOCAL TRACKS
     const playlists = Object.values(playlistsTracks).map((t) => t.uri)
@@ -132,7 +136,7 @@ const Controller = ({ accessToken }) => {
       // const newPlaylistUrl = newPlaylist.data.external_urls;
       // const newPlaylistLink = newPlaylist.data.href;
       const newPlaylistId = newPlaylist.data.id;
-      fillPlaylist(localTracks, newPlaylistId, accessToken, setLoadingProgress)
+      await fillPlaylist(localTracks, newPlaylistId, accessToken, setExportedTracks)
       setExportedPlaylistUri(newPlaylistUri)
       return
     }
@@ -146,7 +150,7 @@ const Controller = ({ accessToken }) => {
     const tracksToAdd = localTracks.filter(t => !userTracks.includes(t))
     // add localTracks to user's Shuffle/gmzi playlist:
     if (tracksToAdd.length) {
-      fillPlaylist(tracksToAdd, playlistID, accessToken, setLoadingProgress)
+      await fillPlaylist(tracksToAdd, playlistID, accessToken, setExportedTracks)
       setExportedPlaylistUri(playlistUri)
       return;
     }
@@ -160,11 +164,11 @@ const Controller = ({ accessToken }) => {
   return (
     <div>
       {exportedPlaylistUri ? (
-        <Alert message={"playlist is ready: "} uri={exportedPlaylistUri} />
+        <Alert message={"playlist is ready"} uri={exportedPlaylistUri} />
       ) : null}
-      {loadingProgress ? (
-        <Progressbar tracksLoaded={loadingProgress} max={max} />
-      ) : null}
+
+      <Progressbar exportedTracks={exportedTracks} max={max} />
+
       <QueueContext.Provider value={{ queue }}>
         <div className="Controller-dashboard">
           <Dashboard
@@ -174,7 +178,6 @@ const Controller = ({ accessToken }) => {
             shuffleAll={shuffleAll}
             smartShuffle={smartShuffle}
             exportPlaylist={exportPlaylist}
-            loadingProgress={loadingProgress}
           />
         </div>
         <div className="Controller-player">
