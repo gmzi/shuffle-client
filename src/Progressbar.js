@@ -4,7 +4,6 @@ import './Progressbar.css';
 const Progressbar = ({ tracksLoaded, max }) => {
 
     const progressValue = max - tracksLoaded;
-    console.log(progressValue)
 
     return (
         <div className="progress">

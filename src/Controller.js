@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import { ProgressBar } from 'react-bootstrap';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import Progressbar from './Progressbar';
+import Alert from './Alert'
 import QueueContext from './QueueContext';
 import { fillPlaylist, emptyPlaylist } from './helpers';
 import './Controller.css';
@@ -16,6 +16,7 @@ const Controller = ({ accessToken }) => {
   const [queue, setQueue] = useState([]);
   const [loadingProgress, setLoadingProgress] = useState();
   const [max, setMax] = useState()
+  const [exportedPlaylistUri, setExportedPlaylistUri] = useState()
 
   useEffect(() => { }, [queue]);
 
@@ -127,11 +128,12 @@ const Controller = ({ accessToken }) => {
           headers: { Authorization: `Bearer ${accessToken}` },
         }
       )
+      const newPlaylistUri = newPlaylist.data.uri;
       // const newPlaylistUrl = newPlaylist.data.external_urls;
       // const newPlaylistLink = newPlaylist.data.href;
       const newPlaylistId = newPlaylist.data.id;
-      // TODO: add a progress bar with the arr.length in helper
       fillPlaylist(localTracks, newPlaylistId, accessToken, setLoadingProgress)
+      setExportedPlaylistUri(newPlaylistUri)
       return
     }
 
@@ -139,21 +141,27 @@ const Controller = ({ accessToken }) => {
     // get tracks and id of user's Shuffle/gmzi playlist:
     const userTracks = existingPlaylist.data.tracks
     const playlistID = existingPlaylist.data.id;
+    const playlistUri = existingPlaylist.data.uri
     // Compare userTracks with localTracks:
-    console.log(userTracks.length)
-    console.log(localTracks.length)
-    // const symmetricDifference = userTracks.filter(x => !localTracks.includes(x)).concat(localTracks.filter(x => !userTracks.includes(x)))
     const tracksToAdd = localTracks.filter(t => !userTracks.includes(t))
     // add localTracks to user's Shuffle/gmzi playlist:
     if (tracksToAdd.length) {
       fillPlaylist(tracksToAdd, playlistID, accessToken, setLoadingProgress)
+      setExportedPlaylistUri(playlistUri)
       return;
     }
+    setExportedPlaylistUri(playlistUri)
     return;
   }
 
+  // ONCE PLAYLIST IS CREATED OR UPDATED, setExportedPlaylistLink with the 
+  // link retrieved from server, display message "playlist exported, go to playlist" link 
+
   return (
     <div>
+      {exportedPlaylistUri ? (
+        <Alert message={"playlist is ready: "} uri={exportedPlaylistUri} />
+      ) : null}
       {loadingProgress ? (
         <Progressbar tracksLoaded={loadingProgress} max={max} />
       ) : null}

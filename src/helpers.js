@@ -17,10 +17,6 @@ export const retrieveTracks = async (
 
 export const fillPlaylist = async (arr, playlistID, accessToken, setLoadingProgress) => {
   // TODO: USE THIS LENGTH TO FEED A PROGRESS BAR THAT INDICATES USER THE 
-  // PROGRESS OF THE OPERATION
-
-  // console.log(arr.length)
-
   setLoadingProgress(arr.length)
 
   const copy = [...arr]
