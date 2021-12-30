@@ -14,8 +14,6 @@ const Alert = ({ message, uri }) => {
         setActive(false)
     }
 
-    console.log(uri)
-
     if (active) {
         return (
             <div className="alert">
