@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Container, Form, Button, Spinner } from 'react-bootstrap';
 import SpotifyWebApi from 'spotify-web-api-node';
 import Tracklist from './Tracklist'
 import Track from './Track';
 import './Dashboard.css';
-import { retrieveTracks } from './helpers';
+import { retrieveTracks, getTracks, formatTracks } from './helpers';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
@@ -33,11 +34,40 @@ const Dashboard = ({ accessToken,
 
   const [playlistsTracks, setPlaylistsTracks] = useState()
   const [likedTracks, setLikedTracks] = useState()
+  const [playlists, setPlaylists] = useState();
+  const [dropTracks, setDropTracks] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
       // if no playlists in localStorage, means no tracks at all, so request all lists:
       if (!localPlaylistsTracks) {
+        const userPlaylists = await retrieveTracks(
+          `${TRACKS_URL}/playlist-names`,
+          accessToken
+        )
+
+        // DEV NOTE: KEEP USING THIS SAME LOGIC AND THE BRAND NEW getTracks FUNCTION TO FETCH AND
+        // RENDER TRACKS ON THE GO. IF NECESSARY USE THE QUERY STRING WITH LIMIT AND OFFSET, BUT THERE'S ONE
+        // BY DEFAULT SO DON'T GO THERE FOR NOW. IMPLEMENT THIS SAME LOGIC IN userPlaylistsTracks AND IN userLikedTracks,
+        // I THINK IT CAN WORK AND BE INCREDIBLY FAST. CHECK IF THERES A CORS ERROR ON PROD, IF IT IS, MOVE 
+        // THIS PARTIAL RENDERING LOGIC TO THE SERVER. ALMOST DONE, AND MOVE ON.
+
+        setPlaylists(userPlaylists)
+
+        userPlaylists.map(async (id) => {
+          const req = axios.get(
+            `https://api.spotify.com/v1/playlists/${id}/tracks`,
+            // `https://api.spotify.com/v1/playlists/${id}/tracks?fields=total,items(track),limit,next`,
+            {
+              headers: { Authorization: `Bearer ${accessToken}` },
+              responseType: 'json',
+            }
+          )
+          await getTracks(req, accessToken, setDropTracks)
+          return;
+        })
+
+        return;
         const userPlaylistsTracks = await retrieveTracks(
           `${TRACKS_URL}/playlists`,
           accessToken,
@@ -176,7 +206,18 @@ const Dashboard = ({ accessToken,
           ) : (
             <div></div>
           )}
-          {playlistsTracks ? (
+
+          {/* {playlists ? (
+            playlists.map((p) =>
+              <h3>{p}</h3>
+            )
+          ) : null} */}
+
+          {dropTracks ? (
+            <Tracklist listName={'ver'} tracks={dropTracks} chooseTrack={chooseTrack} />
+          ) : null}
+
+          {/* {playlistsTracks ? (
             <Tracklist listName={"Playlists"} tracks={playlistsTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
@@ -191,7 +232,7 @@ const Dashboard = ({ accessToken,
               <p>Loading tracks from your Liked Songs</p>
               <Spinner animation="border" variant="success" />
             </div>
-          )}
+          )} */}
         </Container>
       </Container>
     </div>
