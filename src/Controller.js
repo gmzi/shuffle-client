@@ -5,7 +5,7 @@ import Player from './Player';
 import Progressbar from './Progressbar';
 import Alert from './Alert'
 import QueueContext from './QueueContext';
-import { fillPlaylist, emptyPlaylist } from './helpers';
+import { fillPlaylist } from './helpers';
 import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -18,7 +18,7 @@ const Controller = ({ accessToken }) => {
   const [max, setMax] = useState()
   const [exportedPlaylistUri, setExportedPlaylistUri] = useState()
 
-  useEffect(() => { }, [queue]);
+  // useEffect(() => { }, [queue]);
 
   function chooseTrack(track) {
     countTrack(track);
@@ -95,9 +95,7 @@ const Controller = ({ accessToken }) => {
       alert('songs are on the way, please retry after they completely load')
       return;
     }
-    // clear uri from any previous exports:
-    // setExportedPlaylistUri((x) => false)
-    // setExportedTracks((x) => 1)
+    // clear uri from any previous exports and force re-render:
     setExportedPlaylistUri('x')
 
     // MAKE AN ARRAY WITH ALL LOCAL TRACKS
@@ -157,9 +155,6 @@ const Controller = ({ accessToken }) => {
     setExportedPlaylistUri(playlistUri)
     return;
   }
-
-  // ONCE PLAYLIST IS CREATED OR UPDATED, setExportedPlaylistLink with the 
-  // link retrieved from server, display message "playlist exported, go to playlist" link 
 
   return (
     <div>

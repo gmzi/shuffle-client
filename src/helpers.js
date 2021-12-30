@@ -16,9 +16,6 @@ export const retrieveTracks = async (
 }
 
 export const fillPlaylist = async (arr, playlistID, accessToken, setExportedTracks) => {
-
-  // setExportedTracks(arr.length)
-
   const copy = [...arr]
   let tracks;
   if (copy.length > 0 && copy.length < 100) {
@@ -60,40 +57,3 @@ export const addToCount = async () => {
     return;
   });
 }
-
-// export const transformAndConcat = (obj1, obj2) => {
-//   const objToJson1 = JSON.stringify(obj1);
-//   const objToJson2 = JSON.stringify(obj2);
-//   const result = objToJson1.concat(objToJson2)
-//   return result;
-// }
-
-// export const retrieveTracks = async (url, token, setState1, setState2) => {
-//   const newPlaylists = axios
-//     .post(`${url}/playlists`, { token })
-//     .then((res) => {
-//       setState1(true);
-//       return res.data;
-//     });
-
-//   const newLikedTracks = axios
-//     .post(`${url}/likedtracks`, {
-//       token,
-//     })
-//     .then((res) => {
-//       setState2(true);
-//       return res.data;
-//     });
-
-//   const ready = async () => {
-//     const playlists = await newPlaylists
-//     const likedTracks = await newLikedTracks;
-//     const result = Object.assign(likedTracks, playlists)
-//     return result;
-//     // return { playlists, likedTracks }
-//   }
-//   return ready();
-
-//   // return newPlaylists;
-// }
-

@@ -29,8 +29,6 @@ if (localStoredAccessToken) {
 
 export default function App() {
   const [localAccessToken, setLocalAccessToken] = useState(accessToken);
-  const [localRefreshToken, setLocalRefreshToken] = useState(refreshToken)
-  const [localExpiresIn, setLocalExpiresIn] = useState(expiresIn)
   const [localLoginTime, setLocalLoginTime] = useState(loginTime)
 
   useEffect(() => {
@@ -61,7 +59,7 @@ export default function App() {
         const newLoginTime = now.getTime();
         const validTime = localLoginTime + ((expiresIn / 60) * 60 * 1000)
 
-        // DEV: set shorter token expiration time in order to test logic:
+        // DEV NOTE: set shorter token expiration time in order to test logic:
         // const validTime = localLoginTime + ((30 / 60) * 60 * 1000)
 
         // REFRESH TOKEN:
