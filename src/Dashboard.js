@@ -8,7 +8,7 @@ import { retrieveTracks } from './helpers';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
-const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+// const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 const TRACKS_URL = `${process.env.REACT_APP_TRACKS_URL}`;
 
 const spotifyApi = new SpotifyWebApi({
@@ -107,7 +107,7 @@ const Dashboard = ({ accessToken,
     });
     return () => (cancel = true);
   }, [search, accessToken]);
-
+  // -----------------------------------------------------------------
 
   const handlePlayAll = () => {
     playAll(playlistsTracks, likedTracks)

@@ -96,7 +96,7 @@ const Controller = ({ accessToken }) => {
       return;
     }
     // clear uri from any previous exports and force re-render:
-    setExportedPlaylistUri('x')
+    setExportedPlaylistUri(null)
 
     // MAKE AN ARRAY WITH ALL LOCAL TRACKS
     const playlists = Object.values(playlistsTracks).map((t) => t.uri)
