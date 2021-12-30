@@ -98,7 +98,7 @@ const Controller = ({ accessToken }) => {
     // clear uri from any previous exports:
     // setExportedPlaylistUri((x) => false)
     // setExportedTracks((x) => 1)
-    setExportedPlaylistUri(null)
+    setExportedPlaylistUri('x')
 
     // MAKE AN ARRAY WITH ALL LOCAL TRACKS
     const playlists = Object.values(playlistsTracks).map((t) => t.uri)
@@ -163,11 +163,11 @@ const Controller = ({ accessToken }) => {
 
   return (
     <div>
+      <Progressbar exportedTracks={exportedTracks} max={max} />
+
       {exportedPlaylistUri ? (
         <Alert message={"playlist is ready"} uri={exportedPlaylistUri} />
       ) : null}
-
-      <Progressbar exportedTracks={exportedTracks} max={max} />
 
       <QueueContext.Provider value={{ queue }}>
         <div className="Controller-dashboard">

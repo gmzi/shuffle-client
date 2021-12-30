@@ -22,6 +22,10 @@
     flex-direction: row;
 }
 
+a {
+    color: black;
+}
+
 .link {
     margin: 5px 5px;
     padding: .1rem .5rem;
@@ -30,4 +34,8 @@
     border: none;
     outline: none;
     box-shadow: 5px 5px 5px rgb(90, 6, 6);
+}
+
+.link:hover {
+    color: blue;
 }

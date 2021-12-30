@@ -43,6 +43,7 @@ Install packages in 'client' and 'server' folders, then:
 ## TODOS
 
 - [ ] LOGIC: render tracks asynchronously, in bunches of ten or so, and keep the rest of tracks on the go until all are loaded.
+- [ ] FEATURE: user select playlists to add to the mix . 
 - [x] FEATURE: Export playlist. Allow users to export a new playlist with all their tracks in one place, so users can play it from the Spotify player.
 - [ ] Design: on shuffle button press, render the tracks in the order they are being played in player queue, with cool animation. On "re-shuffle", repeat the process. 
 - [ ] FEATURE: Advanced shuffle. Shuffle all user songs with advanced criteria (exclude terms, select from given playlists, shuffle from group of albums)

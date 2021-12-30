@@ -20,10 +20,12 @@ const Alert = ({ message, uri }) => {
                 <div className="alert-wrapper">
                     <p className="message">{message}</p>
                     <div className="links-wrapper">
-                        <form action={uri}>
+                        {/* <form action={uri}>
                             <input className="link" type="submit" alt="playlist" value="Open in Spotify" />
-                        </form>
+                        </form> */}
+                        <a className="link" href={uri}>Open in Spotify </a>
                         <button className="link" onClick={hideAlert}>Dismiss</button>
+                        {/* <iframe src="https://open.spotify.com/embed/album/1DFixLWuPkv3KT3TnV35m3" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe> */}
                     </div>
                 </div>
             </div>
