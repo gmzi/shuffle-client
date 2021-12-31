@@ -76,6 +76,7 @@ const Dashboard = ({ accessToken,
         // set state so they can render ASAP
         setPlaylistsTracks(userPlaylistsTracks)
 
+        // --------------------------------------------------------------------
         // repeat process for further user lists:
         const userLikedTracks = await retrieveTracks(
           `${TRACKS_URL}/likedtracks`,
@@ -92,7 +93,7 @@ const Dashboard = ({ accessToken,
 
         window.localStorage.setItem(
           'userPlaylistsTracks',
-          JSON.stringify(userPlaylistsTracks)
+          JSON.stringify(playlistsTracks)
         );
         return;
       }
@@ -224,8 +225,8 @@ const Dashboard = ({ accessToken,
               <p>Loading tracks from all your playlists</p>
               <Spinner animation="border" variant="success" />
             </div>
-          )}
-          {likedTracks ? (
+          )} */}
+          {/* {likedTracks ? (
             <Tracklist listName={"Liked Songs"} tracks={likedTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
