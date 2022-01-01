@@ -1,7 +1,7 @@
 import axios from 'axios';
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
-export const retrieveTracks = async (
+export const retrievePlaylists = async (
   url,
   token,
   // setState1
@@ -15,8 +15,88 @@ export const retrieveTracks = async (
   return newTracks;
 }
 
-// ---------
-export const getTracks = async (
+// -------------------------------------------------------------------
+export const getPlaylistsTracks = async (
+  request,
+  access_token,
+  setForRender,
+  localStorageItem,
+  items = [],
+) => {
+  try {
+    const solve = await request
+    if (solve.data.items) {
+      solve.data.items.map((i) => items.push(i.track))
+    }
+    //-----------------------------------------------
+    // recursion to get all tracks from each playlists:
+    if (solve.data.next) {
+      const newRequest = axios.get(
+        solve.data.next,
+        {
+          headers: { Authorization: `Bearer ${access_token}` },
+          responseType: 'json',
+        }
+      )
+      return await getPlaylistsTracks(
+        newRequest,
+        access_token,
+        setForRender,
+        localStorageItem,
+        items)
+    }
+    //-----------------------------------------------
+    // format tracks for rendering
+    const formattedTracks = formatTracksFromPlaylists(items)
+    // set state with array:
+
+    setForRender((previous) => {
+      if (previous) {
+        const updated = [...previous, ...formattedTracks]
+        // update local storage with compounded array:
+        window.localStorage.setItem(
+          localStorageItem,
+          JSON.stringify(updated)
+        );
+        // set new state:
+        return updated;
+      }
+      // update local storage with existing array:
+      window.localStorage.setItem(
+        localStorageItem,
+        JSON.stringify(formattedTracks)
+      );
+      return formattedTracks;
+    })
+    return;
+  } catch (e) {
+    console.log(e)
+    return { error: "getTracks" }
+  }
+}
+
+function formatTracksFromPlaylists(arr) {
+  const obj = {}
+  const newArr = [];
+  arr.map((track, index) => {
+    if (track.id) {
+      obj[index] = {
+        artists: track.artists.map((a) => a.name),
+        title: track.name,
+        uri: track.uri,
+        id: track.id,
+        albumUrl: track.album.images.length && track.album.images[2].url ?
+          track.album.images[1].url : 'https://thumbs.dreamstime.com/b/spotify-logo-white-background-editorial-illustrative-printed-white-paper-logo-eps-vector-spotify-logo-white-background-206665979.jpg',
+      }
+      newArr.push(obj[index])
+    }
+  })
+  return newArr
+}
+
+// =====================================================================================
+
+export const getLikedTracks = async (
   request,
   access_token,
   setForRender,
@@ -24,11 +104,10 @@ export const getTracks = async (
 ) => {
   try {
     const solve = await request
-    console.log(solve.data.next)
     if (solve.data.items) {
       solve.data.items.map((i) => items.push(i.track))
     }
-    const formattedTracks = formatTracks(items)
+    const formattedTracks = formatTracksFromLikedTracks(items)
     setForRender(formattedTracks)
     // Use recursion to retrieve all tracks from each playlist, 
     // DEV NOTE: comment out to retrieve only first 100 tracks from each PL.
@@ -41,19 +120,17 @@ export const getTracks = async (
           responseType: 'json',
         }
       )
-      return await getTracks(newRequest, access_token, setForRender, items)
+      return await getLikedTracks(newRequest, access_token, setForRender, items)
     }
     //-----------------------------------------------
-    // const formattedTracks = formatTracks(items)
-    // setForRender(formattedTracks)
-    return;
+    return formattedTracks;
   } catch (e) {
     console.log(e)
     return { error: "getTracks" }
   }
 }
 
-export default function formatTracks(arr) {
+function formatTracksFromLikedTracks(arr) {
   const obj = {}
   /* tracks that doesn't have an ID also seem to have a faulty uri, this breakes the Player and the 
     Export Playlist functionalities at frontend, so let's filter here and not send them to frontend.
@@ -76,20 +153,6 @@ export default function formatTracks(arr) {
   })
   return obj
 }
-
-
-// export const getTracks = async (
-//   request,
-//   access_token,
-// ) => {
-//   try {
-//     const solve = await request;
-//     return { items: solve.data.items, next: solve.data.next }
-//   } catch (e) {
-//     console.log(e)
-//     return { error: "getTracks function" }
-//   }
-// }
 
 // -------------------------------------------
 

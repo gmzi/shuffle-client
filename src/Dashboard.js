@@ -5,7 +5,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import Tracklist from './Tracklist'
 import Track from './Track';
 import './Dashboard.css';
-import { retrieveTracks, getTracks, formatTracks } from './helpers';
+import { retrievePlaylists, getPlaylistsTracks, getLikedTracks } from './helpers';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
@@ -34,27 +34,23 @@ const Dashboard = ({ accessToken,
 
   const [playlistsTracks, setPlaylistsTracks] = useState()
   const [likedTracks, setLikedTracks] = useState()
-  const [playlists, setPlaylists] = useState();
-  const [dropTracks, setDropTracks] = useState();
+  // const [playlists, setPlaylists] = useState();
 
   useEffect(() => {
     async function checkLocalStorage() {
-      // if no playlists in localStorage, means no tracks at all, so request all lists:
+      // if no playlists in localStorage, means no tracks at all, so request all playlists:
       if (!localPlaylistsTracks) {
-        const userPlaylists = await retrieveTracks(
+
+        // get user playlists to loop over them:
+        const userPlaylists = await retrievePlaylists(
           `${TRACKS_URL}/playlist-names`,
           accessToken
         )
 
-        // DEV NOTE: KEEP USING THIS SAME LOGIC AND THE BRAND NEW getTracks FUNCTION TO FETCH AND
-        // RENDER TRACKS ON THE GO. IF NECESSARY USE THE QUERY STRING WITH LIMIT AND OFFSET, BUT THERE'S ONE
-        // BY DEFAULT SO DON'T GO THERE FOR NOW. IMPLEMENT THIS SAME LOGIC IN userPlaylistsTracks AND IN userLikedTracks,
-        // I THINK IT CAN WORK AND BE INCREDIBLY FAST. CHECK IF THERES A CORS ERROR ON PROD, IF IT IS, MOVE 
-        // THIS PARTIAL RENDERING LOGIC TO THE SERVER. ALMOST DONE, AND MOVE ON.
+        // DEV NOTE: display form with all playlists to select which of them add to the mix
+        // setPlaylists(userPlaylists)
 
-        setPlaylists(userPlaylists)
-
-        userPlaylists.map(async (id) => {
+        await userPlaylists.map(async (id) => {
           const req = axios.get(
             `https://api.spotify.com/v1/playlists/${id}/tracks`,
             // `https://api.spotify.com/v1/playlists/${id}/tracks?fields=total,items(track),limit,next`,
@@ -63,37 +59,24 @@ const Dashboard = ({ accessToken,
               responseType: 'json',
             }
           )
-          await getTracks(req, accessToken, setDropTracks)
-          return;
+          await getPlaylistsTracks(req, accessToken, setPlaylistsTracks, 'userPlaylistsTracks')
         })
 
-        return;
-        const userPlaylistsTracks = await retrieveTracks(
-          `${TRACKS_URL}/playlists`,
-          accessToken,
+        // ------------------------------------------------------------------------------
+
+        const userLikedTracksRequest = axios.get(
+          'https://api.spotify.com/v1/me/tracks?limit=50',
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          }
         )
 
-        // set state so they can render ASAP
-        setPlaylistsTracks(userPlaylistsTracks)
-
-        // --------------------------------------------------------------------
-        // repeat process for further user lists:
-        const userLikedTracks = await retrieveTracks(
-          `${TRACKS_URL}/likedtracks`,
-          accessToken
-        )
-
-        setLikedTracks(userLikedTracks)
+        const userLikedTracks = await getLikedTracks(userLikedTracksRequest, accessToken, setLikedTracks)
 
         // store user tracks in local
         window.localStorage.setItem(
           'userLikedTracks',
           JSON.stringify(userLikedTracks)
-        );
-
-        window.localStorage.setItem(
-          'userPlaylistsTracks',
-          JSON.stringify(playlistsTracks)
         );
         return;
       }
@@ -102,7 +85,7 @@ const Dashboard = ({ accessToken,
       setLikedTracks(localLikedTracks)
     }
     checkLocalStorage()
-  }, [accessToken])
+  }, [])
 
   // -----------------------------------------------------------------
   // SEARCH FORM
@@ -183,7 +166,11 @@ const Dashboard = ({ accessToken,
         </div>
         <div>
           {playlistsTracks && likedTracks ? (
-            <p className="text-light">Total tracks: {Object.keys(playlistsTracks).length + Object.keys(likedTracks).length}</p>
+            <>
+              {/* <p>Liked tracks: {Object.keys(likedTracks).length}</p>
+              <p>Playlists tracks: {Object.keys(playlistsTracks).length}</p> */}
+              <p className="text-light">Total tracks: {Object.keys(playlistsTracks).length + Object.keys(likedTracks).length}</p>
+            </>
           ) : (null)}
         </div>
         <Container
@@ -207,36 +194,25 @@ const Dashboard = ({ accessToken,
           ) : (
             <div></div>
           )}
-
-          {/* {playlists ? (
-            playlists.map((p) =>
-              <h3>{p}</h3>
-            )
-          ) : null} */}
-
-          {dropTracks ? (
-            <Tracklist listName={'ver'} tracks={dropTracks} chooseTrack={chooseTrack} />
-          ) : null}
-
-          {/* {playlistsTracks ? (
+          {playlistsTracks ? (
             <Tracklist listName={"Playlists"} tracks={playlistsTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
               <p>Loading tracks from all your playlists</p>
               <Spinner animation="border" variant="success" />
             </div>
-          )} */}
-          {/* {likedTracks ? (
+          )}
+          {likedTracks ? (
             <Tracklist listName={"Liked Songs"} tracks={likedTracks} chooseTrack={chooseTrack} />
           ) : (
             <div>
               <p>Loading tracks from your Liked Songs</p>
               <Spinner animation="border" variant="success" />
             </div>
-          )} */}
+          )}
         </Container>
       </Container>
-    </div>
+    </div >
   );
 };
 
