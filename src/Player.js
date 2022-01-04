@@ -16,30 +16,30 @@ export default function Player({ accessToken, playAll }) {
     }
   }
 
+  const player = <SpotifyPlayer
+    token={accessToken}
+    magnifySliderOnHover={true}
+    play={play}
+    syncTimeout={true}
+    callback={(state) => {
+      setplay(false);
+    }}
+    offset={0}
+    uris={queue}
+    autoplay={true}
+    styles={{
+      activeColor: '#fff',
+      bgColor: '#333',
+      color: '#fff',
+      loaderColor: '#fff',
+      sliderColor: '#1cb954',
+      trackArtistColor: '#ccc',
+      trackNameColor: '#fff',
+    }}
+  />
 
   return (
-    <div>
-      <SpotifyPlayer
-        token={accessToken}
-        magnifySliderOnHover={true}
-        play={play}
-        syncTimeout={true}
-        callback={(state) => {
-          setplay(false);
-        }}
-        offset={0}
-        uris={queue}
-        autoplay={true}
-        styles={{
-          activeColor: '#fff',
-          bgColor: '#333',
-          color: '#fff',
-          loaderColor: '#fff',
-          sliderColor: '#1cb954',
-          trackArtistColor: '#ccc',
-          trackNameColor: '#fff',
-        }}
-      />
-    </div>
-  );
+    <div>{player}</div>
+  )
+
 }
