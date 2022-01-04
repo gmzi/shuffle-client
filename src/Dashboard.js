@@ -5,7 +5,7 @@ import SpotifyWebApi from 'spotify-web-api-node';
 import Tracklist from './Tracklist'
 import Track from './Track';
 import './Dashboard.css';
-import { retrievePlaylists, getPlaylistsTracks, getLikedTracks } from './helpers';
+import { retrievePlaylists, getPlaylistTracks, getLikedTracks } from './helpers';
 // import QueueContext from './QueueContext';
 
 const ID = `${process.env.REACT_APP_CLIENT_ID}`
@@ -59,7 +59,7 @@ const Dashboard = ({ accessToken,
               responseType: 'json',
             }
           )
-          await getPlaylistsTracks(req, accessToken, setPlaylistsTracks, 'userPlaylistsTracks')
+          await getPlaylistTracks(req, accessToken, setPlaylistsTracks, 'userPlaylistsTracks')
         })
 
         // ------------------------------------------------------------------------------

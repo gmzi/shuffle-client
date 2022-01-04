@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import './Progressbar.css';
 
-const Progressbar = ({ exportedTracks, max }) => {
+const Progressbar = ({ progress, max }) => {
 
-    const progressValue = max - exportedTracks;
+    const progressValue = max - progress;
 
     if (!progressValue || progressValue === max) {
         return (
@@ -14,8 +14,8 @@ const Progressbar = ({ exportedTracks, max }) => {
     return (
         <div className="progress">
             <div className="progress-wrapper">
-                <label htmlFor="export-playlist">Exporting</label>
-                {/* <progress id="export-playlist" value={progressValue} max={max}>{exportedTracks}tracks exported</progress> */}
+                <label htmlFor="export-playlist">Exporting...</label>
+                {/* <progress id="export-playlist" value={progressValue} max={max}>{progress}tracks exported</progress> */}
                 <progress id="export-playlist" max={max} value={progressValue}></progress>
             </div>
         </div>

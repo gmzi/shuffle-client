@@ -16,7 +16,7 @@ export const retrievePlaylists = async (
 }
 
 // -------------------------------------------------------------------
-export const getPlaylistsTracks = async (
+export const getPlaylistTracks = async (
   request,
   access_token,
   setForRender,
@@ -38,7 +38,7 @@ export const getPlaylistsTracks = async (
           responseType: 'json',
         }
       )
-      return await getPlaylistsTracks(
+      return await getPlaylistTracks(
         newRequest,
         access_token,
         setForRender,
@@ -74,6 +74,50 @@ export const getPlaylistsTracks = async (
     return { error: "getTracks" }
   }
 }
+
+// **************************************************
+export const getTracksToExport = async (
+  request,
+  access_token,
+  setProgress,
+  setMax,
+  items = [],
+) => {
+  try {
+    const solve = await request
+    if (solve.data.items) {
+      solve.data.items.map((i) => items.push(i.track))
+    }
+    //-----------------------------------------------
+    // recursion to get all tracks from each playlists:
+    if (solve.data.next) {
+      const newRequest = axios.get(
+        solve.data.next,
+        {
+          headers: { Authorization: `Bearer ${access_token}` },
+          responseType: 'json',
+        }
+      )
+      return await getTracksToExport(
+        newRequest,
+        access_token,
+        setProgress,
+        setMax,
+        items)
+    }
+    //-----------------------------------------------
+    // format tracks for rendering
+    const formattedTracks = formatTracksFromPlaylists(items)
+    setProgress(items.length)
+    setMax(items.length * 2)
+    return formattedTracks;
+  } catch (e) {
+    console.log(e)
+    return { error: "getTracksToExport" }
+  }
+}
+
+
 
 function formatTracksFromPlaylists(arr) {
   const obj = {}

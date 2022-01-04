@@ -5,7 +5,7 @@ import Player from './Player';
 import Progressbar from './Progressbar';
 import Alert from './Alert'
 import QueueContext from './QueueContext';
-import { fillPlaylist } from './helpers';
+import { getTracksToExport, fillPlaylist } from './helpers';
 import './Controller.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -14,7 +14,7 @@ const TRACKS_URL = process.env.REACT_APP_TRACKS_URL;
 const Controller = ({ accessToken }) => {
 
   const [queue, setQueue] = useState([]);
-  const [exportedTracks, setExportedTracks] = useState();
+  const [progress, setProgress] = useState();
   const [max, setMax] = useState()
   const [exportedPlaylistUri, setExportedPlaylistUri] = useState()
 
@@ -85,7 +85,7 @@ const Controller = ({ accessToken }) => {
 
   async function exportPlaylist(playlistsTracks, likedTracks) {
 
-    if (exportedTracks) {
+    if (progress) {
       alert('export in progress')
       return;
     }
@@ -105,6 +105,7 @@ const Controller = ({ accessToken }) => {
 
     // SET MAX VALUE FOR PROGRESS LOADING:
     setMax(localTracks.length)
+    setProgress(1)
 
     // GET USER ID:
     const user = await axios.get(
@@ -134,21 +135,29 @@ const Controller = ({ accessToken }) => {
       // const newPlaylistUrl = newPlaylist.data.external_urls;
       // const newPlaylistLink = newPlaylist.data.href;
       const newPlaylistId = newPlaylist.data.id;
-      await fillPlaylist(localTracks, newPlaylistId, accessToken, setExportedTracks)
+      await fillPlaylist(localTracks, newPlaylistId, accessToken, setProgress)
       setExportedPlaylistUri(newPlaylistUri)
       return
     }
 
     // IF PLAYLIST EXISTS, UPDATE IT:
-    // get tracks and id of user's Shuffle/gmzi playlist:
-    const userTracks = existingPlaylist.data.tracks
     const playlistID = existingPlaylist.data.id;
     const playlistUri = existingPlaylist.data.uri
+    // get tracks and id of user's Shuffle/gmzi playlist:
+    const req = axios.get(
+      `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+      // `https://api.spotify.com/v1/playlists/${id}/tracks?fields=total,items(track),limit,next`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        responseType: 'json',
+      }
+    )
+    const userTracks = await getTracksToExport(req, accessToken, setProgress, setMax)
     // Compare userTracks with localTracks:
     const tracksToAdd = localTracks.filter(t => !userTracks.includes(t))
     // add localTracks to user's Shuffle/gmzi playlist:
     if (tracksToAdd.length) {
-      await fillPlaylist(tracksToAdd, playlistID, accessToken, setExportedTracks)
+      await fillPlaylist(tracksToAdd, playlistID, accessToken, setProgress)
       setExportedPlaylistUri(playlistUri)
       return;
     }
@@ -158,8 +167,7 @@ const Controller = ({ accessToken }) => {
 
   return (
     <div>
-      <Progressbar exportedTracks={exportedTracks} max={max} />
-
+      <Progressbar progress={progress} max={max} />
       {exportedPlaylistUri ? (
         <Alert message={"playlist is ready"} uri={exportedPlaylistUri} />
       ) : null}
