@@ -4,6 +4,7 @@ import SpotifyPlayer from 'react-spotify-web-playback';
 
 export default function Player({ accessToken, playAll }) {
   const [play, setplay] = useState(false);
+  const [playerError, setPlayerError] = useState()
   const { queue } = useContext(QueueContext);
 
   useEffect(() => {
@@ -23,6 +24,9 @@ export default function Player({ accessToken, playAll }) {
     syncTimeout={true}
     callback={(state) => {
       setplay(false);
+      if (state.status === "ERROR") {
+        setPlayerError(state.track.uri)
+      }
     }}
     offset={0}
     uris={queue}
@@ -37,6 +41,16 @@ export default function Player({ accessToken, playAll }) {
       trackNameColor: '#fff',
     }}
   />
+
+  if (playerError) {
+    return (
+      <div className="alert-wrapper mt-4">
+        <div className="links-wrapper">
+          <a className="link" href={playerError}>Open in Spotify App</a>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div>{player}</div>

@@ -186,8 +186,8 @@ const Controller = ({ accessToken }) => {
         <div className="Controller-player">
           <Player accessToken={accessToken} playAll={playAll} />
         </div>
-      </QueueContext.Provider>
-    </div>
+      </QueueContext.Provider >
+    </div >
   );
 };
 
