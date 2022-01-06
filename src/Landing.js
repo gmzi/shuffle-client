@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import ReactPlayer from 'react-player/wistia';
 // import { useHistory } from 'react-router-dom';
 import './Landing.css';

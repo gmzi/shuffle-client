@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Dashboard from './Dashboard';
 import Player from './Player';
 import Progressbar from './Progressbar';
