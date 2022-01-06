@@ -29,8 +29,8 @@ Users can search tracks by title or artist.
 - Register a new app at [Spotify Dashboard](https://developer.spotify.com/dashboard/) 
 - Set process.env.REACT_APP_CLIENT_ID with credential provided by Spotify.
 - Set process.env.REACT_APP_REDIRECT_URI to localhost or desired dev url. 
-- Deploy server [BASE_URL](https://github.com/gmzi/shuffle-server), set process.env.REACT_APP_BASE_URL to this url.
-- Create [database_and_server](https://github.com/gmzi/shuffle-db). Deploy it, and set process.env.REACT_APP_TRACKS_URL to this url. 
+- Deploy [server](https://github.com/gmzi/shuffle-server), set process.env.REACT_APP_BASE_URL to this url.
+- Create [database](https://github.com/gmzi/shuffle-db). Deploy it, and set process.env.REACT_APP_TRACKS_URL to this url. 
 - Run with `npm start`. 
 
 ## TODOS
