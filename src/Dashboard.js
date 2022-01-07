@@ -158,9 +158,9 @@ const Dashboard = ({ accessToken,
               <Button onClick={handleExportPlaylist} className="btn-player">
                 Export playlist
               </Button>
-              <Button onClick={smartShuffle} className="btn-player disabled">
+              {/* <Button onClick={smartShuffle} className="btn-player disabled">
                 Smart Shuffle
-              </Button>
+              </Button> */}
             </div>
           </>
         </div>

@@ -53,7 +53,7 @@ export default function Player({ accessToken, playAll }) {
   }
 
   return (
-    <div>{player}</div>
+    <div className="player-wrapper">{player}</div>
   )
 
 }

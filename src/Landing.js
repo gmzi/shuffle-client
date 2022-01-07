@@ -25,15 +25,15 @@ playlist-modify-private%20
 playlist-modify-public
 `
 
+const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
+
 export default function Landing({ code }) {
   const [recommended, setRecommended] = useState([]);
-  // const history = useHistory();
-  // const { playlists, likedTracks } = useContext(LoadingProgressContext);
 
   useEffect(() => {
     async function fetchRecommendedTracks() {
       axios
-        .get('https://shuffle-server.vercel.app/api/recommendations')
+        .get(`${BASE_URL}/recommendations`)
         .then((res) => {
           const tracks = [];
           for (let key in res.data) {
