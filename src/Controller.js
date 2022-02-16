@@ -21,7 +21,8 @@ const Controller = ({ accessToken }) => {
   // useEffect(() => { }, [queue]);
 
   function chooseTrack(track) {
-    countTrack(track);
+    // AVOID USING DATABASE
+    // countTrack(track);
     const newQueue = [...queue];
     if (newQueue.length === 0) {
       newQueue.unshift(track.uri);

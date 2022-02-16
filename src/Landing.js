@@ -30,6 +30,7 @@ const BASE_URL = `${process.env.REACT_APP_BASE_URL}`;
 
 export default function Landing({ code }) {
 
+  // AVOID USING DATABASE
   // const [recommended, setRecommended] = useState([]);
 
   // useEffect(() => {

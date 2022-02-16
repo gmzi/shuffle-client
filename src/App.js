@@ -48,8 +48,9 @@ export default function App() {
             const loginTime = loginDate.getTime();
             window.localStorage.setItem('loginTime', JSON.stringify(loginTime))
 
+            // AVOID USING DATABASE
             // count new login in db:
-            await axios.get(`${BASE_URL}/count-add`)
+            // await axios.get(`${BASE_URL}/count-add`)
 
             window.location = '/';
           } catch (e) {
