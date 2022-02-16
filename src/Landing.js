@@ -72,7 +72,6 @@ export default function Landing({ code }) {
             </section>
             <section className="Start">
               <img src={logo} alt="spotify-logo" className="Logo d-inline" />
-              {/* <p>Login with Spotify to retrieve all your tracks</p> */}
               <div className="btn-container">
                 <Button className="btn-lg" href={AUTH_URL}>
                   Login
